@@ -22,14 +22,14 @@
         <div class="col-md-12">
             <div class="card">                
                 <div class="card-header">{{ __('Dashboard') }}</div>
-                <div class="card-body" align="center" style="background-image: url('./fondo_home.jpg')">
+                <div class="card-body" align="center" style="background-image: url('./image/fondo_home.jpg')">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
                             {{ session('status') }}
                         </div>
                     @endif
 
-                    {{ __('Bienvenido(a)') }} <strong>{{ Auth::user()->name }}</strong>                    
+                                  
                   </br>
                   </br>
                   </br>

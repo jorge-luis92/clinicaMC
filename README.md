@@ -1,5 +1,4 @@
 ## About ClinicaMC
 
 ## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Copyright ClinicaMC 2022

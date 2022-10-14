@@ -13,5 +13,6 @@ class Usuario extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'name', 'email', 'tipo_usuario', 'id_persona', 'activo', 'fecha', 'hora', 'password'];
+    protected $fillable = ['id', 'name', 'email', 'tipo_usuario', 'id_persona', 'activo', 'id_usuario',
+     'fecha', 'hora', 'password'];
 }

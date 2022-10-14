@@ -6,7 +6,7 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="shortcut icon" href="{{asset('med.ico')}}">
+    <link rel="shortcut icon" href="{{asset('/iconos/med.ico')}}">
 
     <title>{{ config('app.name', 'Clinica MC') }}</title>
 
@@ -17,7 +17,7 @@
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-<body style="background-image: url('/fondo.jpg');">
+<body style="background-image: url('/image/fondo.jpg');">
     <div class="app-content content">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
