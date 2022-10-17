@@ -31,7 +31,7 @@ Route::post('Usuario/Registro', [UsuarioController::class, 'regUsuario'])->name(
 
 //Consulta General
 Route::get('/Consulta/ConsultaGeneral', [ConsultaGeneralController::class, 'index'])->name('consulta_general');
-Route::post('Paciente/Registro', [ConsultaGeneralController::class, 'regPaciente'])->name('PacienteRegistro');
+Route::post('Paciente/Registro', [PacienteController::class, 'regPaciente'])->name('PacienteRegistro');
 Route::get('/Catalogo/Pacientes', [PacienteController::class, 'index'])->name('listadoGeneral');
 Route::get('/Catalogo/PacienteSel', [PacienteController::class, 'select_paciente']);
 Route::get('Consulta/Paciente/{id}', [PacienteController::class, 'data_paciente']);
@@ -39,5 +39,6 @@ Route::post('ConsultaGneral/Create', [ConsultaGeneralController::class, 'create_
 Route::get('ConsultaGeneralP/{id}', [ConsultaGeneralController::class, 'data_consultag']);
 Route::post('ConsultaGneralEdit/Save', [ConsultaGeneralController::class, 'save_EditConsulta'])->name('reg_EditConsulta');
 Route::get('/Expediente/ConsultaGeneral', [ConsultaGeneralController::class, 'expediente_CG'])->name('CGexpediente');
+Route::get('/Expediente/CGver/{id}', [ConsultaGeneralController::class, 'expediente_CG_pa']);
 
 Auth::routes(["register" => false]);

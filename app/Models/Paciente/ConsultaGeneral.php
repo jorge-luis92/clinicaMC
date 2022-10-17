@@ -13,6 +13,6 @@ class ConsultaGeneral extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'id_paciente', 'temperatura', 'peso', 'talla', 'diagnostico',
+    protected $fillable = ['id', 'id_paciente', 'temperatura', 'peso', 'diagnostico',
     'id_tipoconsulta', 'id_usuario', 'id_medico', 'estatus', 'fecha', 'hora'];
 }

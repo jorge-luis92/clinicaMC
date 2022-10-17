@@ -81,7 +81,7 @@
 
 
     <div id="verExpPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-xl modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
@@ -107,13 +107,15 @@
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="table-responsive-lg">
-                                                        <table id="pacientes_tables2" class="table table-responsive-lg table-bordered table-striped" style="width: 100%;">
+                                                        <table id="expedienteCG_table" class="table table-bordered table-striped" style="width: 100%;">
                                                             <thead>
                                                                 <tr>
                                                                     <th>ID</th>
-                                                                    <th style="width: 100%;">Nombre</th>
-                                                                    <th>Fecha Nacimiento</th>
-                                                                    <th width="10%">Acci&oacute;n</th>
+                                                                    <th>Paciente</th>
+                                                                    <th>Diagnostico</th>
+                                                                    <th>Estatus</th>
+                                                                    <th>Fecha Consulta</th>
+                                                                    <th width="15%">Acci&oacute;n</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -151,101 +153,185 @@
 <script>
     jQuery(document).ready(function($) {
 
-                $('#alertaAlta').hide();
-                $('#alertaEli').hide();
-                $('#alertaMod').hide();
+        $('#alertaAlta').hide();
+        $('#alertaEli').hide();
+        $('#alertaMod').hide();
 
-                $('#errorRazon').hide();
+        $('#errorRazon').hide();
 
-                $('#cerrar_salir').click(function() {
-                    // paciente_table.destroy();
-                    $('#verPacienteModal').modal('hide');
+        $('#cerrar_salir').click(function() {
+            // paciente_table.destroy();
+            $('#verPacienteModal').modal('hide');
 
-                });
+        });
 
-                function errorRazon(valor) {
-                    $('#error1').html('<span>' + valor + '</span>');
-                    $('#errorRazon').show();
+        function errorRazon(valor) {
+            $('#error1').html('<span>' + valor + '</span>');
+            $('#errorRazon').show();
+        }
+
+        function ok(valor) {
+            $('#ok1').html('<span>' + valor + '</span>');
+            $('#ok').show();
+        }
+
+        $('#cerrar_salir').click(function() {
+            $('#verExpPacienteModal').modal('hide');
+
+        });
+
+        $('#paciente_tables').DataTable({
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            "order": [
+                [1, 'asc']
+            ],
+            processing: true,
+            serverSide: true,
+            scrollY: '50vh',
+
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            },
+            ajax: {
+                "url": "{{ url('Expediente/ConsultaGeneral') }}",
+            },
+            responsive: true,
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'nombre_c',
+                    name: 'nombre_c'
+                },
+                {
+                    data: 'edad',
+                    name: 'edad',
+                },
+                {
+                    data: 'tipo',
+                    name: 'tipo',
+                },
+                {
+                    data: 'celular',
+                    name: 'celular',
+                },
+                {
+                    data: 'accion',
+                    name: 'accion',
                 }
+            ]
 
-                function ok(valor) {
-                    $('#ok1').html('<span>' + valor + '</span>');
-                    $('#ok').show();
-                }
+        });
 
-                $('#paciente_tables').DataTable({
-                    "lengthMenu": [
-                        [5, 10, 25, 50, -1],
-                        [5, 10, 25, 50, "All"]
-                    ],
-                    "order": [
-                        [1, 'asc']
-                    ],
-                    processing: true,
-                    serverSide: true,
-                    scrollY: '50vh',
+        $(document).on('click', '.expediente_paciente', function() {
+            let id_paciente = $(this).attr('id');
 
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                    },
-                    ajax: {
-                        "url": "{{ url('Expediente/ConsultaGeneral') }}",
-                    },
-                    responsive: true,
-                    columns: [{
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'nombre_c',
-                            name: 'nombre_c'
-                        },
-                        {
-                            data: 'edad',
-                            name: 'edad',
-                        },
-                        {
-                            data: 'tipo',
-                            name: 'tipo',
-                        },
-                        {
-                            data: 'celular',
-                            name: 'celular',
-                        },
-                        {
-                            data: 'accion',
-                            name: 'accion',
-                        }
-                    ]
-
-                });
-
-                $(document).on('click', '.expediente_paciente', function() {
-                    let id_paciente = $(this).attr('id');
-
-                    $('#verExpPacienteModal').appendTo("body")
-                    $('#verExpPacienteModal').modal('show');
-                    $('#verExpPacienteModal').css('overflow-y', 'auto');
-                    /*$.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
-                dataType: "json",
-                success: function(data) {
-                    $('#consultaModal').appendTo("body")
-                    $('#consultaModal').modal('show');
-                    $('#consultaModal').css('overflow-y', 'auto');
-                    $('#consultaModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });
-                    $('#id_hidden_paciente_c').val(id_paciente);
-                    $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                    document.getElementById("nombre_select").readOnly = true;
-                }
+            $('#verExpPacienteModal').appendTo("body")
+            $('#verExpPacienteModal').modal('show');
+            $('#verExpPacienteModal').css('overflow-y', 'auto');
+            $('#verExpPacienteModal > .modal-body').css({
+                width: 'auto',
+                height: 'auto',
+                'max-height': '100%'
             });
-        });*/
-
-                });
+            $('#expedienteCG_table').DataTable({
+                "lengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "order": [
+                    [0, 'desc'],
+                ],
+                processing: true,
+                serverSide: true,
+                "bDestroy": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                ajax: {
+                    "url": "{{ url('Expediente/CGver') }}" + "/" + id_paciente,
+                },
+                responsive: true,
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nombre_c',
+                        name: 'nombre_c'
+                    },
+                    {
+                        data: 'diagnostico',
+                        name: 'diagnostico',
+                    },
+                    {
+                        data: 'estatus_c',
+                        name: 'estatus_c',
+                    },
+                    {
+                        data: 'fecha',
+                        name: 'fecha',
+                    },
+                    {
+                        data: 'accion',
+                        name: 'accion',
+                    }
+                ]
             });
+        });
+
+        $('#consultag_tables').DataTable({
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            "order": [
+                [0, 'desc'],
+                [1, 'desc']
+            ],
+
+            processing: true,
+            serverSide: true,
+            scrollY: '50vh',
+
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            },
+            ajax: {
+                "url": "{{ url('Consulta/ConsultaGeneral') }}",
+            },
+            responsive: true,
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'nombre_c',
+                    name: 'nombre_c'
+                },
+                {
+                    data: 'diagnostico',
+                    name: 'diagnostico',
+                },
+                {
+                    data: 'estatus_c',
+                    name: 'estatus_c',
+                },
+                {
+                    data: 'fecha',
+                    name: 'fecha',
+                },
+                {
+                    data: 'accion',
+                    name: 'accion',
+                }
+            ]
+
+        });
+    });
 </script>
 @endsection

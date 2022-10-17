@@ -186,7 +186,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <label>G&eacute;nero</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
@@ -197,6 +197,16 @@
                                                     <option value="M">Femenino</option>
                                                     <option value="H">Masculino</option>
                                                 </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Talla </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-text-height'></i>
+                                                </div>
                                             </div>
                                         </div>
 
@@ -412,7 +422,7 @@
                                         <div class="col-12">
                                             <h4 class="form-section"><i class="fa fa-user"></i> Datos Paciente</h4>
                                         </div>
-                                        <div class="col-5">
+                                        <div class="col-6">
                                             <label>Paciente </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="n_paciente" name="n_paciente" class="form-control">
@@ -422,7 +432,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <label>Tipo Sangre </label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="tipo_sangreC" name="tipo_sangreC" class="form-control">
@@ -432,7 +442,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             <label>Edad</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="edad_consulta" name="edad_consulta" class="form-control">
@@ -440,9 +450,13 @@
                                                     <i class='fa fa-user-circle'></i>
                                                 </div>
                                             </div>
+                                        </div>                                       
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-4">
                                             <label>Tipo de Consulta</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="tip_consultaC" name="tip_consultaC" class="form-control">
@@ -450,10 +464,6 @@
                                                     <i class='fa fa-hospital'></i>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
                                         </div>
 
                                         <div class="col-4">
@@ -475,17 +485,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-4">
-                                            <label>Talla </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-text-height'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
 
                                         <div class="col-12">
                                             <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
@@ -700,6 +699,7 @@
             let email = $('#email').val();
             let contacto_emergencia = $('#contacto_emergencia').val();
             let genero = $('#genero').val();
+            let talla = $('#talla').val();
 
             let data = {
                 nombre: nombre,
@@ -712,6 +712,7 @@
                 email: email,
                 contacto_emergencia: contacto_emergencia,
                 genero: genero,
+                talla: talla,
                 _token: token
             };
             $.ajax({
@@ -901,13 +902,11 @@
             let token = '{{csrf_token()}}';
             let id = $('#hidden_id_editarc').val();
             let peso = $('#peso').val();
-            let talla = $('#talla').val();
             let temperatura = $('#temperatura').val();
             let diagnostico = $('#diagnostico').val();
             let data = {
                 id: id,
                 peso: peso,
-                talla: talla,
                 temperatura: temperatura,
                 diagnostico,
                 _token: token

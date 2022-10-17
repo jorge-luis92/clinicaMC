@@ -66,67 +66,6 @@ class ConsultaGeneralController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
-    public function regPaciente(Request $v)
-    {
-        $usuario = auth()->user();
-        $id_usuario = $usuario->id;
-
-        $nombre = $v->nombre;
-        $ap_pat = $v->ap_pat;
-        $ap_mat = $v->ap_mat;
-        $usuario = $v->usuario;
-        $fecha_nacimiento = $v->fecha_nacimiento;
-        $edad = $v->edad;
-        $tipo_sangre = $v->tipo_sangre;
-        $celular = $v->celular;
-        $email = $v->email;
-        $contacto_emergencia = $v->contacto_emergencia;
-        $genero = $v->genero;
-
-        $v->validate([
-            'nombre' => ['required', 'string', 'max:255'],
-            'ap_pat' => ['required', 'string', 'max:255'],
-            'fecha_nacimiento' => ['required', 'string', 'max:255'],
-            'edad' => 'required|numeric|min:0|not_in:-1',
-            'tipo_sangre' => ['required', 'string', 'max:255'],
-            'genero' => ['required', 'string', 'max:255'],
-        ]);
-
-        if ($ap_mat == null) {
-            $ap_mat = " ";
-        }
-
-        Persona::create([
-            'nombre' => $nombre,
-            'ap_paterno' => $ap_pat,
-            'ap_materno' => $ap_mat,
-            'edad' => $edad,
-            'genero' => $genero,
-            'fecha_nacimiento' => $fecha_nacimiento,
-            'id_usuario' => $id_usuario,
-            'fecha_registro' => date('Y-m-d'),
-            'hora_registro' => date('H:i:s'),
-
-        ]);
-
-        $lp = Persona::latest('id')->first();
-
-        $registrarP = Paciente::create([
-            'id_persona' => $lp->id,
-            'id_tiposangre' => $tipo_sangre,
-            'celular' => $celular,
-            'contacto_emergencia' => $contacto_emergencia,
-            'correo' => $email,
-            'id_usuario' => $id_usuario,
-            'fecha_registro' => date('Y-m-d'),
-            'hora_registro' => date('H:i:s'),
-        ]);
-
-        if ($registrarP != '') {
-            return response()->json('Paciente creado satisfactoriamente', 200);
-        }
-    }
-
     public function create_consulta(Request $data)
     {
 
@@ -190,14 +129,12 @@ class ConsultaGeneralController extends Controller
 
         $data = $v;
         $id = $data->id;
-        $talla = $data->talla;
         $peso = $data->peso;
         $temperatura = $data->temperatura;
         $diagnostico = $data->diagnostico;
 
         $v->validate([
             'peso' => 'required|numeric|min:1|not_in:-1',
-            'talla' => 'required|numeric|min:25|not_in:-1',
             'temperatura' => 'required|numeric|min:30|not_in:-1',
             'diagnostico' => ['required', 'string', 'max:255'],
         ]);
@@ -205,21 +142,19 @@ class ConsultaGeneralController extends Controller
         $updateC = ConsultaGeneral::where('id', $id)->update([
             'temperatura' => $temperatura,
             'peso' => $peso,
-            'talla' => $talla,
             'diagnostico' => $diagnostico,
             'estatus' => '2',
         ]);
 
         if ($updateC != '') {
             return response()->json('Diagnóstico guardado Correctamente', 200);
-        }else{
+        } else {
             return response()->json('Error: Sin cambios', 500);
         }
     }
 
     public function expediente_CG(Request $request)
     {
-
         if ($request->ajax()) {
             $data = Paciente::select(
                 'paciente.id',
@@ -235,8 +170,8 @@ class ConsultaGeneralController extends Controller
                 ->get();
 
             return DataTables::of($data)
-                ->addColumn('accion', function ($data) {                  
-                    $button = '&nbsp;<button type="button" name="del" id="' . $data->id . '" class="expediente_paciente btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-archive"></i></i> Expediente</button>'; 
+                ->addColumn('accion', function ($data) {
+                    $button = '&nbsp;<button type="button" name="del" id="' . $data->id . '" class="expediente_paciente btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-archive"></i></i> Expediente</button>';
 
                     return $button;
                 })
@@ -249,5 +184,51 @@ class ConsultaGeneralController extends Controller
         return view('Expedientes.ListadoExpedienteGeneral')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre);
+    }
+
+    public function expediente_CG_pa(Request $request, $id)
+    {
+        $id_paciente = $id;
+        if ($request->ajax()) {
+            $data = ConsultaGeneral::select(
+                'consulta_general.id',
+                'consulta_general.diagnostico',
+                'consulta_general.fecha',
+                'persona.nombre',
+                'persona.ap_paterno',
+                'persona.ap_materno',
+                'consulta_general.estatus',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+                DB::raw('(CASE WHEN consulta_general.estatus = "1" THEN "Proceso"  
+                WHEN consulta_general.estatus= "2" THEN "FInalizada"
+                WHEN consulta_general.estatus= "0" THEN "NO SE LLEVO ACABO" END) AS estatus_c'),
+            )
+                ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
+                ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->where('paciente.id', $id_paciente)
+                ->where('consulta_general.estatus', "2")
+                ->orderBy('consulta_general.fecha', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    if ($data->estatus == 1) {
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Notas</button>';
+                        return $button;
+                    }
+                    if ($data->estatus == 2) {
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+                        return $button;
+                    }
+                    if ($data->estatus == 0) {
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
+                        return $button;
+                    }
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
+
+        return view('Expedientes.ListadoExpedienteGeneral');
     }
 }

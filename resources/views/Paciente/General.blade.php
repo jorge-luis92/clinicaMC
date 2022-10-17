@@ -167,7 +167,6 @@
                                                 <div class="form-control-position">
                                                     <i class="fas fa-sort"></i>
                                                 </div>
-                                                <span style="color: black;" id="meses"> </span>
                                             </div>
                                         </div>
 
@@ -186,19 +185,30 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-6">
                                             <label>G&eacute;nero</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-user"></i>
                                                 </div>
                                                 <select class="select2 form-control" id="genero" name="genero" style="width: 100%;">
-                                                    <option value="">Seleccione</option>                                                    
+                                                    <option value="">Seleccione</option>
                                                     <option value="M">Femenino</option>
                                                     <option value="H">Masculino</option>
                                                 </select>
                                             </div>
                                         </div>
+
+                                        <div class="col-6">
+                                            <label>Talla </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-text-height'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
 
                                         <div class="col-12">
                                             <h4 class="form-section"><i class="fas fa-user-check"></i> Datos de Contacto</h4>
@@ -306,8 +316,8 @@
                 }
 
             } else {*/
-                $('#edad').val(edad);
-                meses.innerHTML = "";
+            $('#edad').val(edad);
+            meses.innerHTML = "";
             //}
 
 
@@ -372,6 +382,7 @@
             let email = $('#email').val();
             let contacto_emergencia = $('#contacto_emergencia').val();
             let genero = $('#genero').val();
+            let talla = $('#talla').val();
 
             let data = {
                 nombre: nombre,
@@ -384,6 +395,7 @@
                 email: email,
                 contacto_emergencia: contacto_emergencia,
                 genero: genero,
+                talla: talla,
                 _token: token
             };
             $.ajax({
@@ -396,8 +408,9 @@
                 $('#genero').val("").select2();
                 $("#altaPaciente")[0].reset();
                 $('#paciente_tables').DataTable().ajax.reload();
+                ok(jqXHR);
                 setTimeout(function() {
-                    ok(jqXHR);
+                    $('#ok').hide();
                 }, 2000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {

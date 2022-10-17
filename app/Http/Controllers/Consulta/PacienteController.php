@@ -60,6 +60,70 @@ class PacienteController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
+    public function regPaciente(Request $v)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $nombre = $v->nombre;
+        $ap_pat = $v->ap_pat;
+        $ap_mat = $v->ap_mat;
+        $usuario = $v->usuario;
+        $fecha_nacimiento = $v->fecha_nacimiento;
+        $edad = $v->edad;
+        $tipo_sangre = $v->tipo_sangre;
+        $celular = $v->celular;
+        $email = $v->email;
+        $contacto_emergencia = $v->contacto_emergencia;
+        $genero = $v->genero;
+        $talla = $v->talla;
+
+        $v->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'ap_pat' => ['required', 'string', 'max:255'],
+            'fecha_nacimiento' => ['required', 'string', 'max:255'],
+            'edad' => 'required|numeric|min:0|not_in:-1',
+            'tipo_sangre' => ['required', 'string', 'max:255'],
+            'genero' => ['required', 'string', 'max:255'],
+            'talla' => ['required', 'string', 'max:255'],
+        ]);
+
+        if ($ap_mat == null) {
+            $ap_mat = " ";
+        }
+
+        Persona::create([
+            'nombre' => $nombre,
+            'ap_paterno' => $ap_pat,
+            'ap_materno' => $ap_mat,
+            'edad' => $edad,
+            'genero' => $genero,
+            'fecha_nacimiento' => $fecha_nacimiento,
+            'id_usuario' => $id_usuario,
+            'fecha_registro' => date('Y-m-d'),
+            'hora_registro' => date('H:i:s'),
+
+        ]);
+
+        $lp = Persona::latest('id')->first();
+
+        $registrarP = Paciente::create([
+            'id_persona' => $lp->id,
+            'id_tiposangre' => $tipo_sangre,
+            'talla' => $talla,
+            'celular' => $celular,
+            'contacto_emergencia' => $contacto_emergencia,
+            'correo' => $email,
+            'id_usuario' => $id_usuario,
+            'fecha_registro' => date('Y-m-d'),
+            'hora_registro' => date('H:i:s'),
+        ]);
+
+        if ($registrarP != '') {
+            return response()->json('Paciente creado satisfactoriamente', 200);
+        }
+    }
+
     public function select_paciente(Request $request)
     {
 
