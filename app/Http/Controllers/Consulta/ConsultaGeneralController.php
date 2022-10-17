@@ -47,8 +47,18 @@ class ConsultaGeneralController extends Controller
                         return $button;
                     }
                     if ($data->estatus == 2) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
-                        return $button;
+                         $button = '&nbsp;
+                        <button type="button" class="btn btn-primary btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        data-toggle="dropdown">
+                        <i class="fas fa-list"></i> Opciones
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="ver_consulta btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-eye fa-1x"></i> Vista Previa</button></li>
+                        </ul>
+                         </div>'; 
+
+                    return $button;
                     }
                     if ($data->estatus == 0) {
                         $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';

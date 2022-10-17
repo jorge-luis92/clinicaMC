@@ -113,8 +113,7 @@
         <div id="activid_extra" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="collapse-item" href="#">Todos los productos</a>
-            <a class="collapse-item" href="#">Inventario</a>
+            <a class="collapse-item" href="{{ url('Medicamentos/Inventario') }}">Inventario</a>
           </div>
       </li>
 

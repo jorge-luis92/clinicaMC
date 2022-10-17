@@ -450,7 +450,7 @@
                                                     <i class='fa fa-user-circle'></i>
                                                 </div>
                                             </div>
-                                        </div>                                       
+                                        </div>
 
                                         <div class="col-12">
                                             <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
@@ -514,6 +514,70 @@
                     </div>
                 </div>
                 </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="recetaMedicaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-tablets"></i> Receta M&eacute;dica
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="modal-body">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response" role="alert" style="display:none">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive-lg">
+                                                        <table id="pacientes_tables2" class="table table-responsive-lg table-bordered table-striped" style="width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th style="width: 100%;">Nombre</th>
+                                                                    <th>Fecha Nacimiento</th>
+                                                                    <th width="10%">Acci&oacute;n</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <div class="modal-footer">
+                                                <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                                    <i class="fas fa-ban"></i> Cancelar
+                                                </a>-->
+                                                <a href="#" id="cerrar_salir" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                                                    <i class="fas fa-ban"></i> Salir
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -647,7 +711,6 @@
                 [0, 'desc'],
                 [1, 'desc']
             ],
-
             processing: true,
             serverSide: true,
             scrollY: '50vh',

@@ -5,6 +5,7 @@ use App\Http\Controllers\Consulta\ConsultaGeneralController;
 use App\Http\Controllers\Consulta\PacienteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Medicamento\MedicamentoController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,5 +41,9 @@ Route::get('ConsultaGeneralP/{id}', [ConsultaGeneralController::class, 'data_con
 Route::post('ConsultaGneralEdit/Save', [ConsultaGeneralController::class, 'save_EditConsulta'])->name('reg_EditConsulta');
 Route::get('/Expediente/ConsultaGeneral', [ConsultaGeneralController::class, 'expediente_CG'])->name('CGexpediente');
 Route::get('/Expediente/CGver/{id}', [ConsultaGeneralController::class, 'expediente_CG_pa']);
+
+//Medicamentos
+Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
+Route::post('Medicamentos/Create', [MedicamentoController::class, 'registerMedicamento'])->name('regMedicamento');
 
 Auth::routes(["register" => false]);
