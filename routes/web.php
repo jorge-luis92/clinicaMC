@@ -1,9 +1,12 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Consulta\ConsultaGeneralController;
+use App\Http\Controllers\Consulta\PacienteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Usuario\UsuarioController;
+use Illuminate\Support\Facades\Auth;
 
 /*use App\Http\Controllers\Facturacion\FacturacionController;*/
 /*
@@ -17,21 +20,24 @@ use App\Http\Controllers\Usuario\UsuarioController;
 |
 */
 
-Route::get('/', function () {
-    return view('auth.login');
-    
-});
+Route::get('/', [HomeController::class, 'login'])->name('login');
+Route::get('home', [HomeController::class, 'dashboard'])->name('principal');
+Route::post('/logueo', [LoginController::class, 'authenticate'])->name('logueo');
 
 //Usuarios
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-Route::get('/Usuarios/Listado', [UsuarioController::class, 'index'])->name('listadoUsuario');
+Route::get('/Catalogo/Usuarios', [UsuarioController::class, 'index'])->name('listadoUsuario');
 Route::post('Usuario/Registro', [UsuarioController::class, 'regUsuario'])->name('UsuarioRegistro');
 
 //Consulta General
 Route::get('/Consulta/ConsultaGeneral', [ConsultaGeneralController::class, 'index'])->name('consulta_general');
 Route::post('Paciente/Registro', [ConsultaGeneralController::class, 'regPaciente'])->name('PacienteRegistro');
-    /*Route::get('Usuario/Listado', [UsuarioController::class, 'index'])->name('UsuarioListado');
-    Route::get('Usuario/verListado/{id}', [UsuarioController::class, 'ver']);
-    Route::post('Usuario/Registro', [UsuarioController::class, 'regUsuario'])->name('UsuarioRegistro');*/
+Route::get('/Catalogo/Pacientes', [PacienteController::class, 'index'])->name('listadoGeneral');
+Route::get('/Catalogo/PacienteSel', [PacienteController::class, 'select_paciente']);
+Route::get('Consulta/Paciente/{id}', [PacienteController::class, 'data_paciente']);
+Route::post('ConsultaGneral/Create', [ConsultaGeneralController::class, 'create_consulta'])->name('consultaRegistro');
+Route::get('ConsultaGeneralP/{id}', [ConsultaGeneralController::class, 'data_consultag']);
+Route::post('ConsultaGneralEdit/Save', [ConsultaGeneralController::class, 'save_EditConsulta'])->name('reg_EditConsulta');
+Route::get('/Expediente/ConsultaGeneral', [ConsultaGeneralController::class, 'expediente_CG'])->name('CGexpediente');
 
-Auth::routes();
+Auth::routes(["register" => false]);

@@ -85,6 +85,7 @@
                                         <th>ID</th>
                                         <th>Paciente</th>
                                         <th>Diagnostico</th>
+                                        <th>Estatus</th>
                                         <th>Fecha Consulta</th>
                                         <th width="15%">Acci&oacute;n</th>
                                     </tr>
@@ -93,11 +94,6 @@
                         </div>
                     </div>
                 </div>
-
-
-                <!-- Modal -->
-
-
             </div>
         </div>
 
@@ -197,9 +193,9 @@
                                                     <i class="fa fa-user"></i>
                                                 </div>
                                                 <select class="select2 form-control" id="genero" name="genero" style="width: 100%;">
-                                                    <option value="">Seleccione</option>                                                    
-                                                    <option value="H">Femenino</option>
-                                                    <option value="M">Masculino</option>
+                                                    <option value="">Seleccione</option>
+                                                    <option value="M">Femenino</option>
+                                                    <option value="H">Masculino</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -261,6 +257,267 @@
         </div>
     </div>
 
+    <div id="verPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-plus"></i> Seleccionar Paciente
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="form-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="modal-body">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response" role="alert" style="display:none">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="table-responsive-lg">
+                                                        <table id="pacientes_tables2" class="table table-responsive-lg table-bordered table-striped" style="width: 100%;">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>ID</th>
+                                                                    <th style="width: 100%;">Nombre</th>
+                                                                    <th>Fecha Nacimiento</th>
+                                                                    <th width="10%">Acci&oacute;n</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <div class="modal-footer">
+                                                <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                                    <i class="fas fa-ban"></i> Cancelar
+                                                </a>-->
+                                                <a href="#" id="cerrar_salir" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                                                    <i class="fas fa-ban"></i> Salir
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-user-plus"></i> Paciente Seleccionado
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="altaConsultaCr" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_consulta_crear" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_select" name="nombre_select" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Tipo de Consulta</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="tipo_consulta_c" name="tipo_consulta_c" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($tipoC as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                <i class="fas fa-ban"></i> Salir
+                            </a>
+                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                            <input type="hidden" id="id_hidden_paciente_c" name="id_hidden_paciente_c">
+                            <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="crear_consulta" id="crear_consulta" role="button">
+                                <i class="fas fa-share"></i> Crear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="editarConsultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-list"></i> Notas Consulta
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form id="altaCompra" class="form">   -->
+                <form id="editConsulta_P" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_editConsulta" role="alert" style="display:none"></div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fa fa-user"></i> Datos Paciente</h4>
+                                        </div>
+                                        <div class="col-5">
+                                            <label>Paciente </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="n_paciente" name="n_paciente" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <label>Tipo Sangre </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="tipo_sangreC" name="tipo_sangreC" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-heart'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-2">
+                                            <label>Edad</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="edad_consulta" name="edad_consulta" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-user-circle'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Tipo de Consulta</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="tip_consultaC" name="tip_consultaC" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-hospital'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Temperatura Paciente </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Temperatura Paciente" id="temperatura" name="temperatura" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-temperature-high"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Peso </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Peso Paciente KG" id="peso" name="peso" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Talla </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-text-height'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="diagnostico" id="diagnostico" cols="150" rows="3" class="form-control" placeholder="Diagnóstico Paciente"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-diagnoses'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Cerrar
+                        </a>
+                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                        <input type="hidden" id="hidden_id_editarc" name="hidden_id_editarc">
+                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_consulta" id="reg_consulta" role="button">
+                            <i class="fas fa-save"></i> Guardar Notas
+                        </a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 </div>
@@ -271,12 +528,17 @@
 <script>
     jQuery(document).ready(function($) {
 
-
         $('#alertaAlta').hide();
         $('#alertaEli').hide();
         $('#alertaMod').hide();
 
         $('#errorRazon').hide();
+
+        $('#cerrar_salir').click(function() {
+            // paciente_table.destroy();
+            $('#verPacienteModal').modal('hide');
+
+        });
 
         function errorRazon(valor) {
             $('#error1').html('<span>' + valor + '</span>');
@@ -289,6 +551,66 @@
         }
         $('#agregar_paciente').click(function() {
             $('#altaPacienteModal').modal('show');
+        });
+
+        $('#nueva_consulta').click(function() {
+            $('#verPacienteModal').appendTo("body")
+            $('#verPacienteModal').modal('show');
+            $('#verPacienteModal').css('overflow-y', 'auto');
+            $('#verPacienteModal > .modal-body').css({
+                width: 'auto',
+                height: 'auto',
+                'max-height': '100%'
+            });
+            $('#pacientes_tables2').DataTable({
+                "lengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+
+                ],
+                "order": [
+                    [0, 'desc'],
+                    [1, 'desc']
+                ],
+                processing: true,
+                serverSide: true,
+                destroy: true,
+                //searching: false,
+                scrollY: '50vh',
+
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                ajax: {
+                    "url": "{{ url('Catalogo/PacienteSel') }}",
+                },
+                responsive: true,
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'nombre_c',
+                        data: 'nombre_c',
+                        /*render: function(data, type, row) {
+                            if (row.ap_materno == null) {
+                                return `${row.nombre} ${row.ap_paterno}`;
+                            } else {
+                                return `${row.nombre} ${row.ap_paterno} ${row.ap_materno}`;
+                            }
+
+                        }*/
+                    },
+                    {
+                        data: 'fecha_nacimiento',
+                        name: 'fecha_nacimiento'
+                    },
+                    {
+                        data: 'accion',
+                        name: 'accion',
+                    }
+                ]
+            });
         });
 
         $(document).on('change', '#fecha_nacimiento', function() {
@@ -310,8 +632,8 @@
                 }
 
             } else {*/
-                $('#edad').val(edad);
-                meses.innerHTML = "";
+            $('#edad').val(edad);
+            meses.innerHTML = "";
             //}
 
 
@@ -321,6 +643,10 @@
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
+            ],
+            "order": [
+                [0, 'desc'],
+                [1, 'desc']
             ],
 
             processing: true,
@@ -345,6 +671,10 @@
                 {
                     data: 'diagnostico',
                     name: 'diagnostico',
+                },
+                {
+                    data: 'estatus_c',
+                    name: 'estatus_c',
                 },
                 {
                     data: 'fecha',
@@ -394,6 +724,9 @@
                 $("#altaPaciente")[0].reset();
                 $('#consultag_tables').DataTable().ajax.reload();
                 ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                }, 2000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
                     if (!$('#response_paciente').empty()) {
@@ -431,6 +764,230 @@
             });
         });
 
+        $(document).on('click', '.seleccionar_paciente', function() {
+            let id_paciente = $(this).attr('id');
+            $('#tipo_consulta_c').val("").select2();
+            $.ajax({
+                url: "/Consulta/Paciente/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    $('#consultaModal').appendTo("body")
+                    $('#consultaModal').modal('show');
+                    $('#consultaModal').css('overflow-y', 'auto');
+                    $('#consultaModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#id_hidden_paciente_c').val(id_paciente);
+                    $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                    document.getElementById("nombre_select").readOnly = true;
+                }
+            });
+        });
+
+        $('#crear_consulta').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#id_hidden_paciente_c').val();
+            let tipo_consulta = $('#tipo_consulta_c').val();
+            let data = {
+                id: id,
+                tipo_consulta: tipo_consulta,
+                _token: token
+            };
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("consultaRegistro") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $('#tipo_consulta_c').val("").select2();
+                $('#consultaModal').modal('hide');
+                $('#verPacienteModal').modal('hide');
+                $('#consultag_tables').DataTable().ajax.reload();
+                ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                }, 2000);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
+                    }
+
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#response_consulta_crear').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                            });
+                        }
+                        setTimeout(function() {
+                            $('#response_consulta_crear').hide();
+                        }, 2000);
+                    });
+                }
+                if (jqXHR.status == 442) {
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
+                    }
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#response_consulta_crear').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                    setTimeout(function() {
+                        $('#response_consulta_crear').hide();
+                    }, 2000);
+
+                }
+                if (jqXHR.status == 500) {
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#tipo_consulta_c').val("").select2();
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    $('#consultaModal').modal('hide');
+                    errorRazon(responseText)
+
+                }
+            });
+        });
+
+        $(document).on('click', '.editar_consulta', function() {
+            let id_consulta = $(this).attr('id');
+            //('#tipo_consulta_c').val("").select2();
+            $.ajax({
+                url: "/ConsultaGeneralP/" + id_consulta,
+                dataType: "json",
+                success: function(data) {
+                    $('#editarConsultaModal').appendTo("body")
+                    $('#editarConsultaModal').modal('show');
+                    $('#editarConsultaModal').css('overflow-y', 'auto');
+                    $('#editarConsultaModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#hidden_id_editarc').val(id_consulta);
+                    $('#n_paciente').val(data.nombre_c);
+                    $('#tipo_sangreC').val(data.tipo_sangre);
+                    $('#edad_consulta').val(data.edad);
+                    $('#tip_consultaC').val(data.tipo_consulta);
+                    document.getElementById("n_paciente").readOnly = true;
+                    document.getElementById("tipo_sangreC").readOnly = true;
+                    document.getElementById("edad_consulta").readOnly = true;
+                    document.getElementById("tip_consultaC").readOnly = true;
+                }
+            });
+        });
+
+        $('#reg_consulta').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#hidden_id_editarc').val();
+            let peso = $('#peso').val();
+            let talla = $('#talla').val();
+            let temperatura = $('#temperatura').val();
+            let diagnostico = $('#diagnostico').val();
+            let data = {
+                id: id,
+                peso: peso,
+                talla: talla,
+                temperatura: temperatura,
+                diagnostico,
+                _token: token
+            };
+
+            let respuesta = confirm("¿Está seguro de Guardar el diagnóstico del Paciente?");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("reg_EditConsulta") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#editarConsultaModal').modal('hide');
+                    $("#editConsulta_P")[0].reset();
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_editConsulta').empty()) {
+                            $('#response_editConsulta').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_editConsulta').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#response_editConsulta').hide();
+                            }, 5000);
+                        });
+                    }
+                    if (jqXHR.status == 442) {
+                        if (!$('#response_editConsulta').empty()) {
+                            $('#response_editConsulta').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#response_editConsulta').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#response_editConsulta').hide();
+                        }, 5000);
+
+                    }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#consultag_tables').DataTable().ajax.reload();
+                        $('#editarConsultaModal').modal('hide');
+                        $("#editConsulta_P")[0].reset();
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
+        });
 
 
     });

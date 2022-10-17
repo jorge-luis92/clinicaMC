@@ -1,6 +1,6 @@
 @extends('layouts.menu')
 @section('title')
-: Usuarios
+: Consulta General
 @endsection
 @section('content')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
@@ -63,23 +63,25 @@
                                 <thead>
                                     <tr>
                                         <th align="left" style="text-align:left; padding: 3px">
-                                            <a class="btn btn-info btn-min-width btn-glow" style="color: white" id="create_record" role="button">
-                                                <i class="fa fa-user-plus"></i> Agregar
+                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
+                                                <i class="fas fa-plus-circle"></i> Agregar Paciente
                                             </a>
+                                        </th>
+                                        <th align="center" style="text-align:center; padding: 3px">
+
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
 
-                            <table id="users_table" class="table table-bordered table-striped">
+                            <table id="paciente_tables" class="table table-bordered table-striped">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
-                                        <th>Nombre completo</th>
-                                        <th>Usuario</th>
-                                        <th>Email</th>
-                                        <th>Tipo Usuario</th>
-                                        <th>Estatus</th>
+                                        <th>Nombre</th>
+                                        <th>Edad</th>
+                                        <th>Tipo Sangre</th>
+                                        <th>Celular</th>
                                         <th width="15%">Acci&oacute;n</th>
                                     </tr>
                                 </thead>
@@ -97,155 +99,137 @@
 
     </div>
 
-    <div id="altaUModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div id="altaPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-lg modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-user-plus"></i> Agregar usuario
+                        <i class="fas fa-user-plus"></i> Agregar Paciente
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="altaUsuario" class="form">
+                <form id="altaPaciente" class="form">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_user" role="alert" style="display:none"></div>
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_paciente" role="alert" style="display:none"></div>
                                         </div>
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>Nombre(s) </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Nombre(s)" id="nombre" name="nombre" class="form-control">
+                                                <input type="text" placeholder="Nombre(s)" id="nombre" name="nombre" onKeyUp="this.value = this.value.toUpperCase();" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>Apellido paterno </label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Apellido paterno" id="ap_pat" name="ap_pat" class="form-control">
+                                                <input type="text" placeholder="Apellido paterno" id="ap_pat" name="ap_pat" onKeyUp="this.value = this.value.toUpperCase();" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label>Apellido Materno</label>
+                                        <div class="col-4">
+                                            <label>Apellido materno </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Apellido materno" id="ap_mat" name="ap_mat" class="form-control">
+                                                <input type="text" placeholder="Apellido materno" id="ap_mat" name="ap_mat" onKeyUp="this.value = this.value.toUpperCase();" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
+                                            <label>Fecha de Nacimiento </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Edad </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Edad" id="edad" name="edad" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-sort"></i>
+                                                </div>
+                                                <span style="color: black;" id="meses"> </span>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Tipo Sangre</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-shield"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="tipo_sangre" name="tipo_sangre" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($tipoS as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->tipo }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
                                             <label>G&eacute;nero</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-user"></i>
                                                 </div>
                                                 <select class="select2 form-control" id="genero" name="genero" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
+                                                    <option value="">Seleccione</option>                                                    
                                                     <option value="M">Femenino</option>
                                                     <option value="H">Masculino</option>
                                                 </select>
                                             </div>
-                                        </div>                                        
-
-                                        <div class="col-6">
-                                            <label>Tipo </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-user-shield"></i>
-                                                </div>
-                                                <select class="select2 form-control" id="tipo_usuario" name="tipo_usuario" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach($tipoU as $x)
-                                                    <option value="{{ $x->id }}">{{ $x->nombre }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
                                         </div>
-
-                                        <div class="col-12" id="medico_show" style="display:none">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <h4 class="form-section"><i class="fas fa-stethoscope"></i> Datos del Médico</h4>
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <label>C&eacute;dula </label><span style="color:red"> *</span>
-                                                    <div class="form-group position-relative has-icon-left">
-                                                        <input type="text" onKeyUp="this.value = this.value.toUpperCase();" placeholder="Cédula Profesional" id="cedula" name="cedula" class="form-control">
-                                                        <div class="form-control-position">
-                                                            <i class="fas fa-layer-group"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-6">
-                                                    <label>Whatsapp </label><span style="color:red"> *</span>
-                                                    <div class="form-group position-relative has-icon-left">
-                                                        <input type="number" placeholder="Whatsapp" id="whatsapp" name="whatsapp" class="form-control">
-                                                        <div class="form-control-position">
-                                                            <i class="fas fa-bars"></i>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
 
                                         <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-user-check"></i> Datos de acceso</h4>
+                                            <h4 class="form-section"><i class="fas fa-user-check"></i> Datos de Contacto</h4>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label>Usuario </label><span style="color:red"> *</span>
+                                        <div class="col-4">
+                                            <label>Celular </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Usuario" id="usuario_name" name="usuario_name" class="form-control">
+                                                <input type="number" placeholder="Celular - WhatsApp" id="celular" name="celular" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user-lock"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label>Email </label><span style="color:red"> *</span>
+                                        <div class="col-4">
+                                            <label>Correo </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="email" placeholder="Email" id="email" name="email" class="form-control">
+                                                <input type="email" placeholder="Correo Electrónico" id="email" name="email" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user-lock"></i>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label>Contraseña </label><span style="color:red"> *</span>
+                                        <div class="col-4">
+                                            <label>Contacto Emergencia </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="password" placeholder="Contraseña" id="password" name="password" class="form-control">
+                                                <input type="number" placeholder="Contacto de Emergencia" id="contacto_emergencia" name="contacto_emergencia" class="form-control">
                                                 <div class="form-control-position">
-                                                    <i class="fas fa-user"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label> Confirmar Contraseña </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input id="password-confirm" placeholder="Confirmar Contraseña" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-user"></i>
+                                                    <i class="fas fa-user-lock"></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -263,7 +247,7 @@
                         </a>
                         <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                         <input type="hidden" id="hidden_id" name="hidden_id">
-                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_user" id="reg_user" role="button">
+                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="registrar_paciente" id="registrar_paciente" role="button">
                             <i class="fas fa-share"></i> Registrar
                         </a>
                     </div>
@@ -299,28 +283,44 @@
             $('#ok1').html('<span>' + valor + '</span>');
             $('#ok').show();
         }
-        $('#create_record').click(function() {
-            $('#altaUModal').modal('show');
+        $('#agregar_paciente').click(function() {
+            $('#altaPacienteModal').modal('show');
         });
 
-        $(document).on('change', '#tipo_usuario', function() {
-            let usuario = $('#tipo_usuario').val();
-
-            if (usuario == 2) {
-                $('#medico_show').show();
-                //$('#altaCModal').css('overflow-y', 'auto');
-                //$('#altaCModal > .modal-body').css({width:'auto',height:'auto', 'max-height':'100%'});
-            } else {
-                $('#medico_show').hide();
+        $(document).on('change', '#fecha_nacimiento', function() {
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let hoy = new Date();
+            let nacimiento = new Date(fecha_nacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            let m = hoy.getMonth() - nacimiento.getMonth();
+            let d = hoy.getDay() - nacimiento.getDay();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
             }
+            /*if (edad < 1) {
+                $('#edad').val(edad);
+                if (m < 2) {
+                    meses.innerHTML = m + " mes de Nacimiento";
+                } else {
+                    meses.innerHTML = m + " meses de Nacimiento";
+                }
+
+            } else {*/
+                $('#edad').val(edad);
+                meses.innerHTML = "";
+            //}
+
+
         });
 
-        $('#users_table').DataTable({
+        $('#paciente_tables').DataTable({
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
             ],
-
+            "order": [
+                [1, 'asc']
+            ],
             processing: true,
             serverSide: true,
             scrollY: '50vh',
@@ -329,7 +329,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Catalogo/Usuarios') }}",
+                "url": "{{ url('Catalogo/Pacientes') }}",
             },
             responsive: true,
             columns: [{
@@ -341,20 +341,16 @@
                     name: 'nombre_c'
                 },
                 {
-                    data: 'name',
-                    name: 'name',
+                    data: 'edad',
+                    name: 'edad',
                 },
                 {
-                    data: 'email',
-                    name: 'email',
+                    data: 'tipo',
+                    name: 'tipo',
                 },
                 {
-                    data: 'n_tipo',
-                    name: 'n_tipo',
-                },
-                {
-                    data: 'estatus_u',
-                    name: 'estatus_u',
+                    data: 'celular',
+                    name: 'celular',
                 },
                 {
                     data: 'accion',
@@ -364,58 +360,55 @@
 
         });
 
-        $('#reg_user').click(function() {
+        $('#registrar_paciente').click(function() {
             let token = '{{csrf_token()}}';
             let nombre = $('#nombre').val();
             let ap_pat = $('#ap_pat').val();
             let ap_mat = $('#ap_mat').val();
-            let tipo_usuario = $('#tipo_usuario').val();
-            let cedula = $('#cedula').val();
-            let whatsapp = $('#whatsapp').val();
-            let name = $('#usuario_name').val();
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let edad = $('#edad').val();
+            let tipo_sangre = $('#tipo_sangre').val();
+            let celular = $('#celular').val();
             let email = $('#email').val();
-            let password = $('#password').val();
-            let password_confirmation = $('#password-confirm').val();
+            let contacto_emergencia = $('#contacto_emergencia').val();
             let genero = $('#genero').val();
 
             let data = {
                 nombre: nombre,
                 ap_pat: ap_pat,
                 ap_mat: ap_mat,
-                tipo_usuario: tipo_usuario,
-                cedula: cedula,
-                genero: genero,
-                whatsapp: whatsapp,
-                name: name,
+                fecha_nacimiento: fecha_nacimiento,
+                edad: edad,
+                tipo_sangre: tipo_sangre,
+                celular: celular,
                 email: email,
-                password: password,
-                password_confirmation: password_confirmation,
+                contacto_emergencia: contacto_emergencia,
+                genero: genero,
                 _token: token
             };
             $.ajax({
                 method: 'POST',
-                url: '{{ route("UsuarioRegistro") }}',
+                url: '{{ route("PacienteRegistro") }}',
                 data: data
             }).done(function(jqXHR) {
-                $('#altaUModal').modal('hide');
-                $('#tipo_usuario').val("").select2();
+                $('#altaPacienteModal').modal('hide');
+                $('#tipo_sangre').val("").select2();
                 $('#genero').val("").select2();
-                $("#altaUsuario")[0].reset();
-                $('#users_table').DataTable().ajax.reload();
-                $('#response_user').hide();                
+                $("#altaPaciente")[0].reset();
+                $('#paciente_tables').DataTable().ajax.reload();
                 setTimeout(function() {
                     ok(jqXHR);
-                }, 3000);
+                }, 2000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
-                    if (!$('#response_user').empty()) {
-                        $('#response_user').empty();
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
                     }
 
                     $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                         if ($.isPlainObject(value)) {
                             $.each(value, function(key, value) {
-                                $('#response_user').show().append(`
+                                $('#response_paciente').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -432,18 +425,18 @@
                     });
                 }
                 if (jqXHR.status == 500) {
-                    let responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $('#users_table').DataTable().ajax.reload();
-                    $('#altaUModal').modal('hide');
-                    $('#tipo_usuario').val("").select2();
-                    $("#altaUsuario")[0].reset();
-                    $('#response_user').hide();
+                    var responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#paciente_tables').DataTable().ajax.reload();
+                    $('#altaPacienteModal').modal('hide');
+                    $('#tipo_sangre').val("").select2();
+                    $("#altaPaciente")[0].reset();
                     errorRazon(responseText)
-                    
 
                 }
             });
         });
+
+
 
     });
 </script>

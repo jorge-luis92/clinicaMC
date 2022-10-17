@@ -40,6 +40,7 @@
   <link rel="stylesheet" type="text/css" href="../../../tema/app-assets/vendors/css/charts/morris.css">
   <link rel="stylesheet" type="text/css" href="../../../tema/app-assets/fonts/simple-line-icons/style.css">
   <link rel="stylesheet" type="text/css" href="../../../tema/app-assets/css/core/colors/palette-gradient.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
   <!-- END: Page CSS-->
 
   <!-- BEGIN: Custom CSS-->
@@ -62,11 +63,18 @@
       </div><!-- Nav Item - Pages Collapse Menu -->
 
       <li class="nav-item">
-        <a class="nav-link" href="{{ url('Usuarios/Listado') }}" aria-expanded="true">
-          <i class="fas fa-fw fa-users"></i>
-          <span style="font-size: 0.9em;">Usuarios</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#catalogo" aria-expanded="true" aria-controls="collapseTwo">
+          <i class="fas fa-fw fa-users"></i></i><span style="font-size: 0.8em;">&nbsp;C&aacute;talogo</span>
+
         </a>
-      </li> <!-- Sidebar Toggler (Sidebar) -->
+        <div id="catalogo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+          <div class="bg-white py-2 collapse-inner rounded">
+            <h6 class="collapse-header" style="color: blue">Opciones:</h6>
+            <a class="dropdown-item" href="{{ url('Catalogo/Usuarios') }}"> Usuarios</a>
+            <a class="dropdown-item" href="{{ url('Catalogo/Pacientes') }}"> Pacientes</a>
+          </div>
+        </div>
+      </li>
 
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#consultas" aria-expanded="true" aria-controls="collapseTwo">
@@ -76,10 +84,9 @@
         <div id="consultas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="dropdown-item" href="venta_nueva"> Pacientes</a>
-            <a class="dropdown-item" href="venta_nueva"> Citas</a>
+            <a class="dropdown-item" href="#"> Citas</a>
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
-            <a class="collapse-item" href="ventas_del_dia">Embarazadas</a>
+            <a class="collapse-item" href="#">Embarazadas</a>
           </div>
         </div>
       </li>
@@ -92,8 +99,8 @@
         <div id="datos_estudiante" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="dropdown-item" href="venta_nueva"> Consulta General</a>
-            <a class="collapse-item" href="ventas_del_dia">Embarazadas</a>
+            <a class="dropdown-item" href="{{ url('Expediente/ConsultaGeneral') }}"> Consulta General</a>
+            <a class="collapse-item" href="#">Embarazadas</a>
           </div>
         </div>
       </li>
@@ -106,8 +113,8 @@
         <div id="activid_extra" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="collapse-item" href="products">Todos los productos</a>
-            <a class="collapse-item" href="warning">Inventario</a>
+            <a class="collapse-item" href="#">Todos los productos</a>
+            <a class="collapse-item" href="#">Inventario</a>
           </div>
       </li>
 
@@ -127,8 +134,8 @@
         <div id="registar_talleritas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="collapse-item" href="registros_especificos">Consulta General</a>
-            <a class="collapse-item" href="registros_especificos">Embarazadas</a>
+            <a class="collapse-item" href="#">Consulta General</a>
+            <a class="collapse-item" href="#">Embarazadas</a>
           </div>
         </div>
       </li>
@@ -157,20 +164,11 @@
             <div class="topbar-divider d-none d-sm-block"></div>
 
             <div class="topbar-divider d-none d-sm-block"></div>
-
-
-            <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="mr-1 user-name text-bold-700" style="color:black;">Bienvenido(a)
-            <?php 
-             $usuario_actual= Auth::user()->id;
-             $id=$usuario_actual;
-            $users = DB::table('persona')
-            ->select('persona.nombre')
-            ->join('users', 'users.id_persona', '=', 'persona.id')
-            ->where('users.id',$id)
-            ->take(1)
-            ->first();
-            echo $users->nombre." ";
-            ?> </span><span class="avatar avatar-online"><img src="../../../image/avatar.png" alt="avatar"><i></i></span></a>
+            <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                <span class="mr-1 user-name text-bold-700" style="color:black;">
+                  <strong> {{ Auth::user()->name }} </strong>
+                </span>
+                <span class="avatar avatar-online"><img src="../../../image/avatar.png" alt="avatar"><i></i></span></a>
               <div class="dropdown-menu dropdown-menu-right">
                 <!-- <a class="dropdown-item" id="configuracion">
                                     <i class="fas fa-user-cog"></i> Configuración
@@ -244,10 +242,10 @@
   <script src="../../../tema/app-assets/js/scripts/forms/checkbox-radio.js"></script>
   <script src="../../../tema/app-assets/js/scripts/forms/form-repeater.js"></script>
   <script src="{{asset('requisitos/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
-        <!-- Core plugin JavaScript-->
-        <script src="{{asset('requisitos/jquery-easing/jquery.easing.min.js')}}"></script>
-        <!-- Custom scripts for all pages-->
-        <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="{{asset('requisitos/jquery-easing/jquery.easing.min.js')}}"></script>
+  <!-- Custom scripts for all pages-->
+  <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
 
   @yield('scripts')
 

@@ -69,20 +69,27 @@ class UsuarioController extends Controller
         $password = $v->password;
         $usuario = $v->name;
         $email = $v->email;
+        $genero = $v->genero;
         $tipo = $v->tipo_usuario;
 
         $validated = $v->validate([
             'nombre' => ['required', 'string', 'max:255'],
             'ap_pat' => ['required', 'string', 'max:255'],
+            'genero' => ['required', 'string', 'max:255'],
             'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 
+        if($ap_mat == null){
+            $ap_mat = " ";
+        }
+
         Persona::create([
             'nombre' => $nombre,
             'ap_paterno' => $ap_pat,
             'ap_materno' => $ap_mat,
+            'genero' => $genero,
             'id_usuario' => $id_usuario,
             'fecha_registro' => date('Y-m-d'),
             'hora_registro' => date('H:i:s'),
