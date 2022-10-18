@@ -45,5 +45,9 @@ Route::get('/Expediente/CGver/{id}', [ConsultaGeneralController::class, 'expedie
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
 Route::post('Medicamentos/Create', [MedicamentoController::class, 'registerMedicamento'])->name('regMedicamento');
+Route::get('/Medicamentos/DataMedicamentos', [MedicamentoController::class, 'data_medicamentos']);
+Route::get('MedicamentoSeleccionado/{id}', [MedicamentoController::class, 'med_select']);
+Route::post('Medicamentos/RecetaMedica', [MedicamentoController::class, 'regMed_RecetaM'])->name('med_RecetaMedica');
+Route::get('/RecetaMedica/Select/{id}', [ConsultaGeneralController::class, 'med_pacienteRec']);
 
 Auth::routes(["register" => false]);

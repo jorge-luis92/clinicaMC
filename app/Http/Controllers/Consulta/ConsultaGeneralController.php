@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\ConsultaGeneral;
 use App\Models\Paciente\Paciente;
+use App\Models\Paciente\RecetaMedica;
 use App\Models\Paciente\TipoConsulta;
 use App\Models\Paciente\TipoSangre;
 use App\Models\Persona\Persona;
@@ -57,7 +58,6 @@ class ConsultaGeneralController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="ver_consulta btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-eye fa-1x"></i> Vista Previa</button></li>
                         </ul>
                          </div>'; 
-
                     return $button;
                     }
                     if ($data->estatus == 0) {
@@ -240,5 +240,35 @@ class ConsultaGeneralController extends Controller
         }
 
         return view('Expedientes.ListadoExpedienteGeneral');
+    }
+
+    public function med_pacienteRec(Request $request, $id)
+    {
+        $id_consulta = $id;
+        if ($request->ajax()) {
+            $data = RecetaMedica::select(
+                'receta_medica.id',
+                'receta_medica.cantidad',
+                'receta_medica.tratamiento',
+                DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            )
+                ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
+                ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
+                ->where('consulta_general.id', $id_consulta)
+                ->orderBy('receta_medica.id', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                  
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Eliminar</button>';
+                        return $button;
+ 
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
+
+        return view('ConsultaGeneral.Listado');
     }
 }

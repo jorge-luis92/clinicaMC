@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Medicamento\Medicamento;
 use App\Models\Medicamento\StockMedicamento;
 use App\Models\Paciente\ConsultaGeneral;
+use App\Models\Paciente\RecetaMedica;
 use App\Models\Paciente\TipoConsulta;
 use App\Models\Paciente\TipoSangre;
 use DB;
@@ -120,4 +121,87 @@ class MedicamentoController extends Controller
             return response()->json('Medicamento Registrado Correctamente', 200);
         }
     }
+
+    public function data_medicamentos(Request $request)
+    {
+        if ($request->ajax()) {
+            $data = Medicamento::select(
+                'medicamento.id',
+                'medicamento.activo',
+                'stock_medicamento.cantidad',
+                'medicamento.precio_venta',
+                'medicamento.fecha_cad',
+                DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+                //DB::raw("CONCAT('Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
+            )
+                ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+                ->where('medicamento.activo', '=', '1')
+                ->orderBy('medicamento.nombre', 'asc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="select_medicamento btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fas fa-shopping-cart"></i> Seleccionar</button>';
+                    return $button;
+                })
+                ->rawColumns(['accion'])
+                ->editColumn('fecha_cad', function (Medicamento $dat) {
+                    return date('d-m-Y', strtotime($dat->fecha_cad));
+                })
+                ->make(true);
+        }
+
+
+        $tipoConsulta = TipoConsulta::all();
+        $tipoSangre = TipoSangre::all();
+        return view('Medicamento.listado')
+            ->with('tipoC', $tipoConsulta)
+            ->with('tipoS', $tipoSangre);
+    }
+
+    public function med_select($id)
+    {
+        $data = Medicamento::select(
+            'medicamento.clave',
+            'medicamento.nombre',
+            'medicamento.presentacion'
+        )
+            ->where('medicamento.id', $id)
+            ->first();
+
+        return $data;
+    }
+
+    public function regMed_RecetaM(Request $data)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        //return $data;
+        $data->validate([
+            'cantidad' => 'required|numeric|min:1|not_in:-1',
+            'tratamiento' => ['required', 'string', 'max:255'],
+        ]);
+
+        $id_consulta = $data->id_consulta;
+        $id_medicamento = $data->id_medicamento;
+        $cantidad = $data->cantidad;
+        $tratamiento = $data->tratamiento;
+
+
+        $registrarRM = RecetaMedica::create([
+            'id_consulta' => $id_consulta,
+            'id_medicamento' => $id_medicamento,
+            'cantidad' => $cantidad,
+            'tratamiento' => $tratamiento,
+            'id_usuario' => $id_usuario,
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+        if ($registrarRM != '') {
+            return response()->json('Se ha agregado correctamente el Medicamento', 200);
+        }
+    }
+
 }
