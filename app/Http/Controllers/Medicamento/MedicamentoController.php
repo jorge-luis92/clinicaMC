@@ -162,10 +162,15 @@ class MedicamentoController extends Controller
     public function med_select($id)
     {
         $data = Medicamento::select(
-            'medicamento.clave',
-            'medicamento.nombre',
-            'medicamento.presentacion'
+            'medicamento.id',
+            'medicamento.activo',
+            'stock_medicamento.cantidad',
+            'medicamento.precio_venta',
+            'medicamento.fecha_cad',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion")
         )
+            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+            ->where('medicamento.activo', '=', '1')
             ->where('medicamento.id', $id)
             ->first();
 
@@ -189,19 +194,33 @@ class MedicamentoController extends Controller
         $cantidad = $data->cantidad;
         $tratamiento = $data->tratamiento;
 
+        $busqueda = RecetaMedica::select('cantidad')
+            ->where('id_consulta', $id_consulta)
+            ->where('id_medicamento', $id_medicamento)
+            ->first();
 
-        $registrarRM = RecetaMedica::create([
-            'id_consulta' => $id_consulta,
-            'id_medicamento' => $id_medicamento,
-            'cantidad' => $cantidad,
-            'tratamiento' => $tratamiento,
-            'id_usuario' => $id_usuario,
-            'fecha' => date('Y-m-d'),
-            'hora' => date('H:i:s'),
-        ]);
-        if ($registrarRM != '') {
-            return response()->json('Se ha agregado correctamente el Medicamento', 200);
+        if ($busqueda != '') {
+            $updateM = RecetaMedica::where('id_consulta', $id_consulta)
+                ->where('id_medicamento', $id_medicamento)
+                ->update([
+                    'cantidad' => $busqueda->cantidad + $cantidad,
+                ]);
+            if ($updateM != '') {
+                return response()->json('Se ha actualizado la cantidad del medicamento', 200);
+            }
+        } else {
+            $registrarRM = RecetaMedica::create([
+                'id_consulta' => $id_consulta,
+                'id_medicamento' => $id_medicamento,
+                'cantidad' => $cantidad,
+                'tratamiento' => $tratamiento,
+                'id_usuario' => $id_usuario,
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+            ]);
+            if ($registrarRM != '') {
+                return response()->json('Se ha agregado correctamente el Medicamento', 200);
+            }
         }
     }
-
 }

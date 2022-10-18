@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Consulta;
 
 use App\Http\Controllers\Controller;
+use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\ConsultaGeneral;
 use App\Models\Paciente\Paciente;
@@ -48,7 +49,7 @@ class ConsultaGeneralController extends Controller
                         return $button;
                     }
                     if ($data->estatus == 2) {
-                         $button = '&nbsp;
+                        $button = '&nbsp;
                         <button type="button" class="btn btn-primary btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
@@ -57,8 +58,8 @@ class ConsultaGeneralController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="ver_consulta btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-eye fa-1x"></i> Vista Previa</button></li>
                         </ul>
-                         </div>'; 
-                    return $button;
+                         </div>';
+                        return $button;
                     }
                     if ($data->estatus == 0) {
                         $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
@@ -71,9 +72,24 @@ class ConsultaGeneralController extends Controller
 
         $tipoConsulta = TipoConsulta::all();
         $tipoSangre = TipoSangre::all();
+        $medicamentos = Medicamento::select(
+            'medicamento.id',
+            'medicamento.activo',
+            'stock_medicamento.cantidad',
+            'medicamento.precio_venta',
+            'medicamento.fecha_cad',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            //DB::raw("CONCAT('Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
+        )
+            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+            ->where('medicamento.activo', '=', '1')
+            ->orderBy('medicamento.nombre', 'asc')
+            ->get();
+
         return view('ConsultaGeneral.listado')
             ->with('tipoC', $tipoConsulta)
-            ->with('tipoS', $tipoSangre);
+            ->with('tipoS', $tipoSangre)
+            ->with('med', $medicamentos);
     }
 
     public function create_consulta(Request $data)
@@ -260,10 +276,9 @@ class ConsultaGeneralController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                  
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Eliminar</button>';
-                        return $button;
- 
+
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Eliminar</button>';
+                    return $button;
                 })
                 ->rawColumns(['accion'])
                 ->make(true);

@@ -529,270 +529,276 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="form-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="modal-body">
-                                <div class="row">
+                <form id="ag_medicamentos_pa" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none">
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-12">
+                                        <div class="table-responsive-lg">
+                                            <table id="medicamentos_tables" class="table table-bordered table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Caducidad</th>
+                                                        <th>Existencia</th>
+                                                        <th>Precio Venta</th>
+                                                        <th width="15%">Acci&oacute;n</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>-->
+                                        <div class="col-4">
+                                            <label>Medicamento</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-shield"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="medSelect" name="medSelect" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($med as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->descripcion }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Existencia </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Existencia" id="existencia" name="existencia" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Precio Venta </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Precio Venta" id="pre_venta" name="pre_venta" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Cantidad </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" id="cant_medicamento" placeholder="Cantidad Medicamento" name="cant_medicamento" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-plus-square"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <label>Tratamiento </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th align="left" style="text-align:left; padding: 3px">
+                                                    <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="ag_medicamentoC" id="ag_medicamentoC" role="button">
+                                                        <i class="fas fa-plus"></i> Agregar
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    </form>
+                                    </br>
 
                                     <div class="col-12">
-                                        <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_logs" role="alert" style="display:none">
+                                        <h4 class="form-section"><i class="fas fa-user-check"></i> Medicamentos Agregados</h4>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <div class="table-responsive" style="width:100%">
+                                            <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Tratamiento</th>
+                                                        <th width="15%">Acci&oacute;n</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
                                         </div>
                                     </div>
 
                                     <div class="col-12">
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="table-responsive-lg">
-                                                        <table id="medicamentos_tables" class="table table-bordered table-striped">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>ID</th>
-                                                                    <th>Descripci&oacute;n</th>
-                                                                    <th>Caducidad</th>
-                                                                    <th>Existencia</th>
-                                                                    <th>Precio Venta</th>
-                                                                    <th width="15%">Acci&oacute;n</th>
-                                                                </tr>
-                                                            </thead>
-                                                        </table>
-                                                    </div>
-                                                </div>
-
-                                                </di v>
-                                            </div>
-
-                                            <div class="col-12">
-                                                <h4 class="form-section"><i class="fas fa-user-check"></i> Medicamentos Agregados</h4>
-                                            </div>
-
-                                            <div class="col-md-12 col-sm-12">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="table-responsive-lg">
-                                                            <table id="medicamentos_paciente_table" class="table table-bordered table-striped">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>ID</th>
-                                                                        <th>Descripci&oacute;n</th>
-                                                                        <th>Cantidad</th>
-                                                                        <th>Tratamiento</th>
-                                                                        <th width="15%">Acci&oacute;n</th>
-                                                                    </tr>
-                                                                </thead>
-                                                            </table>
-                                                        </div>
-                                                    </div>
-
-                                                    </di v>
-                                                </div>
-
-                                                <div class="col-12">
-                                                    <div class="modal-footer">
-                                                        <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                        <div class="modal-footer">
+                                            <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                                     <i class="fas fa-ban"></i> Cancelar
                                                 </a>-->
-                                                        <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
-                                                            <i class="fas fa-ban"></i> Salir
-                                                        </a>
-                                                    </div>
-                                                </div>
-
-                                                <input type="hidden" id="hidden_id_con" name="hidden_id_con">
-                                            </div>
+                                            <input type="hidden" id="hidden_id_con" name="hidden_id_con">
+                                            <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                                                <i class="fas fa-ban"></i> Salir
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </div>                
             </div>
-
-            <div class="modal fade" id="modalMedicamentoSel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Medicamento Seleccionado: <strong><span id="n_medicamento"></span> </strong></h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form id="ag_MedConsulta" class="form">
-                            <div class="modal-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none"></div>
-                                    </div>
-                                    <div class="col-12">
-                                        <label>Cantidad </label><span style="color:red"> *</span>
-                                        <div class="form-group position-relative has-icon-left">
-                                            <input type="number" id="cant_medicamento" placeholder="Cantidad Medicamento" name="cant_medicamento" class="form-control">
-                                            <div class="form-control-position">
-                                                <i class="fas fa-plus-square"></i>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <label>Tratamiento </label><span style="color:red"> *</span>
-                                        <div class="form-group position-relative has-icon-left">
-                                            <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
-                                            <div class="form-control-position">
-                                                <i class='fas fa-list'></i>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <div class="modal-footer">
-                                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                                            <i class="fas fa-ban"></i> Cerrar
-                                        </a>
-                                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                                        <input type="hidden" id="hidden_id_med" name="hidden_id_med">
-                                        <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">
-                                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="ag_medicamentoC" id="ag_medicamentoC" role="button">
-                                            <i class="fas fa-plus"></i> Agregar
-                                        </a>
-                                    </div>
-                                </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-
         </div>
     </div>
 
-    @endsection
+    <!--<div class="modal fade" id="modalMedicamentoSel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Medicamento Seleccionado: <strong><span id="n_medicamento"></span> </strong></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="ag_MedConsulta" class="form">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="ss" role="alert" style="display:none"></div>
+                            </div>
+                            <div class="col-12">
+                                <label>Cantidad </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" id="cant_medicamento" placeholder="Cantidad Medicamento" name="cant_medicamento" class="form-control">
+                                    <div class="form-control-position">
+                                        <i class="fas fa-plus-square"></i>
+                                    </div>
+                                </div>
+                            </div>
 
-    @section('scripts')
-    <script>
-        jQuery(document).ready(function($) {
+                            <div class="col-12">
+                                <label>Tratamiento </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
+                                    <div class="form-control-position">
+                                        <i class='fas fa-list'></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="modal-footer">
+                                <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                    <i class="fas fa-ban"></i> Cerrar
+                                </a>
+                                <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                                <input type="hidden" id="hidden_id_med" name="hidden_id_med">
+                                <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">
+                                <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="ag_medicamentoC" id="ag_medicamentoC" role="button">
+                                    <i class="fas fa-plus"></i> Agregar
+                                </a>
+                            </div>
+                        </div>
+                </form>
+            </div>
+        </div>
+<!--    </div>
+-->
+</div>
+</div>
 
-            $('#alertaAlta').hide();
-            $('#alertaEli').hide();
-            $('#alertaMod').hide();
+@endsection
 
-            $('#errorRazon').hide();
+@section('scripts')
+<script>
+    jQuery(document).ready(function($) {
 
-            $('#cerrar_salir').click(function() {
-                // paciente_table.destroy();
-                $('#verPacienteModal').modal('hide');
+        $('#alertaAlta').hide();
+        $('#alertaEli').hide();
+        $('#alertaMod').hide();
 
-            });
+        $('#errorRazon').hide();
 
-            $('#cerrar_salir2').click(function() {
-                // paciente_table.destroy();
-                $('#recetaMedicaModal').modal('hide');
+        $('#cerrar_salir').click(function() {
+            // paciente_table.destroy();
+            $('#verPacienteModal').modal('hide');
 
-            });
+        });
 
-            function errorRazon(valor) {
-                $('#error1').html('<span>' + valor + '</span>');
-                $('#errorRazon').show();
-            }
+        $('#cerrar_salir2').click(function() {
+            // paciente_table.destroy();
+            $('#recetaMedicaModal').modal('hide');
 
-            function ok(valor) {
-                $('#ok1').html('<span>' + valor + '</span>');
-                $('#ok').show();
-            }
-            $('#agregar_paciente').click(function() {
-                $('#altaPacienteModal').modal('show');
-            });
+        });
 
-            $('#nueva_consulta').click(function() {
-                $('#verPacienteModal').appendTo("body")
-                $('#verPacienteModal').modal('show');
-                $('#verPacienteModal').css('overflow-y', 'auto');
-                $('#verPacienteModal > .modal-body').css({
-                    width: 'auto',
-                    height: 'auto',
-                    'max-height': '100%'
-                });
-                $('#pacientes_tables2').DataTable({
-                    "lengthMenu": [
-                        [5, 10, 25, 50, -1],
-                        [5, 10, 25, 50, "All"]
+        function errorRazon(valor) {
+            $('#error1').html('<span>' + valor + '</span>');
+            $('#errorRazon').show();
+        }
 
-                    ],
-                    "order": [
-                        [0, 'desc'],
-                        [1, 'desc']
-                    ],
-                    processing: true,
-                    serverSide: true,
-                    destroy: true,
-                    //searching: false,
-                    scrollY: '50vh',
+        function ok(valor) {
+            $('#ok1').html('<span>' + valor + '</span>');
+            $('#ok').show();
+        }
+        $('#agregar_paciente').click(function() {
+            $('#altaPacienteModal').modal('show');
+        });
 
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                    },
-                    ajax: {
-                        "url": "{{ url('Catalogo/PacienteSel') }}",
-                    },
-                    responsive: true,
-                    columns: [{
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'nombre_c',
-                            data: 'nombre_c',
-                            /*render: function(data, type, row) {
-                                if (row.ap_materno == null) {
-                                    return `${row.nombre} ${row.ap_paterno}`;
-                                } else {
-                                    return `${row.nombre} ${row.ap_paterno} ${row.ap_materno}`;
-                                }
+        $(document).on('change', '#medSelect', function() {
+            let id_med = $('#medSelect').val();
+            console.log(id_med);
 
-                            }*/
-                        },
-                        {
-                            data: 'fecha_nacimiento',
-                            name: 'fecha_nacimiento'
-                        },
-                        {
-                            data: 'accion',
-                            name: 'accion',
-                        }
-                    ]
-                });
-            });
-
-            $(document).on('change', '#fecha_nacimiento', function() {
-                let fecha_nacimiento = $('#fecha_nacimiento').val();
-                let hoy = new Date();
-                let nacimiento = new Date(fecha_nacimiento);
-                let edad = hoy.getFullYear() - nacimiento.getFullYear();
-                let m = hoy.getMonth() - nacimiento.getMonth();
-                let d = hoy.getDay() - nacimiento.getDay();
-                if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
-                    edad--;
-                }
-                /*if (edad < 1) {
-                    $('#edad').val(edad);
-                    if (m < 2) {
-                        meses.innerHTML = m + " mes de Nacimiento";
+            $.ajax({
+                url: "/MedicamentoSeleccionado/" + id_med,
+                dataType: "json",
+                success: function(data) {
+                    console.log(data)
+                    //$('#hidden_id_med').val(id_medicamento);
+                    //n_medicamento.innerHTML = data.nombre + " " + data.presentacion;
+                    let ex = 0;
+                    if (data.existencia == null) {
+                        $('#existencia').val(ex);
                     } else {
-                        meses.innerHTML = m + " meses de Nacimiento";
+                        $('#existencia').val(data.cantidad);
                     }
+                    $('#pre_venta').val(data.precio_venta);
+                    document.getElementById("existencia").readOnly = true;
+                    document.getElementById("pre_venta").readOnly = true;
 
-                } else {*/
-                $('#edad').val(edad);
-                meses.innerHTML = "";
-                //}
-
-
+                }
             });
 
-            $('#consultag_tables').DataTable({
+        });
+
+
+        $('#nueva_consulta').click(function() {
+            $('#verPacienteModal').appendTo("body")
+            $('#verPacienteModal').modal('show');
+            $('#verPacienteModal').css('overflow-y', 'auto');
+            $('#verPacienteModal > .modal-body').css({
+                width: 'auto',
+                height: 'auto',
+                'max-height': '100%'
+            });
+            $('#pacientes_tables2').DataTable({
                 "lengthMenu": [
                     [5, 10, 25, 50, -1],
                     [5, 10, 25, 50, "All"]
+
                 ],
                 "order": [
                     [0, 'desc'],
@@ -800,13 +806,15 @@
                 ],
                 processing: true,
                 serverSide: true,
+                destroy: true,
+                //searching: false,
                 scrollY: '50vh',
 
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Consulta/ConsultaGeneral') }}",
+                    "url": "{{ url('Catalogo/PacienteSel') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -815,19 +823,448 @@
                     },
                     {
                         data: 'nombre_c',
-                        name: 'nombre_c'
+                        data: 'nombre_c',
+                        /*render: function(data, type, row) {
+                            if (row.ap_materno == null) {
+                                return `${row.nombre} ${row.ap_paterno}`;
+                            } else {
+                                return `${row.nombre} ${row.ap_paterno} ${row.ap_materno}`;
+                            }
+
+                        }*/
                     },
                     {
-                        data: 'diagnostico',
-                        name: 'diagnostico',
+                        data: 'fecha_nacimiento',
+                        name: 'fecha_nacimiento'
                     },
                     {
-                        data: 'estatus_c',
-                        name: 'estatus_c',
+                        data: 'accion',
+                        name: 'accion',
+                    }
+                ]
+            });
+        });
+
+        $(document).on('change', '#fecha_nacimiento', function() {
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let hoy = new Date();
+            let nacimiento = new Date(fecha_nacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            let m = hoy.getMonth() - nacimiento.getMonth();
+            let d = hoy.getDay() - nacimiento.getDay();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            /*if (edad < 1) {
+                $('#edad').val(edad);
+                if (m < 2) {
+                    meses.innerHTML = m + " mes de Nacimiento";
+                } else {
+                    meses.innerHTML = m + " meses de Nacimiento";
+                }
+
+            } else {*/
+            $('#edad').val(edad);
+            meses.innerHTML = "";
+            //}
+
+
+        });
+
+        $('#consultag_tables').DataTable({
+            "lengthMenu": [
+                [5, 10, 25, 50, -1],
+                [5, 10, 25, 50, "All"]
+            ],
+            "order": [
+                [0, 'desc'],
+                [1, 'desc']
+            ],
+            processing: true,
+            serverSide: true,
+            scrollY: '50vh',
+
+            "language": {
+                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            },
+            ajax: {
+                "url": "{{ url('Consulta/ConsultaGeneral') }}",
+            },
+            responsive: true,
+            columns: [{
+                    data: 'id',
+                    name: 'id'
+                },
+                {
+                    data: 'nombre_c',
+                    name: 'nombre_c'
+                },
+                {
+                    data: 'diagnostico',
+                    name: 'diagnostico',
+                },
+                {
+                    data: 'estatus_c',
+                    name: 'estatus_c',
+                },
+                {
+                    data: 'fecha',
+                    name: 'fecha',
+                },
+                {
+                    data: 'accion',
+                    name: 'accion',
+                }
+            ]
+
+        });
+
+        $('#registrar_paciente').click(function() {
+            let token = '{{csrf_token()}}';
+            let nombre = $('#nombre').val();
+            let ap_pat = $('#ap_pat').val();
+            let ap_mat = $('#ap_mat').val();
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let edad = $('#edad').val();
+            let tipo_sangre = $('#tipo_sangre').val();
+            let celular = $('#celular').val();
+            let email = $('#email').val();
+            let contacto_emergencia = $('#contacto_emergencia').val();
+            let genero = $('#genero').val();
+            let talla = $('#talla').val();
+
+            let data = {
+                nombre: nombre,
+                ap_pat: ap_pat,
+                ap_mat: ap_mat,
+                fecha_nacimiento: fecha_nacimiento,
+                edad: edad,
+                tipo_sangre: tipo_sangre,
+                celular: celular,
+                email: email,
+                contacto_emergencia: contacto_emergencia,
+                genero: genero,
+                talla: talla,
+                _token: token
+            };
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("PacienteRegistro") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $('#altaPacienteModal').modal('hide');
+                $('#tipo_sangre').val("").select2();
+                $("#altaPaciente")[0].reset();
+                $('#consultag_tables').DataTable().ajax.reload();
+                ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                }, 2000);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
+                    }
+
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#response_paciente').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                            });
+                        }
+                    });
+                }
+                if (jqXHR.status == 500) {
+                    var responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    $('#altaPacienteModal').modal('hide');
+                    $('#tipo_sangre').val("").select2();
+                    $("#altaPaciente")[0].reset();
+                    errorRazon(responseText)
+
+                }
+            });
+        });
+
+        $(document).on('click', '.seleccionar_paciente', function() {
+            let id_paciente = $(this).attr('id');
+            $('#tipo_consulta_c').val("").select2();
+            $.ajax({
+                url: "/Consulta/Paciente/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    $('#consultaModal').appendTo("body")
+                    $('#consultaModal').modal('show');
+                    $('#consultaModal').css('overflow-y', 'auto');
+                    $('#consultaModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#id_hidden_paciente_c').val(id_paciente);
+                    $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                    document.getElementById("nombre_select").readOnly = true;
+                }
+            });
+        });
+
+        $('#crear_consulta').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#id_hidden_paciente_c').val();
+            let tipo_consulta = $('#tipo_consulta_c').val();
+            let data = {
+                id: id,
+                tipo_consulta: tipo_consulta,
+                _token: token
+            };
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("consultaRegistro") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $('#tipo_consulta_c').val("").select2();
+                $('#consultaModal').modal('hide');
+                $('#verPacienteModal').modal('hide');
+                $('#consultag_tables').DataTable().ajax.reload();
+                ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                }, 2000);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
+                    }
+
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#response_consulta_crear').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                            });
+                        }
+                        setTimeout(function() {
+                            $('#response_consulta_crear').hide();
+                        }, 2000);
+                    });
+                }
+                if (jqXHR.status == 442) {
+                    if (!$('#response_paciente').empty()) {
+                        $('#response_paciente').empty();
+                    }
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#response_consulta_crear').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                    setTimeout(function() {
+                        $('#response_consulta_crear').hide();
+                    }, 2000);
+
+                }
+                if (jqXHR.status == 500) {
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#tipo_consulta_c').val("").select2();
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    $('#consultaModal').modal('hide');
+                    errorRazon(responseText)
+
+                }
+            });
+        });
+
+        $(document).on('click', '.editar_consulta', function() {
+            let id_consulta = $(this).attr('id');
+            //('#tipo_consulta_c').val("").select2();
+            $.ajax({
+                url: "/ConsultaGeneralP/" + id_consulta,
+                dataType: "json",
+                success: function(data) {
+                    $('#editarConsultaModal').appendTo("body")
+                    $('#editarConsultaModal').modal('show');
+                    $('#editarConsultaModal').css('overflow-y', 'auto');
+                    $('#editarConsultaModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#hidden_id_editarc').val(id_consulta);
+                    $('#n_paciente').val(data.nombre_c);
+                    $('#tipo_sangreC').val(data.tipo_sangre);
+                    $('#edad_consulta').val(data.edad);
+                    $('#tip_consultaC').val(data.tipo_consulta);
+                    document.getElementById("n_paciente").readOnly = true;
+                    document.getElementById("tipo_sangreC").readOnly = true;
+                    document.getElementById("edad_consulta").readOnly = true;
+                    document.getElementById("tip_consultaC").readOnly = true;
+                }
+            });
+        });
+
+        $('#reg_consulta').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#hidden_id_editarc').val();
+            let peso = $('#peso').val();
+            let temperatura = $('#temperatura').val();
+            let diagnostico = $('#diagnostico').val();
+            let data = {
+                id: id,
+                peso: peso,
+                temperatura: temperatura,
+                diagnostico,
+                _token: token
+            };
+
+            let respuesta = confirm("¿Está seguro de Guardar el diagnóstico del Paciente?");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("reg_EditConsulta") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#editarConsultaModal').modal('hide');
+                    $("#editConsulta_P")[0].reset();
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_editConsulta').empty()) {
+                            $('#response_editConsulta').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_editConsulta').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#response_editConsulta').hide();
+                            }, 5000);
+                        });
+                    }
+                    if (jqXHR.status == 442) {
+                        if (!$('#response_editConsulta').empty()) {
+                            $('#response_editConsulta').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#response_editConsulta').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#response_editConsulta').hide();
+                        }, 5000);
+
+                    }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#consultag_tables').DataTable().ajax.reload();
+                        $('#editarConsultaModal').modal('hide');
+                        $("#editConsulta_P")[0].reset();
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.receta_medica', function() {
+            let id_consulta = $(this).attr('id');
+            $('#hidden_id_con').val(id_consulta);
+            console.log("id consulta", id_consulta);
+            $('#recetaMedicaModal').appendTo("body")
+            $('#recetaMedicaModal').modal('show');
+            $('#medicamentos_tables').DataTable({
+                "lengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "order": [
+                    [1, 'asc']
+                ],
+                processing: true,
+                serverSide: true,
+                scrollY: '50vh',
+                destroy: true,
+
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                ajax: {
+                    "url": "{{ url('Medicamentos/DataMedicamentos') }}",
+                },
+                responsive: true,
+                columns: [{
+                        data: 'id',
+                        name: 'id'
                     },
                     {
-                        data: 'fecha',
-                        name: 'fecha',
+                        data: 'descripcion',
+                        name: 'descripcion'
+                    },
+                    {
+                        data: 'fecha_cad',
+                        name: 'fecha_cad',
+                    },
+                    {
+                        data: 'cantidad',
+                        name: 'cantidad',
+                    },
+                    {
+                        data: 'precio_venta',
+                        name: 'precio_venta',
                     },
                     {
                         data: 'accion',
@@ -837,451 +1274,100 @@
 
             });
 
-            $('#registrar_paciente').click(function() {
-                let token = '{{csrf_token()}}';
-                let nombre = $('#nombre').val();
-                let ap_pat = $('#ap_pat').val();
-                let ap_mat = $('#ap_mat').val();
-                let fecha_nacimiento = $('#fecha_nacimiento').val();
-                let edad = $('#edad').val();
-                let tipo_sangre = $('#tipo_sangre').val();
-                let celular = $('#celular').val();
-                let email = $('#email').val();
-                let contacto_emergencia = $('#contacto_emergencia').val();
-                let genero = $('#genero').val();
-                let talla = $('#talla').val();
-
-                let data = {
-                    nombre: nombre,
-                    ap_pat: ap_pat,
-                    ap_mat: ap_mat,
-                    fecha_nacimiento: fecha_nacimiento,
-                    edad: edad,
-                    tipo_sangre: tipo_sangre,
-                    celular: celular,
-                    email: email,
-                    contacto_emergencia: contacto_emergencia,
-                    genero: genero,
-                    talla: talla,
-                    _token: token
-                };
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("PacienteRegistro") }}',
-                    data: data
-                }).done(function(jqXHR) {
-                    $('#altaPacienteModal').modal('hide');
-                    $('#tipo_sangre').val("").select2();
-                    $("#altaPaciente")[0].reset();
-                    $('#consultag_tables').DataTable().ajax.reload();
-                    ok(jqXHR);
-                    setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 422) {
-                        if (!$('#response_paciente').empty()) {
-                            $('#response_paciente').empty();
-                        }
-
-                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    $('#response_paciente').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + value + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                                });
-                            }
-                        });
+            $('#medicamentos_paciente_table').DataTable({
+                "lengthMenu": [
+                    [5, 10, 25, 50, -1],
+                    [5, 10, 25, 50, "All"]
+                ],
+                "order": [
+                    [0, 'desc'],
+                ],
+                processing: true,
+                serverSide: true,
+                "bDestroy": true,
+                "language": {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                },
+                ajax: {
+                    "url": "{{ url('RecetaMedica/Select') }}" + "/" + id_consulta,
+                },
+                responsive: true,
+                columns: [{
+                        data: 'id',
+                        name: 'id'
+                    },
+                    {
+                        data: 'descripcion',
+                        name: 'descripcion'
+                    },
+                    {
+                        data: 'cantidad',
+                        name: 'cantidad',
+                    },
+                    {
+                        data: 'tratamiento',
+                        name: 'tratamiento',
+                    },
+                    {
+                        data: 'accion',
+                        name: 'accion',
                     }
-                    if (jqXHR.status == 500) {
-                        var responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#consultag_tables').DataTable().ajax.reload();
-                        $('#altaPacienteModal').modal('hide');
-                        $('#tipo_sangre').val("").select2();
-                        $("#altaPaciente")[0].reset();
-                        errorRazon(responseText)
-
-                    }
-                });
+                ]
             });
 
-            $(document).on('click', '.seleccionar_paciente', function() {
-                let id_paciente = $(this).attr('id');
-                $('#tipo_consulta_c').val("").select2();
-                $.ajax({
-                    url: "/Consulta/Paciente/" + id_paciente,
-                    dataType: "json",
-                    success: function(data) {
-                        $('#consultaModal').appendTo("body")
-                        $('#consultaModal').modal('show');
-                        $('#consultaModal').css('overflow-y', 'auto');
-                        $('#consultaModal > .modal-body').css({
-                            width: 'auto',
-                            height: 'auto',
-                            'max-height': '100%'
-                        });
-                        $('#id_hidden_paciente_c').val(id_paciente);
-                        $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                        document.getElementById("nombre_select").readOnly = true;
-                    }
-                });
-            });
+        });
 
-            $('#crear_consulta').click(function() {
-                let token = '{{csrf_token()}}';
-                let id = $('#id_hidden_paciente_c').val();
-                let tipo_consulta = $('#tipo_consulta_c').val();
-                let data = {
-                    id: id,
-                    tipo_consulta: tipo_consulta,
-                    _token: token
-                };
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("consultaRegistro") }}',
-                    data: data
-                }).done(function(jqXHR) {
-                    $('#tipo_consulta_c').val("").select2();
-                    $('#consultaModal').modal('hide');
-                    $('#verPacienteModal').modal('hide');
-                    $('#consultag_tables').DataTable().ajax.reload();
-                    ok(jqXHR);
-                    setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 422) {
-                        if (!$('#response_paciente').empty()) {
-                            $('#response_paciente').empty();
-                        }
+        $(document).on('click', '.select_medicamento', function() {
+            let id_medicamento = $(this).attr('id');
+            let id_consulta = $('#hidden_id_con').val();
+            $('#hidden_id_con_final').val(id_consulta);
+            console.log("ingreso en seleccionar medicamento", id_consulta);
+            $('#modalMedicamentoSel').appendTo("body")
+            $('#modalMedicamentoSel').modal('show');
 
-                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    $('#response_consulta_crear').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + value + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                                });
-                            }
-                            setTimeout(function() {
-                                $('#response_consulta_crear').hide();
-                            }, 2000);
-                        });
-                    }
-                    if (jqXHR.status == 442) {
-                        if (!$('#response_paciente').empty()) {
-                            $('#response_paciente').empty();
-                        }
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#response_consulta_crear').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + responseText + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                        setTimeout(function() {
-                            $('#response_consulta_crear').hide();
-                        }, 2000);
-
-                    }
-                    if (jqXHR.status == 500) {
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#tipo_consulta_c').val("").select2();
-                        $('#consultag_tables').DataTable().ajax.reload();
-                        $('#consultaModal').modal('hide');
-                        errorRazon(responseText)
-
-                    }
-                });
-            });
-
-            $(document).on('click', '.editar_consulta', function() {
-                let id_consulta = $(this).attr('id');
-                //('#tipo_consulta_c').val("").select2();
-                $.ajax({
-                    url: "/ConsultaGeneralP/" + id_consulta,
-                    dataType: "json",
-                    success: function(data) {
-                        $('#editarConsultaModal').appendTo("body")
-                        $('#editarConsultaModal').modal('show');
-                        $('#editarConsultaModal').css('overflow-y', 'auto');
-                        $('#editarConsultaModal > .modal-body').css({
-                            width: 'auto',
-                            height: 'auto',
-                            'max-height': '100%'
-                        });
-                        $('#hidden_id_editarc').val(id_consulta);
-                        $('#n_paciente').val(data.nombre_c);
-                        $('#tipo_sangreC').val(data.tipo_sangre);
-                        $('#edad_consulta').val(data.edad);
-                        $('#tip_consultaC').val(data.tipo_consulta);
-                        document.getElementById("n_paciente").readOnly = true;
-                        document.getElementById("tipo_sangreC").readOnly = true;
-                        document.getElementById("edad_consulta").readOnly = true;
-                        document.getElementById("tip_consultaC").readOnly = true;
-                    }
-                });
-            });
-
-            $('#reg_consulta').click(function() {
-                let token = '{{csrf_token()}}';
-                let id = $('#hidden_id_editarc').val();
-                let peso = $('#peso').val();
-                let temperatura = $('#temperatura').val();
-                let diagnostico = $('#diagnostico').val();
-                let data = {
-                    id: id,
-                    peso: peso,
-                    temperatura: temperatura,
-                    diagnostico,
-                    _token: token
-                };
-
-                let respuesta = confirm("¿Está seguro de Guardar el diagnóstico del Paciente?");
-                if (respuesta) {
-                    $.ajax({
-                        method: 'POST',
-                        url: '{{ route("reg_EditConsulta") }}',
-                        data: data
-                    }).done(function(jqXHR) {
-                        $('#editarConsultaModal').modal('hide');
-                        $("#editConsulta_P")[0].reset();
-                        $('#consultag_tables').DataTable().ajax.reload();
-                        ok(jqXHR);
-                        setTimeout(function() {
-                            $('#ok').hide();
-                        }, 2000);
-                    }).fail(function(jqXHR, textStatus, errorThrown) {
-                        if (jqXHR.status == 422) {
-                            if (!$('#response_editConsulta').empty()) {
-                                $('#response_editConsulta').empty();
-                            }
-
-                            $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                                if ($.isPlainObject(value)) {
-                                    $.each(value, function(key, value) {
-                                        $('#response_editConsulta').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + value + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                                    });
-                                }
-                                setTimeout(function() {
-                                    $('#response_editConsulta').hide();
-                                }, 5000);
-                            });
-                        }
-                        if (jqXHR.status == 442) {
-                            if (!$('#response_editConsulta').empty()) {
-                                $('#response_editConsulta').empty();
-                            }
-                            let responseText = jQuery.parseJSON(jqXHR.responseText);
-                            $('#response_editConsulta').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + responseText + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                            setTimeout(function() {
-                                $('#response_editConsulta').hide();
-                            }, 5000);
-
-                        }
-                        if (jqXHR.status == 500) {
-                            let responseText = jQuery.parseJSON(jqXHR.responseText);
-                            $('#consultag_tables').DataTable().ajax.reload();
-                            $('#editarConsultaModal').modal('hide');
-                            $("#editConsulta_P")[0].reset();
-                            errorRazon(responseText)
-
-                        }
-                    });
+            $.ajax({
+                url: "/MedicamentoSeleccionado/" + id_medicamento,
+                dataType: "json",
+                success: function(data) {
+                    $('#hidden_id_med').val(id_medicamento);
+                    n_medicamento.innerHTML = data.nombre + " " + data.presentacion;
                 }
             });
+        });
 
-            $(document).on('click', '.receta_medica', function() {
-                let id_consulta = $(this).attr('id');
-                $('#hidden_id_con').val(id_consulta);
-                console.log("id consulta", id_consulta);
-                $('#recetaMedicaModal').appendTo("body")
-                $('#recetaMedicaModal').modal('show');
-                $('#medicamentos_tables').DataTable({
-                    "lengthMenu": [
-                        [5, 10, 25, 50, -1],
-                        [5, 10, 25, 50, "All"]
-                    ],
-                    "order": [
-                        [1, 'asc']
-                    ],
-                    processing: true,
-                    serverSide: true,
-                    scrollY: '50vh',
-                    destroy: true,
+        $('#ag_medicamentoC').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_consulta = $('#hidden_id_con').val();
+            let id_medicamento = $('#medSelect').val();
+            let cantidad = $('#cant_medicamento').val();
+            let tratamiento = $('#tratamiento').val();
 
-                    "language": {
-                        "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                    },
-                    ajax: {
-                        "url": "{{ url('Medicamentos/DataMedicamentos') }}",
-                    },
-                    responsive: true,
-                    columns: [{
-                            data: 'id',
-                            name: 'id'
-                        },
-                        {
-                            data: 'descripcion',
-                            name: 'descripcion'
-                        },
-                        {
-                            data: 'fecha_cad',
-                            name: 'fecha_cad',
-                        },
-                        {
-                            data: 'cantidad',
-                            name: 'cantidad',
-                        },
-                        {
-                            data: 'precio_venta',
-                            name: 'precio_venta',
-                        },
-                        {
-                            data: 'accion',
-                            name: 'accion',
-                        }
-                    ]
-
-                });
-
-                $('#medicamentos_paciente_table').DataTable({
-                            "lengthMenu": [
-                                [5, 10, 25, 50, -1],
-                                [5, 10, 25, 50, "All"]
-                            ],
-                            "order": [
-                                [0, 'desc'],
-                            ],
-                            processing: true,
-                            serverSide: true,
-                            "bDestroy": true,
-                            "language": {
-                                "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
-                            },
-                            ajax: {
-                                "url": "{{ url('RecetaMedica/Select') }}" + "/" + id_consulta,
-                            },
-                            responsive: true,
-                            columns: [{
-                                    data: 'id',
-                                    name: 'id'
-                                },
-                                {
-                                    data: 'descripcion',
-                                    name: 'descripcion'
-                                },
-                                {
-                                    data: 'cantidad',
-                                    name: 'cantidad',
-                                },
-                                {
-                                    data: 'tratamiento',
-                                    name: 'tratamiento',
-                                },
-                                {
-                                    data: 'accion',
-                                    name: 'accion',
-                                }
-                            ]
-                        });
-
-            });
-
-            $(document).on('click', '.select_medicamento', function() {
-                let id_medicamento = $(this).attr('id');
-                let id_consulta = $('#hidden_id_con').val();
-                $('#hidden_id_con_final').val(id_consulta);
-                console.log("ingreso en seleccionar medicamento", id_consulta);
-                $('#modalMedicamentoSel').appendTo("body")
-                $('#modalMedicamentoSel').modal('show');
-
-                $.ajax({
-                    url: "/MedicamentoSeleccionado/" + id_medicamento,
-                    dataType: "json",
-                    success: function(data) {
-                        $('#hidden_id_med').val(id_medicamento);
-                        n_medicamento.innerHTML = data.nombre + " " + data.presentacion;                      
-                    }
-                });
-
-
-            });
-
-            $('#ag_medicamentoC').click(function() {
-                let token = '{{csrf_token()}}';
-                let id_consulta = $('#hidden_id_con_final').val();
-                let id_medicamento = $('#hidden_id_med').val();
-                let cantidad = $('#cant_medicamento').val();
-                let tratamiento = $('#tratamiento').val();
-                let data = {
-                    id_consulta: id_consulta,
-                    id_medicamento: id_medicamento,
-                    cantidad: cantidad,
-                    tratamiento: tratamiento,
-                    _token: token
-                };
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("med_RecetaMedica") }}',
-                    data: data
-                }).done(function(jqXHR) {
-                    $('#modalMedicamentoSel').modal('hide');
-                    $("#ag_MedConsulta")[0].reset();
-                    $('#medicamentos_paciente_table').DataTable().ajax.reload();
-                    //ok(jqXHR);
-                    /*setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);*/
-                    let responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $('#response_logs').show().append(`
+            console.log(cantidad, tratamiento)
+            let data = {
+                id_consulta: id_consulta,
+                id_medicamento: id_medicamento,
+                cantidad: cantidad,
+                tratamiento: tratamiento,
+                _token: token
+            };
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("med_RecetaMedica") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $("#ag_medicamentos_pa")[0].reset();
+                $('#medSelect').val("").select2();
+                //$('#modalMedicamentoSel').modal('hide');
+                $('#medicamentos_paciente_table').DataTable().ajax.reload();
+                //$('#medicamentos_tables').DataTable().ajax.reload();
+                /* $('#recetaMedicaModal').removeData();
+                // $('#recetaMedicaModal').empty();
+                 //ok(jqXHR);
+                 /*setTimeout(function() {
+                     $('#ok').hide();
+                 }, 2000);*/
+                /*let responseText = jQuery.parseJSON(jqXHR.responseText);
+                $('#response_logs').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1293,20 +1379,20 @@
                                         </span>
                                     </li>
                             </ul>`);
-                    setTimeout(function() {
-                        $('#response_logs').hide();
-                    }, 2000);
+                setTimeout(function() {
+                    $('#response_logs').hide();
+                }, 2000);*/
 
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 422) {
-                        if (!$('#alerts_regMe').empty()) {
-                            $('#alerts_regMe').empty();
-                        }
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#alerts_regMe').empty()) {
+                        $('#alerts_regMe').empty();
+                    }
 
-                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    $('#alerts_regMe').show().append(`
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#alerts_regMe').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1318,51 +1404,52 @@
                                         </span>
                                     </li>
                             </ul>`);
-                                });
-                            }
-                            setTimeout(function() {
-                                $('#alerts_regMe').hide();
-                            }, 5000);
-                        });
-                    }
-                    if (jqXHR.status == 442) {
-                        if (!$('#alerts_regMe').empty()) {
-                            $('#alerts_regMe').empty();
+                            });
                         }
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#alerts_regMe').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + responseText + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
                         setTimeout(function() {
                             $('#alerts_regMe').hide();
                         }, 5000);
-
+                    });
+                }
+                if (jqXHR.status == 442) {
+                    if (!$('#alerts_regMe').empty()) {
+                        $('#alerts_regMe').empty();
                     }
-                    if (jqXHR.status == 500) {
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#medicamentos_paciente_table').DataTable().ajax.reload();
-                        $('#modalMedicamentoSel').modal('hide');
-                        $("#ag_MedConsulta")[0].reset();
-                        errorRazon(responseText)
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#alerts_regMe').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                    setTimeout(function() {
+                        $('#alerts_regMe').hide();
+                    }, 5000);
 
-                    }
-                });
+                }
+                if (jqXHR.status == 500) {
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);                    
+                    $("#ag_medicamentos_pa")[0].reset();
+                    $('#medSelect').val("").select2();
+                    $('#medicamentos_paciente_table').DataTable().ajax.reload();
+                    //$('#modalMedicamentoSel').modal('hide');
+                    errorRazon(responseText)
 
+                }
             });
 
-
-
         });
-    </script>
 
 
-    @endsection
+
+    });
+</script>
+
+
+@endsection
