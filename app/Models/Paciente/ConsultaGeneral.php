@@ -14,5 +14,6 @@ class ConsultaGeneral extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_paciente', 'temperatura', 'peso', 'diagnostico',
-    'id_tipoconsulta', 'id_usuario', 'id_medico', 'estatus', 'fecha', 'hora'];
+    'id_tipoconsulta', 'id_usuario', 'id_medico', 'estatus', 'motivo_consulta', 'examen_fisico', 
+    'ta', 'glucosa', 'observaciones', 'fecha', 'hora'];
 }

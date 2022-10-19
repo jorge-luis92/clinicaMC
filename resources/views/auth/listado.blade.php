@@ -402,9 +402,10 @@
                 $('#genero').val("").select2();
                 $("#altaUsuario")[0].reset();
                 $('#users_table').DataTable().ajax.reload();
-                $('#response_user').hide();                
-                setTimeout(function() {
-                    ok(jqXHR);
+                $('#response_user').hide();
+                ok(jqXHR);                
+                setTimeout(function() {                    
+                    $('#ok').hide();
                 }, 3000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {

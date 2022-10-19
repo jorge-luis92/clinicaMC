@@ -467,6 +467,16 @@
                                         </div>
 
                                         <div class="col-4">
+                                            <label>Peso </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Peso Paciente KG" id="peso" name="peso" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
                                             <label>Temperatura Paciente </label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Temperatura Paciente" id="temperatura" name="temperatura" class="form-control">
@@ -476,12 +486,42 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
-                                            <label>Peso </label><span style="color:red"> *</span>
+                                        <div class="col-6">
+                                            <label>T/A</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Peso Paciente KG" id="peso" name="peso" class="form-control">
+                                                <input type="text" id="ta_c" name="ta_c" placeholder="T/A" class="form-control">
                                                 <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
+                                                    <i class='fa fa-chevron-down'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Glucosa</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="glucosa" name="glucosa" placeholder="Glucosa" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-calculator'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Motivo Consulta</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="motivo_consulta" id="motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="exploracion" id="exploracion" cols="150" rows="2" class="form-control" placeholder="Exploración Física"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-check'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -540,27 +580,11 @@
                                             <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none">
                                             </div>
                                         </div>
-                                        <!-- <div class="col-12">
-                                        <div class="table-responsive-lg">
-                                            <table id="medicamentos_tables" class="table table-bordered table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Descripci&oacute;n</th>
-                                                        <th>Caducidad</th>
-                                                        <th>Existencia</th>
-                                                        <th>Precio Venta</th>
-                                                        <th width="15%">Acci&oacute;n</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>-->
                                         <div class="col-4">
                                             <label>Medicamento</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
-                                                    <i class="fas fa-user-shield"></i>
+                                                    <i class="fas fa-tablets"></i>
                                                 </div>
                                                 <select class="select2 form-control" id="medSelect" name="medSelect" style="width: 100%;">
                                                     <option value="">Seleccione</option>
@@ -576,7 +600,7 @@
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Existencia" id="existencia" name="existencia" class="form-control">
                                                 <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
+                                                    <i class='fas fa-store'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -586,7 +610,7 @@
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Precio Venta" id="pre_venta" name="pre_venta" class="form-control">
                                                 <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
+                                                    <i class='fas fa-money-bill'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -606,7 +630,7 @@
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
                                                 <div class="form-control-position">
-                                                    <i class='fas fa-list'></i>
+                                                    <i class='fas fa-procedures'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -622,83 +646,142 @@
                                             </tr>
                                         </thead>
                                     </table>
-                                    </form>
-                                    </br>
+                </form>
+                </br>
 
-                                    <div class="col-12">
-                                        <h4 class="form-section"><i class="fas fa-user-check"></i> Medicamentos Agregados</h4>
-                                    </div>
+                <div class="col-12">
+                    <h4 class="form-section"><i class="fas fa-tablets"></i> Medicamentos Agregados</h4>
+                </div>
 
 
-                                    <div class="col-12">
-                                        <div class="table-responsive" style="width:100%">
-                                            <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
-                                                <thead>
-                                                    <tr>
-                                                        <th>ID</th>
-                                                        <th>Descripci&oacute;n</th>
-                                                        <th>Cantidad</th>
-                                                        <th>Tratamiento</th>
-                                                        <th width="15%">Acci&oacute;n</th>
-                                                    </tr>
-                                                </thead>
-                                            </table>
-                                        </div>
-                                    </div>
+                <div class="col-12">
+                    <div class="table-responsive" style="width:100%">
+                        <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Descripci&oacute;n</th>
+                                    <th>Cantidad</th>
+                                    <th>Tratamiento</th>
+                                    <th width="15%">Acci&oacute;n</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
 
-                                    <div class="col-12">
-                                        <div class="modal-footer">
-                                            <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                                     <i class="fas fa-ban"></i> Cancelar
                                                 </a>-->
-                                            <input type="hidden" id="hidden_id_con" name="hidden_id_con">
-                                            <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
-                                                <i class="fas fa-ban"></i> Salir
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>                
+                        <input type="hidden" id="hidden_id_con" name="hidden_id_con">
+                        <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!--<div class="modal fade" id="modalMedicamentoSel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div id="finalizarConsultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Medicamento Seleccionado: <strong><span id="n_medicamento"></span> </strong></h5>
+                    <h2 class="modal-title" id="exampleModalLabel">Finalizar Consulta</span> </strong></h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form id="ag_MedConsulta" class="form">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th align="left" style="text-align:left; padding: 3px">
+                                <a href="#" class="btn btn-warning btn-xs btn-glow" id="vista_previaReceta" style="color: white" role="button">
+                                    <i class="fas fa-eye"></i> Vista Previa
+                                </a>
+                            </th>
+                        </tr>
+                    </thead>
+                </table>
+                <form id="finalCform" class="form">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
-                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="ss" role="alert" style="display:none"></div>
+                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_finally" role="alert" style="display:none"></div>
                             </div>
-                            <div class="col-12">
-                                <label>Cantidad </label><span style="color:red"> *</span>
+                            <div class="col-4">
+                                <label>Paciente </label><span style="color:red"> *</span>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="number" id="cant_medicamento" placeholder="Cantidad Medicamento" name="cant_medicamento" class="form-control">
+                                    <input type="text" id="nombre_paciente" name="nombre_paciente" class="form-control" readonly>
                                     <div class="form-control-position">
-                                        <i class="fas fa-plus-square"></i>
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-5">
+                                <label>Motivo Consulta </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" id="mot_consul" name="mot_consul" class="form-control" readonly>
+                                    <div class="form-control-position">
+                                        <i class='fas fa-edit'></i>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="col-12">
-                                <label>Tratamiento </label><span style="color:red"> *</span>
+                            <div class="col-3">
+                                <label>Talla (CM)</label><span style="color:red"> *</span>
                                 <div class="form-group position-relative has-icon-left">
-                                    <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
+                                    <input type="number"  id="talla_pac" name="talla_pac" class="form-control" readonly>
+                                    <div class="form-control-position">
+                                        <i class='fa fa-text-height'></i>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-4">
+                                <label>Peso (KG)</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number"  id="peso_pac" name="peso_pac" class="form-control" readonly>
+                                    <div class="form-control-position">
+                                        <i class='fas fa-weight'></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-5">
+                                <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" id="diag_paciente" name="diag_paciente" class="form-control" readonly>
+                                    <div class="form-control-position">
+                                        <i class='fas fa-diagnoses'></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-3">
+                                <label>Temperatura (°) </label> <span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" id="temp_pac" name="tem_pac" class="form-control" readonly> 
+                                    <div class="form-control-position">
+                                        <i class="fas fa-temperature-high"></i>
+                                    </div>
+                                </div>
+                            </div>                          
+
+                            <div class="col-12">
+                                <label>Recomendaciones </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="observaciones" id="observaciones" cols="150" rows="3" class="form-control" placeholder="Recomendaciones"></textarea>
                                     <div class="form-control-position">
                                         <i class='fas fa-list'></i>
                                     </div>
                                 </div>
                             </div>
+
                         </div>
                         <div class="col-12">
                             <div class="modal-footer">
@@ -706,19 +789,46 @@
                                     <i class="fas fa-ban"></i> Cerrar
                                 </a>
                                 <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                                <input type="hidden" id="hidden_id_med" name="hidden_id_med">
-                                <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">
-                                <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="ag_medicamentoC" id="ag_medicamentoC" role="button">
-                                    <i class="fas fa-plus"></i> Agregar
+                                <!--<input type="hidden" id="hidden_id_med" name="hidden_id_med">
+                                <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">-->
+                                <input type="hidden" id="hidden_id_con_fin" name="hidden_id_con_fin">
+                                <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="fin_consulta" id="fin_consulta" role="button">
+                                    <i class="fas fa-save"></i> Finalizar
                                 </a>
                             </div>
                         </div>
                 </form>
             </div>
         </div>
-<!--    </div>
--->
-</div>
+    </div>
+
+    <div id="pdfModal" class="modal fade pdfModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-xl modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-file-pdf"></i> Datos de la Consulta
+                    </h3>
+                    <button type="button" class="close" id="cerrarImprimir" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div style="text-align: center;">
+                        <span id="form_resultPDF"></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="#" id="cerrarImprimir2" class="btn btn-danger btn-min-width btn-glow" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 @endsection
@@ -760,15 +870,10 @@
 
         $(document).on('change', '#medSelect', function() {
             let id_med = $('#medSelect').val();
-            console.log(id_med);
-
             $.ajax({
                 url: "/MedicamentoSeleccionado/" + id_med,
                 dataType: "json",
                 success: function(data) {
-                    console.log(data)
-                    //$('#hidden_id_med').val(id_medicamento);
-                    //n_medicamento.innerHTML = data.nombre + " " + data.presentacion;
                     let ex = 0;
                     if (data.existencia == null) {
                         $('#existencia').val(ex);
@@ -1136,15 +1241,23 @@
             let peso = $('#peso').val();
             let temperatura = $('#temperatura').val();
             let diagnostico = $('#diagnostico').val();
+            let ta_c = $('#ta_c').val();
+            let glucosa = $('#glucosa').val();
+            let motivo_consulta = $('#motivo_consulta').val();
+            let exploracion = $('#exploracion').val();
             let data = {
                 id: id,
                 peso: peso,
                 temperatura: temperatura,
                 diagnostico,
+                ta_c: ta_c,
+                glucosa: glucosa,
+                motivo_consulta: motivo_consulta,
+                exploracion: exploracion,
                 _token: token
             };
 
-            let respuesta = confirm("¿Está seguro de Guardar el diagnóstico del Paciente?");
+            let respuesta = confirm("¿Está seguro de Guardar los datos recopilados?");
             if (respuesta) {
                 $.ajax({
                     method: 'POST',
@@ -1223,7 +1336,6 @@
         $(document).on('click', '.receta_medica', function() {
             let id_consulta = $(this).attr('id');
             $('#hidden_id_con').val(id_consulta);
-            console.log("id consulta", id_consulta);
             $('#recetaMedicaModal').appendTo("body")
             $('#recetaMedicaModal').modal('show');
             $('#medicamentos_tables').DataTable({
@@ -1321,7 +1433,6 @@
             let id_medicamento = $(this).attr('id');
             let id_consulta = $('#hidden_id_con').val();
             $('#hidden_id_con_final').val(id_consulta);
-            console.log("ingreso en seleccionar medicamento", id_consulta);
             $('#modalMedicamentoSel').appendTo("body")
             $('#modalMedicamentoSel').modal('show');
 
@@ -1341,8 +1452,6 @@
             let id_medicamento = $('#medSelect').val();
             let cantidad = $('#cant_medicamento').val();
             let tratamiento = $('#tratamiento').val();
-
-            console.log(cantidad, tratamiento)
             let data = {
                 id_consulta: id_consulta,
                 id_medicamento: id_medicamento,
@@ -1357,17 +1466,9 @@
             }).done(function(jqXHR) {
                 $("#ag_medicamentos_pa")[0].reset();
                 $('#medSelect').val("").select2();
-                //$('#modalMedicamentoSel').modal('hide');
                 $('#medicamentos_paciente_table').DataTable().ajax.reload();
-                //$('#medicamentos_tables').DataTable().ajax.reload();
-                /* $('#recetaMedicaModal').removeData();
-                // $('#recetaMedicaModal').empty();
-                 //ok(jqXHR);
-                 /*setTimeout(function() {
-                     $('#ok').hide();
-                 }, 2000);*/
-                /*let responseText = jQuery.parseJSON(jqXHR.responseText);
-                $('#response_logs').show().append(`
+                let responseText = jqXHR;
+                $('#alerts_regMe').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1380,8 +1481,8 @@
                                     </li>
                             </ul>`);
                 setTimeout(function() {
-                    $('#response_logs').hide();
-                }, 2000);*/
+                    $('#alerts_regMe').hide();
+                }, 2000);
 
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
@@ -1434,7 +1535,7 @@
 
                 }
                 if (jqXHR.status == 500) {
-                    let responseText = jQuery.parseJSON(jqXHR.responseText);                    
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
                     $("#ag_medicamentos_pa")[0].reset();
                     $('#medSelect').val("").select2();
                     $('#medicamentos_paciente_table').DataTable().ajax.reload();
@@ -1446,7 +1547,41 @@
 
         });
 
+        $(document).on('click', '.finalizar_consulta', function() {
+            let id_consulta = $(this).attr('id');
+            //let id_consulta = $('#hidden_id_con').val();
+            $('#hidden_id_con_fin').val(id_consulta);
+            $('#finalizarConsultaModal').appendTo("body")
+            $('#finalizarConsultaModal').modal('show');
 
+            $.ajax({
+                url: "/ConsultaGeneral/CGData/" + id_consulta,
+                dataType: "json",
+                success: function(data) {
+                    $('#nombre_paciente').val(data.nombre_p);
+                    $('#mot_consul').val(data.motivo_consulta);
+                    $('#talla_pac').val(data.talla);
+                    $('#peso_pac').val(data.peso);
+                    $('#diag_paciente').val(data.diagnostico);
+                    $('#temp_pac').val(data.temperatura);
+                }
+            });
+        });
+
+        $('#vista_previaReceta').click(function() {
+            let id_consulta = $('#hidden_id_con_fin').val();
+            $('#pdfModal').css('overflow-y', 'auto');
+            $('#form_resultPDF').html('<iframe src="../../ConsultaGneralEdit/Vistaprevia/' + id_consulta + '" style="width:100%; height:500px;" frameborder="0"></iframe>');
+            $('#pdfModal').modal('show');
+        });
+
+        $('#cerrarImprimir').click(function() {
+            $('#pdfModal').modal('hide');
+        });
+
+        $('#cerrarImprimir2').click(function() {
+            $('#pdfModal').modal('hide');
+        });
 
     });
 </script>
