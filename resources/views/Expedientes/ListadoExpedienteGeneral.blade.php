@@ -230,58 +230,68 @@
         $(document).on('click', '.expediente_paciente', function() {
             let id_paciente = $(this).attr('id');
 
-            $('#verExpPacienteModal').appendTo("body")
-            $('#verExpPacienteModal').modal('show');
-            $('#verExpPacienteModal').css('overflow-y', 'auto');
-            $('#verExpPacienteModal > .modal-body').css({
-                width: 'auto',
-                height: 'auto',
-                'max-height': '100%'
-            });
-            $('#expedienteCG_table').DataTable({
-                "lengthMenu": [
-                    [5, 10, 25, 50, -1],
-                    [5, 10, 25, 50, "All"]
-                ],
-                "order": [
-                    [0, 'desc'],
-                ],
-                processing: true,
-                serverSide: true,
-                "bDestroy": true,
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+            $.ajax({
+                url: "/ConsultaGeneral/CGPaciente/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    $('#verExpPacienteModal').appendTo("body")
+                    $('#verExpPacienteModal').modal('show');
+                    $('#verExpPacienteModal').css('overflow-y', 'auto');
+                    $('#verExpPacienteModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#expedienteCG_table').DataTable({
+                        "lengthMenu": [
+                            [5, 10, 25, 50, -1],
+                            [5, 10, 25, 50, "All"]
+                        ],
+                        "order": [
+                            [0, 'desc'],
+                        ],
+                        processing: true,
+                        serverSide: true,
+                        "bDestroy": true,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+                        },
+                        ajax: {
+                            "url": "{{ url('Expediente/CGver') }}" + "/" + id_paciente,
+                        },
+                        responsive: true,
+                        columns: [{
+                                data: 'id',
+                                name: 'id'
+                            },
+                            {
+                                data: 'nombre_c',
+                                name: 'nombre_c'
+                            },
+                            {
+                                data: 'diagnostico',
+                                name: 'diagnostico',
+                            },
+                            {
+                                data: 'estatus_c',
+                                name: 'estatus_c',
+                            },
+                            {
+                                data: 'fecha',
+                                name: 'fecha',
+                            },
+                            {
+                                data: 'accion',
+                                name: 'accion',
+                            }
+                        ]
+                    });
                 },
-                ajax: {
-                    "url": "{{ url('Expediente/CGver') }}" + "/" + id_paciente,
-                },
-                responsive: true,
-                columns: [{
-                        data: 'id',
-                        name: 'id'
-                    },
-                    {
-                        data: 'nombre_c',
-                        name: 'nombre_c'
-                    },
-                    {
-                        data: 'diagnostico',
-                        name: 'diagnostico',
-                    },
-                    {
-                        data: 'estatus_c',
-                        name: 'estatus_c',
-                    },
-                    {
-                        data: 'fecha',
-                        name: 'fecha',
-                    },
-                    {
-                        data: 'accion',
-                        name: 'accion',
-                    }
-                ]
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    alert("¡Sin registros!");
+                }
             });
+
         });
 
         $('#consultag_tables').DataTable({

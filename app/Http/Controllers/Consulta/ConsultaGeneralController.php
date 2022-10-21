@@ -36,7 +36,7 @@ class ConsultaGeneralController extends Controller
                 'persona.ap_materno',
                 'consulta_general.estatus',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
-                DB::raw('(CASE WHEN consulta_general.estatus = "1" THEN "Proceso"  
+                DB::raw('(CASE WHEN consulta_general.estatus = "1" THEN "En Proceso"  
                 WHEN consulta_general.estatus= "2" THEN "Por Finalizar"
                 WHEN consulta_general.estatus= "3" THEN "FInalizada"
                 WHEN consulta_general.estatus= "0" THEN "NO SE LLEVO ACABO" END) AS estatus_c'),
@@ -203,6 +203,9 @@ class ConsultaGeneralController extends Controller
 
     public function expediente_CG(Request $request)
     {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
         if ($request->ajax()) {
             $data = Paciente::select(
                 'paciente.id',
@@ -254,7 +257,7 @@ class ConsultaGeneralController extends Controller
                 ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
                 ->where('paciente.id', $id_paciente)
-                ->where('consulta_general.estatus', '=', '3')
+                ->where('consulta_general.estatus',  '3')
                 ->orderBy('consulta_general.fecha', 'desc')
                 ->get();
 
@@ -388,6 +391,56 @@ class ConsultaGeneralController extends Controller
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
             ->where('consulta_general.id', $id_consulta)
+            ->first();
+
+            return $data;
+    }
+
+    public function end_consultaGeneral(Request $v)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $data = $v;
+        $id = $data->id;
+        $observaciones = $data->observaciones;
+
+        $v->validate([
+            'observaciones' => ['required', 'string', 'max:255'],
+        ]);
+
+        $updateC = ConsultaGeneral::where('id', $id)->update([
+            'estatus' => '3',
+            'observaciones' => $observaciones,
+        ]);
+
+        if ($updateC != '') {
+            return response()->json('Se ha Finalizado la Consulta correctamente', 200);
+        } else {
+            return response()->json('Error: Sin cambios', 500);
+        }
+    }
+
+    public function verDataPac($id){
+
+        $id_paciente = $id;
+        $data = ConsultaGeneral::select(
+            'consulta_general.id',
+            'consulta_general.temperatura',
+            'consulta_general.diagnostico',
+            'consulta_general.motivo_consulta',
+            'consulta_general.peso',
+            'tipo_consulta.nombre',
+            'consulta_general.fecha',
+            'consulta_general.estatus',
+            'paciente.talla',
+            'consulta_general.fecha',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
+            )
+            ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
+            ->where('consulta_general.id_paciente', $id_paciente)
             ->first();
 
             return $data;

@@ -156,7 +156,7 @@
             <li>
               <a class="navbar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <!--<img class="img-responsive center-block" src="logo.ico" width="47" height="47" alt="">-->
-                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Clinica y Laboratorio MC</h1>
+                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Servicios Médicos Sán Agustin y Laboratorio Clínico</h1>
               </a>
             </li>
 

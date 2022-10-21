@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Consulta\ConsultaGeneralController;
+use App\Http\Controllers\Consulta\ControlPrenatalController;
 use App\Http\Controllers\Consulta\PacienteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -43,6 +44,8 @@ Route::get('/Expediente/ConsultaGeneral', [ConsultaGeneralController::class, 'ex
 Route::get('/Expediente/CGver/{id}', [ConsultaGeneralController::class, 'expediente_CG_pa']);
 Route::get('ConsultaGneralEdit/Vistaprevia/{id}', [ConsultaGeneralController::class, 'vistapreviaC']);
 Route::get('/ConsultaGeneral/CGData/{id}', [ConsultaGeneralController::class, 'verDataCon']);
+Route::get('/ConsultaGeneral/CGPaciente/{id}', [ConsultaGeneralController::class, 'verDataPac']);
+Route::post('ConsultaGeneral/End', [ConsultaGeneralController::class, 'end_consultaGeneral'])->name('end_consultaG');
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
@@ -51,5 +54,8 @@ Route::get('/Medicamentos/DataMedicamentos', [MedicamentoController::class, 'dat
 Route::get('MedicamentoSeleccionado/{id}', [MedicamentoController::class, 'med_select']);
 Route::post('Medicamentos/RecetaMedica', [MedicamentoController::class, 'regMed_RecetaM'])->name('med_RecetaMedica');
 Route::get('/RecetaMedica/Select/{id}', [ConsultaGeneralController::class, 'med_pacienteRec']);
+
+//Consulta Embarazadas
+Route::get('/Consulta/Embarazadas', [ControlPrenatalController::class, 'index'])->name('consulta_embarazadas');
 
 Auth::routes(["register" => false]);

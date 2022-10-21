@@ -1575,6 +1575,92 @@
             $('#pdfModal').modal('show');
         });
 
+        $('#fin_consulta').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#hidden_id_con_fin').val();
+            let observaciones = $('#observaciones').val();
+            let data = {
+                id: id,
+                observaciones: observaciones,
+                _token: token
+            };
+
+            let respuesta = confirm("¡La Consulta se Finalizará!");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("end_consultaG") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#finalizarConsultaModal').modal('hide');
+                    $("#finalCform")[0].reset();
+                    $('#consultag_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#alerts_finally').empty()) {
+                            $('#alerts_finally').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_editConsulta').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#alerts_finally').hide();
+                            }, 5000);
+                        });
+                    }
+                    if (jqXHR.status == 442) {
+                        if (!$('#alerts_finally').empty()) {
+                            $('#alerts_finally').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#alerts_finally').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#alerts_finally').hide();
+                        }, 5000);
+
+                    }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#consultag_tables').DataTable().ajax.reload();
+                        $('#finalizarConsultaModal').modal('hide');
+                        $("#finalCform")[0].reset();
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
+        });
+
         $('#cerrarImprimir').click(function() {
             $('#pdfModal').modal('hide');
         });
