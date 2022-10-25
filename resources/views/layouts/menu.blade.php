@@ -70,7 +70,9 @@
         <div id="catalogo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
+            @if(Auth::user()->tipo_usuario == 1)
             <a class="dropdown-item" href="{{ url('Catalogo/Usuarios') }}"> Usuarios</a>
+            @endif
             <a class="dropdown-item" href="{{ url('Catalogo/Pacientes') }}"> Pacientes</a>
           </div>
         </div>
@@ -86,7 +88,7 @@
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
             <a class="dropdown-item" href="#"> Citas</a>
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
-            <a class="collapse-item" href="#">Embarazadas</a>
+            <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>
           </div>
         </div>
       </li>
@@ -104,7 +106,7 @@
           </div>
         </div>
       </li>
-
+      @if(Auth::user()->tipo_usuario == 1)
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#activid_extra" aria-expanded="true" aria-controls="collapseUtilities">
@@ -117,15 +119,13 @@
           </div>
       </li>
 
-
-
       <hr class="sidebar-divider" style=" background-color: #FFFFFF;">
       <!-- Sidebar Toggler (Sidebar) -->
       <!-- Heading -->
       <div class="sidebar-heading" style="color: #FFFFFF">
         Utilidades
       </div>
-
+      
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#registar_talleritas" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fa fa-book" aria-hidden="true"></i></i><span style="font-size: 0.9em;">&nbsp;Reportes</span>
@@ -138,6 +138,7 @@
           </div>
         </div>
       </li>
+      @endif
       <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
 

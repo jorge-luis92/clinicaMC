@@ -173,7 +173,7 @@ class PacienteController extends Controller
 
     public function data_paciente($id)
     {
-        $data = Paciente::select('persona.nombre', 'persona.ap_paterno', 'persona.ap_materno')
+        $data = Paciente::select('persona.nombre', 'persona.ap_paterno', 'persona.ap_materno', 'persona.edad', 'persona.fecha_nacimiento')
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->where('paciente.id', $id)
             ->first();

@@ -72,21 +72,20 @@
                                         </th>
                                         <th align="right" style="text-align:right; padding: 3px">
                                             <a href="#" class="btn btn-info btn-min-width btn-glow" id="nueva_consulta" style="color: white" role="button">
-                                                <i class="fas fa-notes-medical"></i> Nueva Consulta
+                                                <i class="fas fa-notes-medical"></i> Nuevo Expediente
                                             </a>
                                         </th>
                                     </tr>
                                 </thead>
                             </table>
 
-                            <table id="consultag_tables" class="table table-bordered table-striped">
+                            <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
+                                        <th>Expediente</th>
                                         <th>Paciente</th>
-                                        <th>Diagnostico</th>
-                                        <th>Estatus</th>
-                                        <th>Fecha Consulta</th>
+                                        <th>Creaci&oacute;n Expediente</th>
+                                        <th>Seguimiento</th>
                                         <th width="15%">Acci&oacute;n</th>
                                     </tr>
                                 </thead>
@@ -104,7 +103,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-user-plus"></i> Agregar Paciente
+                        <i class="fas fa-user-plus"></i> Datos de Inicio
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -193,9 +192,7 @@
                                                     <i class="fa fa-user"></i>
                                                 </div>
                                                 <select class="select2 form-control" id="genero" name="genero" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
                                                     <option value="M">Femenino</option>
-                                                    <option value="H">Masculino</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -258,6 +255,163 @@
                         <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                         <input type="hidden" id="hidden_id" name="hidden_id">
                         <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="registrar_paciente" id="registrar_paciente" role="button">
+                            <i class="fas fa-share"></i> Registrar
+                        </a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="expedienteInicioModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-user-plus"></i> Datos de Inicio
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form id="altaCompra" class="form">   -->
+                <form id="altaExpIni" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_expN" role="alert" style="display:none"></div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-user-circle"></i> Datos Paciente</h4>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_select_em" name="nombre_select_em" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Fecha de Nacimiento </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fecha_nacimiento_em" name="fecha_nacimiento_em" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Edad </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Edad" id="edad_em" name="edad_em" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-sort"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-diagnoses"></i> Antecedentes Ginecoobst&eacute;tricos </h4>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Gestas</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-baby"></i>
+                                                </div>
+                                                <input type="number" placeholder="Gestas" id="gesta" name="gesta" class="form-control">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Partos</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Partos" id="parto" name="parto" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-child'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Ces&aacute;reas</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Ces&aacute;reas" id="cesarea" name="cesarea" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-cut"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Abortos</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Abortos" id="aborto" name="aborto" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-stop"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-baby-carriage"></i> Embarazo Actual</h4>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>FUM </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fur" name="fur" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-calendar-plus"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>FPP </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fpp" name="fpp" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-calendar-plus"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Estudios Laboratorio </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="estudio_lab" id="estudio_lab" cols="150" rows="2" class="form-control" placeholder="Estudios Laboratorio    "></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-check-square'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                        <input type="hidden" id="id_hidden_em" name="id_hidden_em">
+                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_expinicio" id="reg_expinicio" role="button">
                             <i class="fas fa-share"></i> Registrar
                         </a>
                     </div>
@@ -734,7 +888,7 @@
                             <div class="col-3">
                                 <label>Talla (CM)</label><span style="color:red"> *</span>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="number"  id="talla_pac" name="talla_pac" class="form-control" readonly>
+                                    <input type="number" id="talla_pac" name="talla_pac" class="form-control" readonly>
                                     <div class="form-control-position">
                                         <i class='fa fa-text-height'></i>
                                     </div>
@@ -745,7 +899,7 @@
                             <div class="col-4">
                                 <label>Peso (KG)</label><span style="color:red"> *</span>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="number"  id="peso_pac" name="peso_pac" class="form-control" readonly>
+                                    <input type="number" id="peso_pac" name="peso_pac" class="form-control" readonly>
                                     <div class="form-control-position">
                                         <i class='fas fa-weight'></i>
                                     </div>
@@ -765,12 +919,12 @@
                             <div class="col-3">
                                 <label>Temperatura (°) </label> <span style="color:red"> *</span>
                                 <div class="form-group position-relative has-icon-left">
-                                    <input type="number" id="temp_pac" name="tem_pac" class="form-control" readonly> 
+                                    <input type="number" id="temp_pac" name="tem_pac" class="form-control" readonly>
                                     <div class="form-control-position">
                                         <i class="fas fa-temperature-high"></i>
                                     </div>
                                 </div>
-                            </div>                          
+                            </div>
 
                             <div class="col-12">
                                 <label>Recomendaciones </label><span style="color:red"> *</span>
@@ -864,8 +1018,88 @@
             $('#ok1').html('<span>' + valor + '</span>');
             $('#ok').show();
         }
+
         $('#agregar_paciente').click(function() {
             $('#altaPacienteModal').modal('show');
+        });
+
+        $('#reg_expinicio').click(function() {
+
+            let token = '{{csrf_token()}}';
+            let id_paciente = $('#id_hidden_em').val();
+            let gesta = $('#gesta').val();
+            let parto = $('#parto').val();
+            let cesarea = $('#cesarea').val();
+            let aborto = $('#aborto').val();
+            let fur = $('#fur').val();
+            let fpp = $('#fpp').val();
+            let estudio_laboratorio = $('#estudio_lab').val();
+
+            let data = {
+                id_paciente: id_paciente,
+                gesta: gesta,
+                parto: parto,
+                cesarea: cesarea,
+                aborto: aborto,
+                fur: fur,
+                fpp: fpp,
+                estudio_laboratorio: estudio_laboratorio,
+                _token: token
+            };
+
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("regExpedienteEm") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $("#altaExpIni")[0].reset();
+                $('#expedienteInicioModal').modal('hide');
+                $('#verPacienteModal').modal('hide');              
+                $('#consultaE_tables').DataTable().ajax.reload();
+                ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                }, 2000);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#response_expN').empty()) {
+                        $('#response_expN').empty();
+                    }
+
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#response_expN').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                            });
+                        }
+                    });
+
+                    setTimeout(function() {
+                    $('#response_expN').hide();
+                }, 4000);
+                }
+                if (jqXHR.status == 500) {
+                    var responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $("#altaExpIni")[0].reset();                    
+                    $('#expedienteInicioModal').modal('hide');
+                    $('#verPacienteModal').modal('hide');                         
+                    $('#consultaE_tables').DataTable().ajax.reload();
+                    errorRazon(responseText)
+
+                }
+            });
+
         });
 
         $(document).on('change', '#medSelect', function() {
@@ -919,7 +1153,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Catalogo/PacienteSel') }}",
+                    "url": "{{ url('Catalogo/ControlP') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -976,7 +1210,7 @@
 
         });
 
-        $('#consultag_tables').DataTable({
+        $('#consultaE_tables').DataTable({
             "lengthMenu": [
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
@@ -993,7 +1227,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Consulta/ConsultaGeneral') }}",
+                "url": "{{ url('Consulta/Embarazadas') }}",
             },
             responsive: true,
             columns: [{
@@ -1005,16 +1239,12 @@
                     name: 'nombre_c'
                 },
                 {
-                    data: 'diagnostico',
-                    name: 'diagnostico',
+                    data: 'fecha',
+                    name: 'fecha',
                 },
                 {
                     data: 'estatus_c',
                     name: 'estatus_c',
-                },
-                {
-                    data: 'fecha',
-                    name: 'fecha',
                 },
                 {
                     data: 'accion',
@@ -1109,17 +1339,21 @@
                 url: "/Consulta/Paciente/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
-                    $('#consultaModal').appendTo("body")
-                    $('#consultaModal').modal('show');
-                    $('#consultaModal').css('overflow-y', 'auto');
-                    $('#consultaModal > .modal-body').css({
+                    $('#expedienteInicioModal').appendTo("body")
+                    $('#expedienteInicioModal').modal('show');
+                    $('#expedienteInicioModal').css('overflow-y', 'auto');
+                    $('#expedienteInicioModal > .modal-body').css({
                         width: 'auto',
                         height: 'auto',
                         'max-height': '100%'
                     });
-                    $('#id_hidden_paciente_c').val(id_paciente);
-                    $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                    document.getElementById("nombre_select").readOnly = true;
+                    $('#id_hidden_em').val(id_paciente);
+                    $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                    $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
+                    $('#edad_em').val(data.edad);
+                    document.getElementById("nombre_select_em").readOnly = true;
+                    document.getElementById("fecha_nacimiento_em").readOnly = true;
+                    document.getElementById("edad_em").readOnly = true;
                 }
             });
         });

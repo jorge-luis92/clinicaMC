@@ -29,7 +29,7 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     
 </head>
-<body style="background-image: url('/image/fondo.jpg');">
+<body style="background-image: url('/image/fondo.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF; background-size: cover;">
     <div class="app-content content">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">

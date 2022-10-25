@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Medicamento\MedicamentoController;
 use App\Http\Controllers\Usuario\UsuarioController;
+use App\Http\Middleware\Administrador;
 use Illuminate\Support\Facades\Auth;
 
 /*use App\Http\Controllers\Facturacion\FacturacionController;*/
@@ -28,6 +29,8 @@ Route::post('/logueo', [LoginController::class, 'authenticate'])->name('logueo')
 
 //Usuarios
 Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::middleware([Administrador::class])->group(function () 
+{
 Route::get('/Catalogo/Usuarios', [UsuarioController::class, 'index'])->name('listadoUsuario');
 Route::post('Usuario/Registro', [UsuarioController::class, 'regUsuario'])->name('UsuarioRegistro');
 
@@ -57,5 +60,7 @@ Route::get('/RecetaMedica/Select/{id}', [ConsultaGeneralController::class, 'med_
 
 //Consulta Embarazadas
 Route::get('/Consulta/Embarazadas', [ControlPrenatalController::class, 'index'])->name('consulta_embarazadas');
-
+Route::get('/Catalogo/ControlP', [ControlPrenatalController::class, 'select_embarazada']);
+Route::post('ControlP/Registro', [ControlPrenatalController::class, 'regExp'])->name('regExpedienteEm');
+});
 Auth::routes(["register" => false]);
