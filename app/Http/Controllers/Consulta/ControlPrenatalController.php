@@ -51,18 +51,19 @@ class ControlPrenatalController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    if ($data->estatus == 1) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Notas</button>';
+                    if ($data->estatus == 2) {
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Historial</button>';
                         return $button;
                     }
-                    if ($data->estatus == 2) {
+                    if ($data->estatus == 1) {
                         $button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Expediente</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
                          </div>';
@@ -219,6 +220,128 @@ class ControlPrenatalController extends Controller
 
         if ($regAnt != '') {
             return response()->json('Expediente Creado Correctamente', 200);
+        }
+    }
+
+    public function data_ant($id)
+    {
+        $data = ControlPrenatal::select(
+            'control_prenatal.fecha',
+            'antecedentes_go.gesta',
+            'antecedentes_go.parto',
+            'antecedentes_go.cesarea',
+            'antecedentes_go.aborto',
+            'expediente_inicio.fur',
+            'expediente_inicio.fpp',
+            'expediente_inicio.estudio_lab',
+            'persona.fecha_nacimiento',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+        )
+            ->join('antecedentes_go', 'antecedentes_go.id_expediente', 'control_prenatal.id')
+            ->join('expediente_inicio', 'expediente_inicio.id_expediente', 'control_prenatal.id')
+            ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->where('control_prenatal.id', $id)
+            ->first();
+
+        return $data;
+    }
+
+    public function expediente_CE_pa(Request $request, $id)
+    {
+        $id_exp = $id;
+        if ($request->ajax()) {
+            $data = Seguimiento::select(
+                'seguimiento.id',
+                'seguimiento.exploracion_fisica',
+                'seguimiento.semana_gesta',
+                'seguimiento.peso',
+                'seguimiento.fondo_uterino',
+                'seguimiento.fecha',
+            )
+                ->where('seguimiento.id_expediente', $id_exp)
+                ->orderBy('seguimiento.fecha', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+                    return $button;
+                })
+                ->rawColumns(['accion'])
+                ->editColumn('fecha', function (Seguimiento $data) {
+                    return date('d/m/Y', strtotime($data->fecha));
+                })
+                ->make(true);
+        }
+
+        return view('Expedientes.ListadoExpedienteGeneral');
+    }
+
+    public function regConEmb(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+        $data = $request;
+        $id_exp = $data->id_exp;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $paciente = ControlPrenatal::select('id_paciente')
+            ->where('id', $id_exp)
+            ->first();       
+
+        $data->validate([
+            'peso' => 'required|numeric|min:0|not_in:-1',
+            'semana_gesta' => 'required|numeric|min:0|not_in:-1',
+            'exploracion_fisica' =>  ['required', 'string', 'max:255'],
+            'presentacion' =>  ['required', 'string', 'max:255'],
+            'tension_arterial' =>  ['required', 'string', 'max:255'],
+            'frecuencia_cardiaca' =>  ['required', 'string', 'max:255'],
+            'fondo_uterino' =>  ['required', 'string', 'max:255'],
+            'otro' =>  ['required', 'string', 'max:255'],
+        ]);
+
+        $id_medico = $medico->id;
+        $id_paciente = $paciente->id_paciente;
+        $peso = $data->peso;
+        $semana_gesta = $data->semana_gesta;
+        $exploracion_fisica = $data->exploracion_fisica;
+        $presentacion = $data->presentacion;
+        $tension_arterial = $data->tension_arterial;
+        $frecuencia_cardiaca = $data->frecuencia_cardiaca;
+        $fondo_uterino = $data->fondo_uterino;
+        $otro = $data->otro;
+        $observaciones = $data->observaciones;
+
+        //return $data;
+
+        $seg =Seguimiento::create([
+            'id_expediente' => $id_exp,
+            'id_paciente' => $id_paciente,
+            'id_medico' => $id_medico,            
+            'exploracion_fisica' => $exploracion_fisica,
+            'semana_gesta' => $semana_gesta,
+            'peso' => $peso,
+            'ta' => $tension_arterial,            
+            'fondo_uterino' => $fondo_uterino,
+            'presentacion' => $presentacion,
+            'frecuencia_cardiaca' => $frecuencia_cardiaca,            
+            'otro' => $otro,
+            'estatus' => '1',
+            'observaciones' => $observaciones,
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+
+        $le = ControlPrenatal::latest('id')->first();
+        $id_exp = $le->id;
+
+        if ($seg != '') {
+            return response()->json('Seguimiento creado correctamente', 200);
         }
     }
 }
