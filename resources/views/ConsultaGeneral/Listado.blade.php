@@ -52,6 +52,7 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
+
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -401,7 +402,7 @@
         <div class="modal-lg modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
+                    <h3 class="modal-title">
                         <i class="fas fa-list"></i> Notas Consulta
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -558,11 +559,169 @@
         </div>
     </div>
 
-    <div id="recetaMedicaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div id="pdfModal" class="modal fade pdfModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-xl modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-file-pdf"></i> Datos de la Consulta
+                    </h3>
+                    <button type="button" class="close" id="cerrarImprimir" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                    <div style="text-align: center;">
+                        <span id="form_resultPDF"></span>
+                    </div>
+
+                    <div class="modal-footer">
+                        <a href="#" id="cerrarImprimir2" class="btn btn-danger btn-min-width btn-glow" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="finalizarConsultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog " role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="exampleModalLabel">Finalizar Consulta</span> </strong></h2>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="finalCform" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_finally" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="table-responsive-lg">
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                            <th align="left" style="text-align:left; padding: 3px">
+                                                                <a href="#" class="btn btn-warning btn-xs btn-glow" id="vista_previaReceta" style="color: white" role="button">
+                                                                    <i class="fas fa-eye"></i> Vista Previa
+                                                                </a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+                                            </div>
+
+                                            <div class="col-md-12 col-sm-12">
+                                                <div class="row">
+                                                    <div class="col-4">
+                                                        <label>Paciente </label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="text" id="nombre_paciente" name="nombre_paciente" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class="fas fa-user-circle"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <label>Motivo Consulta </label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="text" id="mot_consul" name="mot_consul" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class='fas fa-edit'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-3">
+                                                        <label>Talla (CM)</label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="number" id="talla_pac" name="talla_pac" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class='fa fa-text-height'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="col-4">
+                                                        <label>Peso (KG)</label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="number" id="peso_pac" name="peso_pac" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class='fas fa-weight'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-5">
+                                                        <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="text" id="diag_paciente" name="diag_paciente" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class='fas fa-diagnoses'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-3">
+                                                        <label>Temperatura (°) </label> <span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <input type="number" id="temp_pac" name="tem_pac" class="form-control" readonly>
+                                                            <div class="form-control-position">
+                                                                <i class="fas fa-temperature-high"></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="col-12">
+                                                        <label>Recomendaciones </label><span style="color:red"> *</span>
+                                                        <div class="form-group position-relative has-icon-left">
+                                                            <textarea name="observaciones" id="observaciones" cols="150" rows="3" class="form-control" placeholder="Recomendaciones"></textarea>
+                                                            <div class="form-control-position">
+                                                                <i class='fas fa-list'></i>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <div class="modal-footer">
+                                                    <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                                        <i class="fas fa-ban"></i> Cerrar
+                                                    </a>
+                                                    <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                                                    <!--<input type="hidden" id="hidden_id_med" name="hidden_id_med">
+                        <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">-->
+                                                    <input type="hidden" id="hidden_id_con_fin" name="hidden_id_con_fin">
+                                                    <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="fin_consulta" id="fin_consulta" role="button">
+                                                        <i class="fas fa-save"></i> Finalizar
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="recetaMedicaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-xl modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
                         <i class="fas fa-tablets"></i> Seleccionar Medicamento
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -646,7 +805,7 @@
                                             </tr>
                                         </thead>
                                     </table>
-                </form>
+                
                 </br>
 
                 <div class="col-12">
@@ -673,164 +832,26 @@
                 <div class="col-12">
                     <div class="modal-footer">
                         <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                                                    <i class="fas fa-ban"></i> Cancelar
-                                                </a>-->
+                                            <i class="fas fa-ban"></i> Cancelar
+                                        </a>-->
                         <input type="hidden" id="hidden_id_con" name="hidden_id_con">
                         <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
                             <i class="fas fa-ban"></i> Salir
                         </a>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div id="finalizarConsultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog " role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h2 class="modal-title" id="exampleModalLabel">Finalizar Consulta</span> </strong></h2>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th align="left" style="text-align:left; padding: 3px">
-                                <a href="#" class="btn btn-warning btn-xs btn-glow" id="vista_previaReceta" style="color: white" role="button">
-                                    <i class="fas fa-eye"></i> Vista Previa
-                                </a>
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-                <form id="finalCform" class="form">
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_finally" role="alert" style="display:none"></div>
-                            </div>
-                            <div class="col-4">
-                                <label>Paciente </label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="text" id="nombre_paciente" name="nombre_paciente" class="form-control" readonly>
-                                    <div class="form-control-position">
-                                        <i class="fas fa-user-circle"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-5">
-                                <label>Motivo Consulta </label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="text" id="mot_consul" name="mot_consul" class="form-control" readonly>
-                                    <div class="form-control-position">
-                                        <i class='fas fa-edit'></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-3">
-                                <label>Talla (CM)</label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="number"  id="talla_pac" name="talla_pac" class="form-control" readonly>
-                                    <div class="form-control-position">
-                                        <i class='fa fa-text-height'></i>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                            <div class="col-4">
-                                <label>Peso (KG)</label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="number"  id="peso_pac" name="peso_pac" class="form-control" readonly>
-                                    <div class="form-control-position">
-                                        <i class='fas fa-weight'></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-5">
-                                <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="text" id="diag_paciente" name="diag_paciente" class="form-control" readonly>
-                                    <div class="form-control-position">
-                                        <i class='fas fa-diagnoses'></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-3">
-                                <label>Temperatura (°) </label> <span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <input type="number" id="temp_pac" name="tem_pac" class="form-control" readonly> 
-                                    <div class="form-control-position">
-                                        <i class="fas fa-temperature-high"></i>
-                                    </div>
-                                </div>
-                            </div>                          
-
-                            <div class="col-12">
-                                <label>Recomendaciones </label><span style="color:red"> *</span>
-                                <div class="form-group position-relative has-icon-left">
-                                    <textarea name="observaciones" id="observaciones" cols="150" rows="3" class="form-control" placeholder="Recomendaciones"></textarea>
-                                    <div class="form-control-position">
-                                        <i class='fas fa-list'></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="col-12">
-                            <div class="modal-footer">
-                                <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                                    <i class="fas fa-ban"></i> Cerrar
-                                </a>
-                                <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                                <!--<input type="hidden" id="hidden_id_med" name="hidden_id_med">
-                                <input type="hidden" id="hidden_id_con_final" name="hidden_id_con_final">-->
-                                <input type="hidden" id="hidden_id_con_fin" name="hidden_id_con_fin">
-                                <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="fin_consulta" id="fin_consulta" role="button">
-                                    <i class="fas fa-save"></i> Finalizar
-                                </a>
-                            </div>
-                        </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <div id="pdfModal" class="modal fade pdfModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-xl modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-file-pdf"></i> Datos de la Consulta
-                    </h3>
-                    <button type="button" class="close" id="cerrarImprimir" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-
-                <div class="modal-body">
-                    <div style="text-align: center;">
-                        <span id="form_resultPDF"></span>
-                    </div>
-
-                    <div class="modal-footer">
-                        <a href="#" id="cerrarImprimir2" class="btn btn-danger btn-min-width btn-glow" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Salir
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </div>
-
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 @endsection
 
 @section('scripts')
@@ -1570,6 +1591,7 @@
 
         $('#vista_previaReceta').click(function() {
             let id_consulta = $('#hidden_id_con_fin').val();
+            $('#pdfModal').appendTo("body")
             $('#pdfModal').css('overflow-y', 'auto');
             $('#form_resultPDF').html('<iframe src="../../ConsultaGneralEdit/Vistaprevia/' + id_consulta + '" style="width:100%; height:500px;" frameborder="0"></iframe>');
             $('#pdfModal').modal('show');

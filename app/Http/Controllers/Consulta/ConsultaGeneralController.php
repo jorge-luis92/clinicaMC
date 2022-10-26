@@ -316,6 +316,7 @@ class ConsultaGeneralController extends Controller
 
     public function vistapreviaC($id)
     {
+       
         $usuario = auth()->user();
         $id_usuario = $usuario->id;
         $id_persona = $usuario->id_persona;
@@ -342,6 +343,10 @@ class ConsultaGeneralController extends Controller
             'consulta_general.estatus',
             'paciente.talla',
             'consulta_general.fecha',
+            'consulta_general.diagnostico',
+            'persona.edad',
+            'paciente.talla',
+            'consulta_general.ta',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
         )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
@@ -362,6 +367,7 @@ class ConsultaGeneralController extends Controller
             ->orderBy('receta_medica.id', 'desc')
             ->get();
 
+          
         view()->share('data', $data);
         view()->share('medico', $datos_medico);
         view()->share('medicamentos', $data_medicamentos);
