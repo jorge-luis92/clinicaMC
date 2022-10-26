@@ -49,6 +49,7 @@ Route::get('ConsultaGneralEdit/Vistaprevia/{id}', [ConsultaGeneralController::cl
 Route::get('/ConsultaGeneral/CGData/{id}', [ConsultaGeneralController::class, 'verDataCon']);
 Route::get('/ConsultaGeneral/CGPaciente/{id}', [ConsultaGeneralController::class, 'verDataPac']);
 Route::post('ConsultaGeneral/End', [ConsultaGeneralController::class, 'end_consultaGeneral'])->name('end_consultaG');
+Route::post('ConsultaGeneral/Cita', [ConsultaGeneralController::class, 'reg_Cita'])->name('create_cita');
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');

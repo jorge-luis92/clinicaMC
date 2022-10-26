@@ -805,41 +805,113 @@
                                             </tr>
                                         </thead>
                                     </table>
-                
-                </br>
 
-                <div class="col-12">
-                    <h4 class="form-section"><i class="fas fa-tablets"></i> Medicamentos Agregados</h4>
-                </div>
+                                    </br>
+
+                                    <div class="col-12">
+                                        <h4 class="form-section"><i class="fas fa-tablets"></i> Medicamentos Agregados</h4>
+                                    </div>
 
 
-                <div class="col-12">
-                    <div class="table-responsive" style="width:100%">
-                        <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Descripci&oacute;n</th>
-                                    <th>Cantidad</th>
-                                    <th>Tratamiento</th>
-                                    <th width="15%">Acci&oacute;n</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
+                                    <div class="col-12">
+                                        <div class="table-responsive" style="width:100%">
+                                            <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Tratamiento</th>
+                                                        <th width="15%">Acci&oacute;n</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
 
-                <div class="col-12">
-                    <div class="modal-footer">
-                        <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                    <div class="col-12">
+                                        <div class="modal-footer">
+                                            <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                             <i class="fas fa-ban"></i> Cancelar
                                         </a>-->
-                        <input type="hidden" id="hidden_id_con" name="hidden_id_con">
-                        <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Salir
-                        </a>
-                    </div>
+                                            <input type="hidden" id="hidden_id_con" name="hidden_id_con">
+                                            <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                                                <i class="fas fa-ban"></i> Salir
+                                            </a>
+                                        </div>
+                                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="citaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class='fa fa-arrow-right'></i> Próxima Cita
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
+                <form id="altaCitaForm" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_cita" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_cita" name="nombre_cita" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Fecha Agendar</label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fecha_agenda" name="fecha_agenda" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Hora Agendar</label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="time" id="hora_agenda" name="hora_agenda" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                <i class="fas fa-ban"></i> Salir
+                            </a>
+                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                            <input type="hidden" id="id_hidden_cita" name="id_hidden_cita">
+                            <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="agen_cita" id="agen_cita" role="button">
+                                <i class="fas fa-share"></i> Crear
+                            </a>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -1600,27 +1672,50 @@
         $('#fin_consulta').click(function() {
             let token = '{{csrf_token()}}';
             let id = $('#hidden_id_con_fin').val();
-            let observaciones = $('#observaciones').val();
+            let recomendaciones = $('#observaciones').val();
             let data = {
                 id: id,
-                observaciones: observaciones,
+                recomendaciones: recomendaciones,
                 _token: token
             };
 
             let respuesta = confirm("¡La Consulta se Finalizará!");
             if (respuesta) {
+
                 $.ajax({
                     method: 'POST',
                     url: '{{ route("end_consultaG") }}',
                     data: data
                 }).done(function(jqXHR) {
-                    $('#finalizarConsultaModal').modal('hide');
-                    $("#finalCform")[0].reset();
-                    $('#consultag_tables').DataTable().ajax.reload();
-                    ok(jqXHR);
-                    setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);
+
+                    let prox = confirm("¿Se agendará próxima cita?");
+                    if (prox) {
+                        $.ajax({
+                            url: "/ConsultaGeneral/CGData/" + id,
+                            dataType: "json",
+                            success: function(data) {
+                                $('#citaModal').appendTo("body")
+                                $('#citaModal').modal('show');
+                                $('#nombre_cita').val(data.nombre_p);
+                                $('#id_hidden_cita').val(data.id_paciente);
+                                $('#finalizarConsultaModal').modal('hide');
+                                $("#finalCform")[0].reset();
+                                $('#consultag_tables').DataTable().ajax.reload();
+                                ok(jqXHR);
+                                setTimeout(function() {
+                                    $('#ok').hide();
+                                }, 2000);
+                            }
+                        });
+                    } else {
+                        $('#finalizarConsultaModal').modal('hide');
+                        $("#finalCform")[0].reset();
+                        $('#consultag_tables').DataTable().ajax.reload();
+                        ok(jqXHR);
+                        setTimeout(function() {
+                            $('#ok').hide();
+                        }, 2000);
+                    }
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status == 422) {
                         if (!$('#alerts_finally').empty()) {
@@ -1630,7 +1725,7 @@
                         $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                             if ($.isPlainObject(value)) {
                                 $.each(value, function(key, value) {
-                                    $('#response_editConsulta').show().append(`
+                                    $('#alerts_finally').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1681,6 +1776,93 @@
                     }
                 });
             }
+        });
+
+        $('#agen_cita').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_paciente = $('#id_hidden_cita').val();
+            let fecha_agenda = $('#fecha_agenda').val();
+            let hora_agenda = $('#hora_agenda').val();
+            let data = {
+                id_paciente: id_paciente,
+                fecha_agenda: fecha_agenda,
+                hora_agenda: hora_agenda,
+                _token: token
+            };
+
+            let respuesta = confirm("¿Confirmar Cita?");
+            if (respuesta) {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("create_cita") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                        $('#citaModal').modal('hide');
+                        $("#altaCitaForm")[0].reset();
+                        ok(jqXHR);
+                        setTimeout(function() {
+                            $('#ok').hide();
+                        }, 2000);                    
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_cita').empty()) {
+                            $('#response_cita').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_cita').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#response_cita').hide();
+                            }, 3000);
+                        });
+                    }
+                    if (jqXHR.status == 442) {
+                        if (!$('#response_cita').empty()) {
+                            $('#response_cita').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#response_cita').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#response_cita').hide();
+                        }, 3000);
+
+                    }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#citaModal').modal('hide');
+                        $("#altaCitaForm")[0].reset();
+                        errorRazon(responseText)
+                    }
+                });
+            }
+          
         });
 
         $('#cerrarImprimir').click(function() {

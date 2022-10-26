@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Consulta;
 use App\Http\Controllers\Controller;
 use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
+use App\Models\Paciente\Cita;
 use App\Models\Paciente\ConsultaGeneral;
 use App\Models\Paciente\Paciente;
 use App\Models\Paciente\RecetaMedica;
@@ -187,7 +188,7 @@ class ConsultaGeneralController extends Controller
             'temperatura' => $temperatura,
             'peso' => $peso,
             'diagnostico' => $diagnostico,
-            'estatus' => '2',            
+            'estatus' => '2',
             'motivo_consulta' => $motivo_consulta,
             'examen_fisico' => $exploracion,
             'ta' => $ta,
@@ -316,7 +317,7 @@ class ConsultaGeneralController extends Controller
 
     public function vistapreviaC($id)
     {
-       
+
         $usuario = auth()->user();
         $id_usuario = $usuario->id;
         $id_persona = $usuario->id_persona;
@@ -326,7 +327,7 @@ class ConsultaGeneralController extends Controller
             'medico.cedula',
             'medico.celular',
             'persona.genero',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),            
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
             DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
             WHEN persona.genero= "M" THEN "Dra." END) AS doc')
         )
@@ -367,7 +368,7 @@ class ConsultaGeneralController extends Controller
             ->orderBy('receta_medica.id', 'desc')
             ->get();
 
-          
+
         view()->share('data', $data);
         view()->share('medico', $datos_medico);
         view()->share('medicamentos', $data_medicamentos);
@@ -377,7 +378,8 @@ class ConsultaGeneralController extends Controller
         return $pdf->stream();
     }
 
-    public function verDataCon($id){
+    public function verDataCon($id)
+    {
 
         $id_consulta = $id;
         $data = ConsultaGeneral::select(
@@ -391,15 +393,16 @@ class ConsultaGeneralController extends Controller
             'consulta_general.estatus',
             'paciente.talla',
             'consulta_general.fecha',
+            'paciente.id AS id_paciente',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
-            )
+        )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
             ->where('consulta_general.id', $id_consulta)
             ->first();
 
-            return $data;
+        return $data;
     }
 
     public function end_consultaGeneral(Request $v)
@@ -411,8 +414,8 @@ class ConsultaGeneralController extends Controller
         $id = $data->id;
         $observaciones = $data->observaciones;
 
-        $v->validate([
-            'observaciones' => ['required', 'string', 'max:255'],
+        /*$v->validate([
+            'recomendaciones' => ['required', 'string', 'max:255'],
         ]);
 
         $updateC = ConsultaGeneral::where('id', $id)->update([
@@ -420,14 +423,15 @@ class ConsultaGeneralController extends Controller
             'observaciones' => $observaciones,
         ]);
 
-        if ($updateC != '') {
-            return response()->json('Se ha Finalizado la Consulta correctamente', 200);
-        } else {
+        if ($updateC != '') {*/
+        return response()->json('Se ha Finalizado la Consulta correctamente', 200);
+        /* } else {
             return response()->json('Error: Sin cambios', 500);
-        }
+        }*/
     }
 
-    public function verDataPac($id){
+    public function verDataPac($id)
+    {
 
         $id_paciente = $id;
         $data = ConsultaGeneral::select(
@@ -442,13 +446,49 @@ class ConsultaGeneralController extends Controller
             'paciente.talla',
             'consulta_general.fecha',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
-            )
+        )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
             ->where('consulta_general.id_paciente', $id_paciente)
             ->first();
 
-            return $data;
+        return $data;
+    }
+
+    public function reg_Cita(Request $data)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        //return $data;
+        $data->validate([
+            'fecha_agenda' => ['required', 'string', 'max:255'],
+            'hora_agenda' => ['required', 'string', 'max:255'],
+        ]);
+
+        $id_paciente = $data->id_paciente;
+        $fecha = $data->fecha_agenda;
+        $hora = $data->hora_agenda;
+
+        $datos_medico = Medico::select('id')
+            ->where('id_persona', $usuario->id_persona)
+            ->first();
+
+        $registrarC = Cita::create([
+            'id_paciente' => $id_paciente,            
+            'id_medico' => $datos_medico->id,
+            'fecha_proxima' => $fecha,
+            'hora_proxima' => $hora,
+            'tipo' => 'General',
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+
+        ]);
+
+        if ($registrarC != '') {
+            return response()->json('Se ha generado la Cita', 200);
+        }
     }
 }
