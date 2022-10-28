@@ -86,7 +86,7 @@
         <div id="consultas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="dropdown-item" href="#"> Citas</a>
+            <a class="dropdown-item" href="{{ url('Citas') }}"> Citas</a>
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
             <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>
           </div>
@@ -157,7 +157,7 @@
             <li>
               <a class="navbar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <!--<img class="img-responsive center-block" src="logo.ico" width="47" height="47" alt="">-->
-                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Servicios Médicos Sán Agustin y Laboratorio Clínico</h1>
+                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Servicios M&eacute;dicos y Laboratorio Cl&iacute;nico "S&aacute;n Agust&iacute;n"</h1>
               </a>
             </li>
 

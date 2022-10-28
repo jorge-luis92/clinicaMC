@@ -414,7 +414,7 @@ class ConsultaGeneralController extends Controller
         $id = $data->id;
         $observaciones = $data->observaciones;
 
-        /*$v->validate([
+        $v->validate([
             'recomendaciones' => ['required', 'string', 'max:255'],
         ]);
 
@@ -423,11 +423,11 @@ class ConsultaGeneralController extends Controller
             'observaciones' => $observaciones,
         ]);
 
-        if ($updateC != '') {*/
+        if ($updateC != '') {
         return response()->json('Se ha Finalizado la Consulta correctamente', 200);
-        /* } else {
+        } else {
             return response()->json('Error: Sin cambios', 500);
-        }*/
+        }
     }
 
     public function verDataPac($id)
@@ -456,39 +456,4 @@ class ConsultaGeneralController extends Controller
         return $data;
     }
 
-    public function reg_Cita(Request $data)
-    {
-
-        $usuario = auth()->user();
-        $id_usuario = $usuario->id;
-
-        //return $data;
-        $data->validate([
-            'fecha_agenda' => ['required', 'string', 'max:255'],
-            'hora_agenda' => ['required', 'string', 'max:255'],
-        ]);
-
-        $id_paciente = $data->id_paciente;
-        $fecha = $data->fecha_agenda;
-        $hora = $data->hora_agenda;
-
-        $datos_medico = Medico::select('id')
-            ->where('id_persona', $usuario->id_persona)
-            ->first();
-
-        $registrarC = Cita::create([
-            'id_paciente' => $id_paciente,            
-            'id_medico' => $datos_medico->id,
-            'fecha_proxima' => $fecha,
-            'hora_proxima' => $hora,
-            'tipo' => 'General',
-            'fecha' => date('Y-m-d'),
-            'hora' => date('H:i:s'),
-
-        ]);
-
-        if ($registrarC != '') {
-            return response()->json('Se ha generado la Cita', 200);
-        }
-    }
 }

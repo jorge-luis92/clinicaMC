@@ -13,5 +13,6 @@ class Cita extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'id_paciente', 'id_medico', 'fecha_proxima', 'hora_proxima', 'tipo', 'fecha', 'hora'];
+    protected $fillable = ['id', 'id_paciente', 'id_medico', 'fecha_proxima', 'hora_proxima', 'tipo',
+     'estatus', 'fecha', 'hora'];
 }

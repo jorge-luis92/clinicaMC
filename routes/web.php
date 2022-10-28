@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Consulta\CitaController;
 use App\Http\Controllers\Consulta\ConsultaGeneralController;
 use App\Http\Controllers\Consulta\ControlPrenatalController;
 use App\Http\Controllers\Consulta\PacienteController;
@@ -49,7 +50,6 @@ Route::get('ConsultaGneralEdit/Vistaprevia/{id}', [ConsultaGeneralController::cl
 Route::get('/ConsultaGeneral/CGData/{id}', [ConsultaGeneralController::class, 'verDataCon']);
 Route::get('/ConsultaGeneral/CGPaciente/{id}', [ConsultaGeneralController::class, 'verDataPac']);
 Route::post('ConsultaGeneral/End', [ConsultaGeneralController::class, 'end_consultaGeneral'])->name('end_consultaG');
-Route::post('ConsultaGeneral/Cita', [ConsultaGeneralController::class, 'reg_Cita'])->name('create_cita');
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
@@ -67,4 +67,11 @@ Route::get('/ControlP/DataAnt/{id}', [ControlPrenatalController::class, 'data_an
 Route::get('/Expediente/CEmver/{id}', [ControlPrenatalController::class, 'expediente_CE_pa']);
 Route::post('ControlP/RegistroCon', [ControlPrenatalController::class, 'regConEmb'])->name('regConEmm');
 });
+
+//Citas
+Route::get('/Citas', [CitaController::class, 'index'])->name('citas');
+Route::post('ConsultaGeneral/Cita', [CitaController::class, 'reg_Cita'])->name('create_cita');
+Route::post('ConsultaGeneral/CitaE', [CitaController::class, 'reg_CitaE'])->name('create_citaE');
+Route::get('/Cita/PacienteSel', [CitaController::class, 'sepaciente_cita']);
+
 Auth::routes(["register" => false]);
