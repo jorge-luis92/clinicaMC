@@ -609,6 +609,7 @@
                                 $('#ok').hide();
                             }, 2000);
                         }).fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log(jqXHR);
                             if (jqXHR.status == 422) {
                                 if (!$('#response_cita').empty()) {
                                     $('#response_cita').empty();
@@ -653,9 +654,12 @@
                                                     </span>
                                                 </li>
                                         </ul>`);
+                                $('#control').val("").select2();
                                 setTimeout(function() {
                                     $('#response_cita').hide();
-                                }, 3000);
+                                    $('#citaModal').modal('hide');
+                                        $("#altaCitaForm")[0].reset();
+                                }, 2000);
 
                             }
                             if (jqXHR.status == 500) {
@@ -666,6 +670,28 @@
                                 $('#control').val("").select2();
                                 $('#cita_tables').DataTable().ajax.reload();
                                 errorRazon(responseText)
+                            }
+                            if (jqXHR.status == 404) {
+                                if (!$('#response_cita').empty()) {
+                                    $('#response_cita').empty();
+                                }
+                                let responseText = jQuery.parseJSON(jqXHR.responseText);
+                                $('#response_cita').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + responseText + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                                setTimeout(function() {
+                                    $('#response_cita').hide();
+                                }, 4000);
+
                             }
                         });
                     }
@@ -686,6 +712,8 @@
                                 $('#ok').hide();
                             }, 2000);
                         }).fail(function(jqXHR, textStatus, errorThrown) {
+
+                            console.log(jqXHR);
                             if (jqXHR.status == 422) {
                                 if (!$('#response_cita').empty()) {
                                     $('#response_cita').empty();
@@ -730,9 +758,13 @@
                                                     </span>
                                                 </li>
                                         </ul>`);
+                                       
+                                $('#control').val("").select2();
                                 setTimeout(function() {
                                     $('#response_cita').hide();
-                                }, 3000);
+                                    $('#citaModal').modal('hide');
+                                        $("#altaCitaForm")[0].reset();
+                                }, 2000);
 
                             }
                             if (jqXHR.status == 500) {
@@ -744,6 +776,28 @@
                                 $('#cita_tables').DataTable().ajax.reload();
                                 errorRazon(responseText)
                                 errorRazon(responseText)
+                            }
+                            if (jqXHR.status == 404) {
+                                if (!$('#response_cita').empty()) {
+                                    $('#response_cita').empty();
+                                }
+                                let responseText = jQuery.parseJSON(jqXHR.responseText);
+                                $('#response_cita').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + responseText + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                                setTimeout(function() {
+                                    $('#response_cita').hide();
+                                }, 4000);
+
                             }
                         });
                     }

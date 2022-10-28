@@ -116,11 +116,14 @@ class CitaController extends Controller
             ->where('estatus', '=', '1')
             //->whereDate('fecha_proxima', '<=','2016-12-31')
             ->first();
-        if($busqueda){
-            return response()->json('El paciente ya cuenta con una cita activa, Favor de Verificar ', 442);
+        if ($busqueda) {
+            return response()->json('El paciente ya cuenta con una cita activa, ¡Favor de Verificar!. ', 442);
+        }
+        if($fecha < $hoy){
+            return response()->json('La fecha de la cita no puede ser una fecha menor al día actual', 404);
         }
 
-       /* $registrarC = Cita::create([
+        $registrarC = Cita::create([
             'id_paciente' => $id_paciente,
             'id_medico' => $datos_medico->id,
             'fecha_proxima' => $fecha,
@@ -134,7 +137,7 @@ class CitaController extends Controller
 
         if ($registrarC != '') {
             return response()->json('Se ha generado la Cita', 200);
-        }*/
+        }
     }
 
     public function reg_CitaE(Request $data)
@@ -152,10 +155,22 @@ class CitaController extends Controller
         $id_paciente = $data->id_paciente;
         $fecha = $data->fecha_agenda;
         $hora = $data->hora_agenda;
-
+        $hoy = date('Y-m-d');
+        
         $datos_medico = Medico::select('id')
             ->where('id_persona', $usuario->id_persona)
             ->first();
+
+        $busqueda = Cita::where('id_paciente', $id_paciente)
+            ->where('estatus', '=', '1')
+            //->whereDate('fecha_proxima', '<=','2016-12-31')
+            ->first();
+        if ($busqueda) {
+            return response()->json('El paciente ya cuenta con una cita activa, ¡Favor de Verificar!. ', 442);
+        }
+        if($fecha < $hoy){
+            return response()->json('La fecha de la cita no puede ser una fecha menor al día actual', 404);
+        }
 
         $registrarC = Cita::create([
             'id_paciente' => $id_paciente,
