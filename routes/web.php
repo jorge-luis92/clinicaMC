@@ -5,12 +5,15 @@ use App\Http\Controllers\Consulta\CitaController;
 use App\Http\Controllers\Consulta\ConsultaGeneralController;
 use App\Http\Controllers\Consulta\ControlPrenatalController;
 use App\Http\Controllers\Consulta\PacienteController;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Medicamento\MedicamentoController;
 use App\Http\Controllers\Usuario\UsuarioController;
 use App\Http\Middleware\Administrador;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
+use Monolog\Handler\TelegramBotHandler;
 
 /*use App\Http\Controllers\Facturacion\FacturacionController;*/
 /*
@@ -73,5 +76,7 @@ Route::get('/Citas', [CitaController::class, 'index'])->name('citas');
 Route::post('ConsultaGeneral/Cita', [CitaController::class, 'reg_Cita'])->name('create_cita');
 Route::post('ConsultaGeneral/CitaE', [CitaController::class, 'reg_CitaE'])->name('create_citaE');
 Route::get('/Cita/PacienteSel', [CitaController::class, 'sepaciente_cita']);
+
+Route::get('/Enviar', [Controller::class, 'enviarMensaje']);
 
 Auth::routes(["register" => false]);

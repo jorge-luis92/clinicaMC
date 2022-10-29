@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\Cita;
 use App\Models\Paciente\Paciente;
+use App\Models\Persona\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use DB;
 use DataTables;
 use PDF;
@@ -119,7 +121,7 @@ class CitaController extends Controller
         if ($busqueda) {
             return response()->json('El paciente ya cuenta con una cita activa, ¡Favor de Verificar!. ', 442);
         }
-        if($fecha < $hoy){
+        if ($fecha < $hoy) {
             return response()->json('La fecha de la cita no puede ser una fecha menor al día actual', 404);
         }
 
@@ -136,6 +138,31 @@ class CitaController extends Controller
         ]);
 
         if ($registrarC != '') {
+
+            $lc = Cita::latest('id')->first();
+            $tipo = 'General';
+
+            $datos_med= Medico::select(
+                'persona.genero',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
+                DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
+                    WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+            )
+                ->join('persona', 'persona.id', 'medico.id_persona')
+                ->where('medico.id_persona', $usuario->id_persona)
+                ->first();
+        
+            $fecha = date('Y-m-d');
+            $date = date('H:i:s');
+            $fecha = date('d/m/Y', strtotime($fecha));
+            $date = date('h:i A', strtotime($date));
+            $mensaje = "Se ha generado con éxito la cita #<b>" . $lc->id . "</b>" . " de tipo Consulta General por parte de la <b>" . $datos_med->doc." ".$datos_med->nombre_p. "</b>  a las " . $date . " del " . $fecha . ".";
+            Telegram::sendMessage([
+                'chat_id' => '-1001726685878',
+                'parse_mode' => 'HTML',
+                'text' =>  $mensaje
+            ]);
+
             return response()->json('Se ha generado la Cita', 200);
         }
     }
@@ -156,7 +183,7 @@ class CitaController extends Controller
         $fecha = $data->fecha_agenda;
         $hora = $data->hora_agenda;
         $hoy = date('Y-m-d');
-        
+
         $datos_medico = Medico::select('id')
             ->where('id_persona', $usuario->id_persona)
             ->first();
@@ -168,7 +195,7 @@ class CitaController extends Controller
         if ($busqueda) {
             return response()->json('El paciente ya cuenta con una cita activa, ¡Favor de Verificar!. ', 442);
         }
-        if($fecha < $hoy){
+        if ($fecha < $hoy) {
             return response()->json('La fecha de la cita no puede ser una fecha menor al día actual', 404);
         }
 
