@@ -156,7 +156,7 @@ class CitaController extends Controller
             $date = date('H:i:s');
             $fecha = date('d/m/Y', strtotime($fecha));
             $date = date('h:i A', strtotime($date));
-            $mensaje = "Se ha generado con éxito la cita #<b>" . $lc->id . "</b>" . " de tipo Consulta General por parte de la <b>" . $datos_med->doc." ".$datos_med->nombre_p. "</b>  a las " . $date . " del " . $fecha . ".";
+            $mensaje = "Se ha registrado con éxito la cita #<b>" . $lc->id . "</b>" . " de tipo Consulta General por parte de la <b>" . $datos_med->doc." ".$datos_med->nombre_p. "</b>  a las " . $date . " del " . $fecha . ".";
             Telegram::sendMessage([
                 'chat_id' => '-1001726685878',
                 'parse_mode' => 'HTML',
@@ -212,6 +212,30 @@ class CitaController extends Controller
         ]);
 
         if ($registrarC != '') {
+
+            $lc = Cita::latest('id')->first();
+
+            $datos_med= Medico::select(
+                'persona.genero',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
+                DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
+                    WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+            )
+                ->join('persona', 'persona.id', 'medico.id_persona')
+                ->where('medico.id_persona', $usuario->id_persona)
+                ->first();
+        
+            $fecha = date('Y-m-d');
+            $date = date('H:i:s');
+            $fecha = date('d/m/Y', strtotime($fecha));
+            $date = date('h:i A', strtotime($date));
+            $mensaje = "Se ha registrado con éxito la cita #<b>" . $lc->id . "</b>" . " de tipo Control Prenatal por parte de la <b>" . $datos_med->doc." ".$datos_med->nombre_p. "</b>  a las " . $date . " del " . $fecha . ".";
+            Telegram::sendMessage([
+                'chat_id' => '-1001726685878',
+                'parse_mode' => 'HTML',
+                'text' =>  $mensaje
+            ]);
+
             return response()->json('Se ha generado la Cita', 200);
         }
     }

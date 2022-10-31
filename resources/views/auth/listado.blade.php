@@ -183,7 +183,7 @@
                                                     <h4 class="form-section"><i class="fas fa-stethoscope"></i> Datos del Médico</h4>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-4">
                                                     <label>C&eacute;dula </label><span style="color:red"> *</span>
                                                     <div class="form-group position-relative has-icon-left">
                                                         <input type="text" onKeyUp="this.value = this.value.toUpperCase();" placeholder="Cédula Profesional" id="cedula" name="cedula" class="form-control">
@@ -193,7 +193,17 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-4">
+                                                    <label>Especialidad </label><span style="color:red"> *</span>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <input type="text" placeholder="Especialidad" id="especialidad" name="especialidad" class="form-control">
+                                                        <div class="form-control-position">
+                                                            <i class="fas fa-bars"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-4">
                                                     <label>Whatsapp </label><span style="color:red"> *</span>
                                                     <div class="form-group position-relative has-icon-left">
                                                         <input type="number" placeholder="Whatsapp" id="whatsapp" name="whatsapp" class="form-control">
@@ -202,6 +212,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
 
@@ -320,7 +331,9 @@
                 [5, 10, 25, 50, -1],
                 [5, 10, 25, 50, "All"]
             ],
-
+                "order": [
+                    [1, 'asc']
+                ],
             processing: true,
             serverSide: true,
             scrollY: '50vh',
@@ -377,6 +390,7 @@
             let password = $('#password').val();
             let password_confirmation = $('#password-confirm').val();
             let genero = $('#genero').val();
+            let especialidad = $('#especialidad').val();
 
             let data = {
                 nombre: nombre,
@@ -386,6 +400,7 @@
                 cedula: cedula,
                 genero: genero,
                 whatsapp: whatsapp,
+                especialidad: especialidad,
                 name: name,
                 email: email,
                 password: password,

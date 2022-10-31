@@ -71,6 +71,7 @@ class UsuarioController extends Controller
         $email = $v->email;
         $genero = $v->genero;
         $tipo = $v->tipo_usuario;
+        $especialidad = $v->especialidad;
 
         $validated = $v->validate([
             'nombre' => ['required', 'string', 'max:255'],
@@ -109,6 +110,7 @@ class UsuarioController extends Controller
                 'cedula' => $cedula,
                 'celular' => $whatsapp,
                 'id_usuario' => $lp->id,
+                'especialidad' => $especialidad,
                 'fecha' => date('Y-m-d'),
                 'hora' => date('H:i:s'),
 

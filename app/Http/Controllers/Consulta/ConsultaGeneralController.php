@@ -327,6 +327,8 @@ class ConsultaGeneralController extends Controller
             'medico.cedula',
             'medico.celular',
             'persona.genero',
+            'medico.especialidad',
+            'medico.institutos',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
             DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
             WHEN persona.genero= "M" THEN "Dra." END) AS doc')
@@ -343,11 +345,14 @@ class ConsultaGeneralController extends Controller
             'consulta_general.fecha',
             'consulta_general.estatus',
             'paciente.talla',
+            'consulta_general.glucosa',
             'consulta_general.fecha',
             'consulta_general.diagnostico',
             'persona.edad',
-            'paciente.talla',
             'consulta_general.ta',
+            'consulta_general.motivo_consulta',
+            'consulta_general.examen_fisico',
+            'consulta_general.observaciones',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
         )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
@@ -360,7 +365,7 @@ class ConsultaGeneralController extends Controller
             'receta_medica.id',
             'receta_medica.cantidad',
             'receta_medica.tratamiento',
-            DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
         )
             ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
             ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
@@ -412,7 +417,7 @@ class ConsultaGeneralController extends Controller
 
         $data = $v;
         $id = $data->id;
-        $observaciones = $data->observaciones;
+        $observaciones = $data->recomendaciones;
 
         $v->validate([
             'recomendaciones' => ['required', 'string', 'max:255'],
