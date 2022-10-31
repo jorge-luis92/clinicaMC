@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html >
 <html lang="en">
 
 <head>
@@ -15,6 +15,9 @@
 </head>
 
 <style>
+    <?php
+$fondo = public_path() . '/image/prueba.png';
+?>
     @page {
         margin: 0cm 0cm;
     }
@@ -28,6 +31,7 @@
         background-color: #fff;
         background-repeat: no-repeat;
         background-size: 100%;
+        background-image: url(<?php echo $fondo; ?>);background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;
         blue: #007bff;
         indigo: #6610f2;
         purple: #6f42c1;
@@ -11625,7 +11629,7 @@ if ($edad > "1") {
 ?>
 
 
-<body>
+<body background-image="url('/image/fondo.jpg');">
     <header>
         <div class="table-responsive">
             <table class="table table-bordered" style="font-size: 9pt; padding: 0;" width="100%">
@@ -11666,7 +11670,7 @@ if ($edad > "1") {
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ____________________________</p>
             <p class="text-break" style="text-align: justify; font-size: 11pt">
-                <img src="{{ $header3 }}" width="25px" height="25px" /> <strong> {{ $tel }} </strong>
+                <img src="{{ $header3 }}" width="30px" height="30px" /> <strong> {{ $tel }} </strong>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -11722,9 +11726,9 @@ if ($edad > "1") {
             <table style="width:100%" align="center">
                 <thead>
                     <tr>
-                        <td><strong>Cantidad</strong></td>                        
-                        <td><strong>Medicamento</strong></td>
-                        <td><strong>Tratamiento</strong></td>
+                        <td width="10%"><strong>Cantidad</strong></td>                        
+                        <td width="35%"><strong>Medicamento</strong></td>
+                        <td width="55%"><strong>Tratamiento</strong></td>
 
                     </tr>
                 </thead>
