@@ -157,7 +157,7 @@
             <li>
               <a class="navbar" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <!--<img class="img-responsive center-block" src="logo.ico" width="47" height="47" alt="">-->
-                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Servicios M&eacute;dicos y Laboratorio Cl&iacute;nico "S&aacute;n Agust&iacute;n"</h1>
+                <h1 class="mr-2 d-none d-lg-inline" style="color: #0B173B;font-size: 35px;">&nbsp;Servicios M&eacute;dicos y Laboratorio Cl&iacute;nico "San Agust&iacute;n"</h1>
               </a>
             </li>
 
@@ -201,7 +201,7 @@
       <!-- Footer -->
       <footer class="container-fluid text-center" style="background-color: #E8C6E9; ">
         <div>
-          <p style="color: black; font-size: 15px;"><strong> Benito Juárez 306, San Agustín de Las Juntas, 71260 Oax. - Tel: 9515115071 </br>Copyright &copy; <a style="color: black">Clinica MC</a> <?php $anio = date("Y");
+          <p style="color: black; font-size: 15px;"><strong> Benito Ju&aacute;rez 306, San Agust&iacute;n de Las Juntas, 71260 Oax. - Tel: 9515115071 </br>Copyright &copy; <a style="color: black">Clinica MC</a> <?php $anio = date("Y");
                                                                                                                                                                                                       echo $anio ?>. Todos los derechos reservados.</p></strong>
         </div>
       </footer>
