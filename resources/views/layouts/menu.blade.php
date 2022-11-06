@@ -87,10 +87,11 @@
         <div id="consultas" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
-            <a class="dropdown-item" href="{{ url('Citas') }}"> Citas</a>
+            <a class="dropdown-item" href="{{ url('Citas') }}"> Citas</a>            
             @if(Auth::user()->tipo_usuario == 2)
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
-            <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>@endif
+            <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>
+            @endif
           </div>
         </div>
       </li>

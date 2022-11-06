@@ -37,6 +37,7 @@ class CitaController extends Controller
                 'persona.ap_paterno',
                 'persona.ap_materno',
                 'cita.estatus',
+                'cita.id_paciente',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
                 DB::raw("CONCAT(cita.fecha_proxima,' ',cita.hora_proxima) AS fecha_hora"),
                 DB::raw('(CASE WHEN cita.estatus = "1" THEN "Agendado"  
@@ -55,10 +56,10 @@ class CitaController extends Controller
                 ->addColumn('accion', function ($data) {
                     if ($data->estatus == 1) {
                         if ($data->tipo == 'General') {
-                            $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Crear Consulta</button>';
+                            $button = '&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="create_cg btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Crear Consulta</button>';
                         }
                         if ($data->tipo == 'Control') {
-                            $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Crear Seguimiento</button>';
+                            $button = '&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="create_cp btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Crear Seguimiento</button>';
                         }
                         return $button;
                     }

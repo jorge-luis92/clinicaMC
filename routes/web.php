@@ -70,6 +70,8 @@ Route::post('ControlP/Registro', [ControlPrenatalController::class, 'regExp'])->
 Route::get('/ControlP/DataAnt/{id}', [ControlPrenatalController::class, 'data_ant']);
 Route::get('/Expediente/CEmver/{id}', [ControlPrenatalController::class, 'expediente_CE_pa']);
 Route::post('ControlP/RegistroCon', [ControlPrenatalController::class, 'regConEmb'])->name('regConEmm');
+Route::get('/ControlP/DataExiste/{id}', [ControlPrenatalController::class, 'data_existe']);
+Route::get('/ControlP/DataAnte/{id}', [ControlPrenatalController::class, 'data_ante']);
 });
 
 //Citas

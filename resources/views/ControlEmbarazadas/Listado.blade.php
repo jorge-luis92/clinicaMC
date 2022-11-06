@@ -338,7 +338,7 @@
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="altaExpIni" class="form">
+                <form id="altaExpIni">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -849,6 +849,8 @@
         </div>
     </div>
 
+</div>
+</div>
 </div>
 @endsection
 
@@ -1387,27 +1389,52 @@
         $(document).on('click', '.seleccionar_paciente', function() {
             let id_paciente = $(this).attr('id');
             $('#tipo_consulta_c').val("").select2();
+
             $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
+                url: "/ControlP/DataExiste/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
-                    $('#expedienteInicioModal').appendTo("body")
-                    $('#expedienteInicioModal').modal('show');
-                    $('#expedienteInicioModal').css('overflow-y', 'auto');
-                    $('#expedienteInicioModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });
-                    $('#id_hidden_em').val(id_paciente);
-                    $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                    $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
-                    $('#edad_em').val(data.edad);
-                    document.getElementById("nombre_select_em").readOnly = true;
-                    document.getElementById("fecha_nacimiento_em").readOnly = true;
-                    document.getElementById("edad_em").readOnly = true;
+                    alert('Error: Existe un expediente abierto con la paciente que seleccionó, ¡Favor de Verificar!')
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                    $.ajax({
+                url: "/Consulta/Paciente/" + id_paciente,
+                dataType: "json",
+                    success: function(data) {
+                        $('#expedienteInicioModal').appendTo("body")
+                        $('#expedienteInicioModal').modal('show');
+                        $('#expedienteInicioModal').css('overflow-y', 'auto');
+                        $('#expedienteInicioModal > .modal-body').css({
+                            width: 'auto',
+                            height: 'auto',
+                            'max-height': '100%'
+                        });
+                        
+                        $("#altaExpIni")[0].reset();
+
+                        $('#id_hidden_em').val(id_paciente);
+                        $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                        $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
+                        $('#edad_em').val(data.edad);
+                        document.getElementById("nombre_select_em").readOnly = true;
+                        document.getElementById("fecha_nacimiento_em").readOnly = true;
+                        document.getElementById("edad_em").readOnly = true;
+
+                        $.ajax({
+                        url: "/ControlP/DataAnte/" + id_paciente,
+                        dataType: "json",
+                        success: function(data) {
+                            $('#gesta').val(data.gesta);
+                            $('#parto').val(data.parto);
+                            $('#cesarea').val(data.cesarea);
+                            $('#aborto').val(data.aborto);
+                        }});
                 }
             });
+                } 
+            });
+
+            
         });
 
         $('#crear_consulta').click(function() {

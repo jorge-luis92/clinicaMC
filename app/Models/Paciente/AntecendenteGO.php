@@ -13,5 +13,5 @@ class AntecendenteGO extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'id_expediente', 'id_paciente', 'gesta', 'parto', 'cesarea', 'aborto', 'fecha', 'hora'];
+    protected $fillable = ['id', 'id_expediente', 'id_paciente', 'id_medico', 'gesta', 'parto', 'cesarea', 'aborto', 'fecha', 'hora'];
 }

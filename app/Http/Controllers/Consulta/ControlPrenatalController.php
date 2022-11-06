@@ -344,4 +344,28 @@ class ControlPrenatalController extends Controller
             return response()->json('Seguimiento creado correctamente', 200);
         }
     }
+
+    public function data_existe($id)
+    {
+        $data = ControlPrenatal::select('control_prenatal.id')
+            ->where('control_prenatal.id_paciente', $id)
+            ->where('estatus', '=', '1')
+            ->first();
+
+        return $data;
+    }
+
+    public function data_ante($id)
+    {
+        $data = AntecendenteGO::select(
+            'antecedentes_go.gesta',
+            'antecedentes_go.parto',
+            'antecedentes_go.cesarea',
+            'antecedentes_go.aborto',
+        )
+            ->where('antecedentes_go.id_paciente', $id)
+            ->first();
+
+        return $data;
+    }
 }
