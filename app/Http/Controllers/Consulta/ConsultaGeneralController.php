@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Consulta;
 
 use App\Http\Controllers\Controller;
+use App\Mail\RecetaMedica as MailRecetaMedica;
 use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\Cita;
@@ -18,7 +19,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use DataTables;
+use Illuminate\Support\Facades\Mail;
+use Telegram\Bot\Laravel\Facades\Telegram;
 use PDF;
+//use Mail;
 
 class ConsultaGeneralController extends Controller
 {
@@ -36,6 +40,7 @@ class ConsultaGeneralController extends Controller
                 'persona.ap_paterno',
                 'persona.ap_materno',
                 'consulta_general.estatus',
+                'paciente.correo',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
                 DB::raw('(CASE WHEN consulta_general.estatus = "1" THEN "En Proceso"  
                 WHEN consulta_general.estatus= "2" THEN "Por Finalizar"
@@ -68,7 +73,18 @@ class ConsultaGeneralController extends Controller
                         return $button;
                     }
                     if ($data->estatus == 3) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+
+                        $button = '&nbsp;
+                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        data-toggle="dropdown">
+                        <i class="fas fa-list"></i> Ver
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-info btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-eye fa-1x"></i> Imprimir</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
+                        </ul>
+                         </div>';
                         return $button;
                     }
                     if ($data->estatus == 0) {
@@ -393,17 +409,24 @@ class ConsultaGeneralController extends Controller
             'consulta_general.diagnostico',
             'consulta_general.motivo_consulta',
             'consulta_general.peso',
-            'tipo_consulta.nombre',
             'consulta_general.fecha',
             'consulta_general.estatus',
             'paciente.talla',
             'consulta_general.fecha',
             'paciente.id AS id_paciente',
+            'consulta_general.observaciones',
+            'tipo_sangre.tipo',
+            'consulta_general.glucosa',
+            'consulta_general.ta',
+            'consulta_general.examen_fisico',
+            'tipo_consulta.nombre AS tipo_consulta',
+            'persona.edad',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
         )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
+            ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
             ->where('consulta_general.id', $id_consulta)
             ->first();
 
@@ -459,6 +482,112 @@ class ConsultaGeneralController extends Controller
             ->first();
 
         return $data;
+    }
+
+    public function enviarPdfcg(Request $v)
+    {
+        $usuario = auth()->user();
+        $id_persona = $usuario->id_persona;
+
+        $data = $v;
+        //return $data;
+        $correo = $data->email;
+        $id_consulta = $data->id_con;
+
+        $datos_medico = Medico::select(
+            'medico.cedula',
+            'medico.celular',
+            'persona.genero',
+            'medico.especialidad',
+            'medico.institutos',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
+            DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
+            WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+        )
+            ->join('persona', 'persona.id', 'medico.id_persona')
+            ->where('medico.id_persona', $id_persona)
+            ->first();
+
+        $data = ConsultaGeneral::select(
+            'consulta_general.id',
+            'consulta_general.temperatura',
+            'consulta_general.peso',
+            'tipo_consulta.nombre',
+            'consulta_general.fecha',
+            'consulta_general.estatus',
+            'paciente.talla',
+            'consulta_general.glucosa',
+            'consulta_general.fecha',
+            'consulta_general.diagnostico',
+            'persona.edad',
+            'consulta_general.ta',
+            'consulta_general.motivo_consulta',
+            'consulta_general.examen_fisico',
+            'consulta_general.observaciones',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
+        )
+            ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
+            ->where('consulta_general.id', $id_consulta)
+            ->first();
+
+        $data_medicamentos = RecetaMedica::select(
+            'receta_medica.id',
+            'receta_medica.cantidad',
+            'receta_medica.tratamiento',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+        )
+            ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
+            ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
+            ->where('consulta_general.id', $id_consulta)
+            ->orderBy('receta_medica.id', 'desc')
+            ->get();
+
+
+        view()->share('data', $data);
+        view()->share('medico', $datos_medico);
+        view()->share('medicamentos', $data_medicamentos);
+        $pdf = PDF::loadView('ConsultaGeneral.Consulta_VistaPrevia', array('medicamentos' => $data_medicamentos));
+
+        $data_paciente = ConsultaGeneral::select(
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c")
+        )
+            ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->where('consulta_general.id', $id_consulta)
+            ->first();
+
+
+        $mensaje = "Estimado (a): ". $data_paciente->nombre_c ." se adjunta en el correo el archivo PDF de su receta médica";
+        
+        $fecha = date('Y-m-d');
+        $date = date('H:i:s');
+        $fecha = date('d/m/Y', strtotime($fecha));
+        $date = date('h:i A', strtotime($date));
+
+        $mensaje2 = "Se ha enviado correctamente la receta medica al paciente: $data_paciente->nombre_c a las " . $date . " del " . $fecha . ".";
+  
+        $datos = array(
+            'mensaje' => $mensaje
+        );
+
+        $npdf = $data_paciente->nombre_c."_recetamedica.pdf";
+
+        //return $correo;
+        Mail::send('ConsultaGeneral.Email', $datos, function ($mail) use ($correo, $pdf, $npdf) {
+            $mail->to($correo);
+            $mail->subject('Receta Médica');
+            $mail->attachData($pdf->output(), $npdf);
+        });
+
+        Telegram::sendMessage([
+            'chat_id' => '-1001726685878',
+            'parse_mode' => 'HTML',
+            'text' =>  $mensaje2
+        ]);
+
+        return response()->json('Se ha enviado correctamente el archivo', 200);
     }
 
 }

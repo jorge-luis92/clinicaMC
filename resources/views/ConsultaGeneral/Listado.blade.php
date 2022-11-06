@@ -845,6 +845,68 @@
         </div>
     </div>
 
+    <div id="emailPdfCG" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel34">
+                <i class="fas fa-at"></i> Envio de Receta por email</h3>
+                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                <a href="" data-dismiss="modal" class="close" aria-label="Close"></a>
+                    <span aria-hidden="true">&times;</span>
+                <!-- </button> -->
+            </div>
+                
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="modal-body">
+                        <form id="AgregarProducto1">
+                            <div class="row">                            
+                                <div class="col-12"><h4 class="form-section"><i class="fas fa-pen-square"></i> Email registrado del Paciente</h4></div>
+
+                                <div class="col-12">                    
+                                    <label>Email</label>
+                                    <div class="form-group position-relative has-icon-left">
+                                        <input type="text" readonly id="pdf_receta" name="pdf_receta" class="form-control">
+                                        <div class="form-control-position">
+                                            <i class="fas fa-at"></i>
+                                        </div>
+                                    </div>                   
+                                </div>
+
+                                <div class="col-12" " id="procesando_c" style="display:none">
+                                    <div class="row mb-2">
+                                    <div class="col-12">
+                                        </div>
+                                        <div class="col-md-12">
+                                        <div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div> 
+                                           <h3 style="text-align: center;">Enviando... Espere un momento.</h3>
+                                    </div>
+                                    <div class="col-4">
+                                        </div>
+                                </div>
+                                    </div>
+                                <div class="col-12" id="buttons_envio" style="display:none">
+                                    <div class="modal-footer">
+                                        <a href="" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                            <i class="fas fa-ban"></i> Salir
+                                        </a>
+                                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                                        <input type="hidden" id="hidden_id_c" name="hidden_id_c">
+                                        <a class="btn btn-danger btn-min-width btn-glow" style="color: white" name="sendPdfCg" id="sendPdfCg" role="button">
+                                            <i class="fas fa-share"></i> Enviar
+                                        </a>
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>                
+            </div>   
+        </div>
+        </div>
+    </div>
+
     <div id="citaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -912,6 +974,173 @@
                             </a>
                         </div>
                     </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="detallesConsultaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fas fa-list"></i> Detalles de la Consulta
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form id="altaCompra" class="form">   -->
+                <form id="editConsulta_P" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_editConsulta" role="alert" style="display:none"></div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fa fa-user"></i> Datos Paciente</h4>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Paciente </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_paciente" name="ver_paciente" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Tipo Sangre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_tipo_sangreC" name="ver_tipo_sangreC" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-heart'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Edad</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_edad_consulta" name="ver_edad_consulta" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-user-circle'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Tipo de Consulta</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_tip_consultaC" name="ver_tip_consultaC" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-hospital'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Peso </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Peso Paciente KG" id="ver_peso" name="ver_peso" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Temperatura Paciente </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Temperatura Paciente" id="ver_temperatura" name="ver_temperatura" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-temperature-high"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>T/A</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_ta_c" name="ver_ta_c" placeholder="T/A" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-chevron-down'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Glucosa</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ver_glucosa" name="ver_glucosa" placeholder="Glucosa" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-calculator'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Motivo Consulta</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="ver_motivo_consulta" id="ver_motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta" readonly></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Exploraci&oacute;n F&iacute;sica</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="ver_exploracion" id="ver_exploracion" cols="150" rows="2" class="form-control" placeholder="Exploración Física" readonly></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-check'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Diagn&oacute;stico </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="ver_diagnostico" id="ver_diagnostico" cols="150" rows="3" class="form-control" placeholder="Diagnóstico Paciente" readonly></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-diagnoses'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Recomendaciones </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="ver_recomendaciones" id="ver_recomendaciones" cols="150" rows="3" class="form-control" placeholder="Recomendaciones" readonly></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Cerrar
+                        </a>
+                    </div>
+                </div>
                 </form>
             </div>
         </div>
@@ -1871,6 +2100,92 @@
 
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');
+        });
+
+        $(document).on('click', '.ver_pdf', function() {
+            let id_consulta = $(this).attr('id');
+            $('#pdfModal').appendTo("body")
+            $('#pdfModal').css('overflow-y', 'auto');
+            $('#form_resultPDF').html('<iframe src="../../ConsultaGneralEdit/Vistaprevia/' + id_consulta + '" style="width:100%; height:500px;" frameborder="0"></iframe>');
+            $('#pdfModal').modal('show');
+        });
+
+        $(document).on('click', '.enviar_email', function(){
+            let id_con = $(this).attr('id');
+            let email = $(this).attr('name');
+            $('#hidden_id_c').val(id_con);
+            $('#pdf_receta').val(email);
+            if(email == ""){
+                alert('El paciente no cuenta con un correo registrado');
+            }else{
+            $('#emailPdfCG').appendTo("body")
+            $('#emailPdfCG').modal('show');
+            $('#buttons_envio').show();
+            }
+        });
+         
+         $('#sendPdfCg').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_con = $('#hidden_id_c').val();
+            let email = $('#pdf_receta').val();
+            let data = {
+                id_con: id_con,
+                email: email,
+                _token: token
+            };
+
+            let respuesta = confirm("¿Confirmar el Envío?");
+            if (respuesta) {
+                $('#buttons_envio').hide();
+                $('#procesando_c').show();
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("en_pdfcg") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                        $('#emailPdfCG').modal('hide');
+                        $('#procesando_c').hide();
+                        ok(jqXHR);
+                        setTimeout(function() {
+                            $('#ok').hide();
+                        }, 3000);                    
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#emailPdfCG').modal('hide');
+                        errorRazon(responseText)
+                    }
+                });
+            }
+          
+        });
+
+        $(document).on('click', '.detalles_consulta', function(){
+            let id_consulta = $(this).attr('id');
+            $('#detallesConsultaModal').appendTo("body")
+            $('#detallesConsultaModal').modal('show');
+
+            $.ajax({
+                url: "/ConsultaGeneral/CGData/" + id_consulta,
+                dataType: "json",
+                success: function(data) {
+                    $('#ver_paciente').val(data.nombre_p);
+                    $('#ver_tipo_sangreC').val(data.tipo);
+                    $('#ver_edad_consulta').val(data.edad);
+                    $('#ver_tip_consultaC').val(data.tipo_consulta);
+                    $('#ver_peso').val(data.peso);
+                    $('#ver_temperatura').val(data.temperatura);
+                    $('#ver_ta_c').val(data.ta);
+                    $('#ver_glucosa').val(data.glucosa);
+                    $('#ver_motivo_consulta').val(data.motivo_consulta);
+                    $('#ver_exploracion').val(data.examen_fisico);
+                    $('#ver_diagnostico').val(data.diagnostico);
+                    $('#ver_recomendaciones').val(data.observaciones);
+                }
+            });
+
+            
+            
         });
 
     });

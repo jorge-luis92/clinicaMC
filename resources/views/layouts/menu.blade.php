@@ -73,7 +73,8 @@
             @if(Auth::user()->tipo_usuario == 1)
             <a class="dropdown-item" href="{{ url('Catalogo/Usuarios') }}"> Usuarios</a>
             @endif
-            <a class="dropdown-item" href="{{ url('Catalogo/Pacientes') }}"> Pacientes</a>
+            @if(Auth::user()->tipo_usuario == 2)
+            <a class="dropdown-item" href="{{ url('Catalogo/Pacientes') }}"> Pacientes</a>@endif
           </div>
         </div>
       </li>
@@ -87,25 +88,27 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
             <a class="dropdown-item" href="{{ url('Citas') }}"> Citas</a>
+            @if(Auth::user()->tipo_usuario == 2)
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
-            <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>
+            <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>@endif
           </div>
         </div>
       </li>
 
+      @if(Auth::user()->tipo_usuario == 2)
       <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#datos_estudiante" aria-expanded="true" aria-controls="collapseTwo">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#expedientes" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-folder-open"></i><span style="font-size: 0.8em;">&nbsp;Expedientes</span>
 
         </a>
-        <div id="datos_estudiante" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="expedientes" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
             <a class="dropdown-item" href="{{ url('Expediente/ConsultaGeneral') }}"> Consulta General</a>
             <a class="collapse-item" href="#">Embarazadas</a>
           </div>
         </div>
-      </li>
+      </li>@endif
       @if(Auth::user()->tipo_usuario == 1)
       <!-- Nav Item - Utilities Collapse Menu -->
       <li class="nav-item">

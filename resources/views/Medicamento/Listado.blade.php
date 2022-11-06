@@ -118,7 +118,7 @@
                                         <div class="col-4">
                                             <label>Clave </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" id="clave_m" name="clave_m" class="form-control">
+                                                <input type="text" id="clave_m" name="clave_m" class="form-control" onKeyUp="this.value = this.value.toUpperCase();" placeholder="ej. Código barra caja">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-barcode"></i>
                                                 </div>
@@ -126,9 +126,19 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Nombre </label> <span style="color:red"> *</span>
+                                            <label>Sustancia Activa</label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" id="nombre_m" name="nombre_m" class="form-control">
+                                                <input type="text" id="sustancia_m" name="sustancia_m" class="form-control" placeholder="Sustancia Activa">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Nombre Comercial </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_m" name="nombre_m" class="form-control" placeholder="Nombre Comercial">
                                                 <div class="form-control-position">
                                                     <i class='fas fa-edit'></i>
                                                 </div>
@@ -148,7 +158,7 @@
                                         <div class="col-4">
                                             <label>Lote</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" id="lote" name="lote" class="form-control">
+                                                <input type="text" id="lote" name="lote" class="form-control" onKeyUp="this.value = this.value.toUpperCase();" placeholder="Lote">
                                                 <div class="form-control-position">
                                                     <i class='fas fa-database'></i>
                                                 </div>
@@ -176,7 +186,7 @@
                                         <div class="col-4">
                                             <label>Costo Unitario</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" id="costo_unitario" name="costo_unitario" class="form-control">
+                                                <input type="number" id="costo_unitario" name="costo_unitario" class="form-control" placeholder="Costo Unitario">
                                                 <div class="form-control-position">
                                                     <i class='fas fa-money-bill'></i>
                                                 </div>
@@ -185,7 +195,7 @@
                                         <div class="col-4">
                                             <label>Precio Venta</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" id="precio_venta" name="precio_venta" class="form-control">
+                                                <input type="number" id="precio_venta" name="precio_venta" class="form-control" placeholder="Precio Venta">
                                                 <div class="form-control-position">
                                                     <i class='fas fa-money-bill'></i>
                                                 </div>
@@ -197,7 +207,7 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <label>Observaciones </label><span style="color:red"> *</span>
+                                            <label>Observaciones </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="observaciones" id="observaciones" cols="150" rows="3" class="form-control" placeholder="Observaciones"></textarea>
                                                 <div class="form-control-position">
@@ -267,6 +277,7 @@
             let costo_unitario = $('#costo_unitario').val();
             let precio_venta = $('#precio_venta').val();
             let observaciones = $('#observaciones').val();
+            let sustancia = $('#sustancia_m').val();
 
             let data = {
                 clave: clave,
@@ -277,6 +288,7 @@
                 costo_unitario: costo_unitario,
                 precio_venta: precio_venta,
                 observaciones: observaciones,
+                sustancia: sustancia,
                 _token: token
             };
             $.ajax({

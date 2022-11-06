@@ -55,6 +55,9 @@ class MedicamentoController extends Controller
                     }
                 })
                 ->rawColumns(['accion'])
+                ->editColumn('fecha_cad', function (Medicamento $dat) {
+                    return date('d-m-Y', strtotime($dat->fecha_cad));
+                })
                 ->make(true);
         }
 
@@ -90,10 +93,11 @@ class MedicamentoController extends Controller
         $costo_unitario = $data->costo_unitario;
         $precio_venta = $data->precio_venta;
         $observaciones = $data->observaciones;
-
+        $sustancia = $data->sustancia;
 
         $registrarM = Medicamento::create([
             'clave' => $clave,
+            'sustancia' => $sustancia,
             'nombre' => $nombre,
             'fecha_cad' => $fecha_cad,
             'lote' => $lote,
@@ -112,6 +116,7 @@ class MedicamentoController extends Controller
         $registrarSM = StockMedicamento::create([
             'id_medicamento' => $lm->id,
             'clave_med' => $clave,
+            'cantidad' => '0',
             'activo' => '1',
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s'),

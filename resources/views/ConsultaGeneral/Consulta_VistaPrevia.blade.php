@@ -1,4 +1,4 @@
-<!DOCTYPE html >
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,9 +16,8 @@
 
 <style>
     <?php
-$fondo = public_path() . '/image/prueba.png';
-?>
-    @page {
+    $fondo = public_path() . '/image/prueba.png';
+    ?>@page {
         margin: 0cm 0cm;
     }
 
@@ -27,39 +26,15 @@ $fondo = public_path() . '/image/prueba.png';
         margin-left: 2cm;
         margin-right: 2cm;
         margin-bottom: 2cm;
-        font-family: 'Montserrat', serif;
-        background-color: #fff;
+       
+        background-color: rgba(0, 0, 0, 0.0) !important;
         background-repeat: no-repeat;
         background-size: 100%;
-        background-image: url(<?php echo $fondo; ?>);background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;
-        blue: #007bff;
-        indigo: #6610f2;
-        purple: #6f42c1;
-        pink: #e83e8c;
-        red: #dc3545;
-        orange: #fd7e14;
-        yellow: #ffc107;
-        green: #28a745;
-        teal: #20c997;
-        cyan: #17a2b8;
-        white: #fff;
-        gray: #6c757d;
-        gray-dark: #343a40;
-        primary: #007bff;
-        secondary: #6c757d;
-        success: #28a745;
-        info: #17a2b8;
-        warning: #ffc107;
-        danger: #dc3545;
-        light: #f8f9fa;
-        dark: #343a40;
-        breakpoint-xs: 0;
-        breakpoint-sm: 576px;
-        breakpoint-md: 768px;
-        breakpoint-lg: 992px;
-        breakpoint-xl: 1200px;
-        font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-        font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+        background-image: url(<?php echo $fondo; ?>);
+        background-position: center;
+        background-repeat: no-repeat;
+        position: relative;
+        background-color: #FFFFFF;
     }
 
     *,
@@ -69,7 +44,7 @@ $fondo = public_path() . '/image/prueba.png';
     }
 
     html {
-        font-family: sans-serif;
+       
         line-height: 1.15;
         -webkit-text-size-adjust: 100%;
         -webkit-tap-highlight-color: transparent
@@ -246,7 +221,7 @@ $fondo = public_path() . '/image/prueba.png';
 
     body {
         margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        font-family:  serif; font-size: 24px; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;
         font-size: 1rem;
         font-weight: 400;
         line-height: 1.5;
@@ -11547,19 +11522,22 @@ $fondo = public_path() . '/image/prueba.png';
 <style>
     header {
         position: fixed;
-        top: 1.0cm;
-        left: .8cm;
-        right: .8cm;
+        top: 0.2cm;
+        left: .3cm;
+        right: .3cm;
         height: 0cm;
+        
 
     }
 
     #estilo_mio {
         position: fixed;
-        top: 5.8cm;
-        left: 0.8cm;
-        right: 0.8cm;
+        top: 5.0cm;
+        left: 0.3cm;
+        right: 0.3cm;
         height: 0cm;
+        
+        
 
     }
 
@@ -11567,8 +11545,8 @@ $fondo = public_path() . '/image/prueba.png';
 
         position: fixed;
         top: 13.4cm;
-        left: 0.8cm;
-        right: 0.8cm;
+        left: 0.3cm;
+        right: 0.3cm;
         height: 0cm;
         text-align: left;
 
@@ -11597,7 +11575,7 @@ $fondo = public_path() . '/image/prueba.png';
 <?php
 $header1 = public_path() . '/image/logopdf1.png';
 $header2 = public_path() . '/image/logopdf2.png';
-$header3 = public_path() . '/image/whats.png';
+$header3 = public_path() . '/image/wa.png';
 setlocale(LC_ALL, 'es_MX');
 setlocale(LC_TIME, "spanish");
 $fc = $data->fecha;
@@ -11629,7 +11607,7 @@ if ($edad > "1") {
 ?>
 
 
-<body background-image="url('/image/fondo.jpg');">
+<body >
     <header>
         <div class="table-responsive">
             <table class="table table-bordered" style="font-size: 9pt; padding: 0;" width="100%">
@@ -11639,20 +11617,24 @@ if ($edad > "1") {
                         <th>
                             <p style="text-align: center; font-size: 1.4rem;"> {{ $genero }} {{ $nmedico }}</p>
                             <p style="font-size: .8rem; text-align: center;"> {{ $es }} </p>
-                            <strong>
-                                <p style="font-size: .8rem; text-align: center;"> {{ $instituto }} </p>
-                            </strong>
+                            
+                                <p style="font-size: .8rem; text-align: center;"> <strong>{{ $instituto }} </strong> </p>
+                            
                             </br>
-                            <p style="font-size: 0.7rem; color:black; text-align: left;">Farmacia "San Agustín" 951 51 150 71 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <p style="font-size: 0.7rem; color:black; text-align: left;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Farmacia "San Agustín" 951 51 150 71 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                Laboratorio "MC" 951 51 432 30</p>
-                            <p style="font-size: 0.7rem; color:black; text-align: justify;">Benito Juárez N° 306 - BIS, San Agustín de las Juntas
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bustamante N° 312 - Altos, Col. Centro</p>
-                            <p style="font-size: 0.7rem; color:black; text-align: justify;">Oaxaca de Juárez, Oaxaca.
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Laboratorio "MC" 951 51 432 30</p>
+                            <p style="font-size: 0.7rem; color:black; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benito Juárez N° 306 - BIS, San Agustín de las Juntas
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bustamante N° 312 - Altos, Col. Centro</p>
+                            <p style="font-size: 0.7rem; color:black; text-align: justify;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.</p>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;Oaxaca de Juárez, Oaxaca.</p>
                         </th>
                         <th><br><img src="{{ $header2 }}" width="70px" height="80px" /> </th>
                     </tr>
@@ -11668,30 +11650,39 @@ if ($edad > "1") {
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ____________________________</p>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ____________________________</p>
             <p class="text-break" style="text-align: justify; font-size: 11pt">
-                <img src="{{ $header3 }}" width="30px" height="30px" /> <strong> {{ $tel }} </strong>
+                <img src="{{ $header3 }}" width="35px" height="30px" /> <strong> {{ $tel }} </strong>
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $genero }} {{ $nmedico }}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;{{ $genero }} {{ $nmedico }}
             </p>
-            <p style="text-align: justify; font-size: 11pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; C&eacute;dula Profesional {{ $ced }} </p>
+            <p style="text-align: justify; font-size: 11pt">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&eacute;dula Profesional {{ $ced }} </p>
         </div>
     </footer>
 
     <div class="table-responsive" id="estilo_mio">
         <table class="table table-bordered" style="font-size: 9pt; padding: 0;" width="100%">
             <table style="width:100%" align="center">
-                <tr>
-                    <td width="25%"><strong>Fecha Consulta: </strong> {{ $cc}}</td>
-                    <td width="75%" style="text-align: justify;"><strong>Paciente:</strong> {{ $nombre }}&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tipo Consulta:</strong> {{ $tipo_con}}
+                <tr style="background: rgba(100, 100, 100, 0.5);">
+                    <td width="24%"><strong>Fecha Consulta: </strong> {{ $cc}}</td>
+                    <td width="76%" style="text-align: justify;"><strong>Paciente:</strong> {{ $nombre }}&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tipo Consulta:</strong> {{ $tipo_con}}
                         <br><strong>Motivo Consulta:</strong> {{ $motivo }}
                     </td>
                 </tr>
@@ -11726,7 +11717,7 @@ if ($edad > "1") {
             <table style="width:100%" align="center">
                 <thead>
                     <tr>
-                        <td width="10%"><strong>Cantidad</strong></td>                        
+                        <td width="10%"><strong>Cantidad</strong></td>
                         <td width="35%"><strong>Medicamento</strong></td>
                         <td width="55%"><strong>Tratamiento</strong></td>
 
@@ -11738,7 +11729,7 @@ if ($edad > "1") {
                         <td>{{ $data->cantidad }}</td>
                         <td>{{ $data->descripcion }}</td>
                         <td>{{ $data->tratamiento }}</td>
-                        
+
                     </tr>
                     @endforeach
                 </tbody>
