@@ -1088,7 +1088,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Motivo Consulta</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="ver_motivo_consulta" id="ver_motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta" readonly></textarea>
@@ -1098,7 +1098,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Exploraci&oacute;n F&iacute;sica</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="ver_exploracion" id="ver_exploracion" cols="150" rows="2" class="form-control" placeholder="Exploración Física" readonly></textarea>
@@ -1108,7 +1108,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Diagn&oacute;stico </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="ver_diagnostico" id="ver_diagnostico" cols="150" rows="3" class="form-control" placeholder="Diagnóstico Paciente" readonly></textarea>
@@ -1118,10 +1118,10 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Recomendaciones </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <textarea name="ver_recomendaciones" id="ver_recomendaciones" cols="150" rows="3" class="form-control" placeholder="Recomendaciones" readonly></textarea>
+                                                <textarea name="ver_recomendaciones" id="ver_recomendaciones" cols="150" rows="5" class="form-control" placeholder="Recomendaciones" readonly></textarea>
                                                 <div class="form-control-position">
                                                     <i class='fas fa-list'></i>
                                                 </div>

@@ -1,6 +1,6 @@
 @extends('layouts.menu')
 @section('title')
-: Embarazadas
+: Expediente CP
 @endsection
 @section('content')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
@@ -52,6 +52,7 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
+
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -60,24 +61,6 @@
                     <div class="card-body card-dashboard">
                         <div class="table-responsive">
                             <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th align="left" style="text-align:left; padding: 3px">
-                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
-                                                <i class="fas fa-plus-circle"></i> Agregar Paciente
-                                            </a>
-                                        </th>
-                                        <th align="center" style="text-align:center; padding: 3px">
-
-                                        </th>
-                                        <th align="right" style="text-align:right; padding: 3px">
-                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="nueva_consulta" style="color: white" role="button">
-                                                <i class="fas fa-notes-medical"></i> Nuevo Expediente
-                                            </a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                            </table>
 
                             <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
                                 <thead>
@@ -96,6 +79,7 @@
             </div>
         </div>
     </div>
+
     <div id="altaPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-lg modal-dialog" role="document">
             <div class="modal-content">
@@ -849,116 +833,6 @@
         </div>
     </div>
 
-    <div id="finalizar_CPModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-lock"></i> Cerrar Expediente
-                    </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- <form id="altaCompra" class="form">   -->
-                <form id="cerrar_cp" >
-                    <div class="form-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_adddatabb" role="alert" style="display:none"></div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label>Agregar Datos Reci&eacute;n Nacido</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-list"></i>
-                                                </div>                                        
-                                                <select class="select2 form-control" id="ag_databb" name="ag_databb" style="width: 100%;">
-                                                    <option value="" selected>Seleccione</option>
-                                                    <option value="1">Si</option>
-                                                    <option value="2">NO</option>
-                                                </select>
-                                            </div>                                                
-                                        </div>
-
-                                        <div class="col-12" id="add_bebe" style="display:none">
-                                        <div class="row">
-
-                                        <div class="col-6">
-                                            <label>Fecha de Nacimiento </label> <span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="date" id="fecha_nacimientobb" name="fecha_nacimientobb" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-birthday-cake"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Naci&oacute;</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-list"></i>
-                                                </div>                                        
-                                                <select class="select2 form-control" id="nacio" name="nacio" style="width: 100%;">
-                                                    <option value="" selected>Seleccione</option>
-                                                    <option value="Vivo">Vivo</option>
-                                                    <option value="Muerto">Muerto</option>
-                                                </select>
-                                            </div>                                                
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Peso </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Peso Paciente KG" id="pesobb" name="pesobb" class="form-control" >
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Talla </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Talla Paciente CM" id="tallabb" name="tallabb" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-text-height'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </form>
-
-                <div class="col-12">
-                    <div class="modal-footer">
-                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Salir
-                        </a>
-                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                        <input type="hidden" id="hidden_id_pacbb" name="hidden_id_pacbb">
-                        <input type="hidden" id="hidden_id_cpbb" name="hidden_id_cpbb">
-                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="end_cp" id="end_cp" role="button">
-                            <i class="fas fa-share"></i> Finalizar
-                        </a>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-</div>
 </div>
 </div>
 </div>
@@ -1391,7 +1265,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Consulta/Embarazadas') }}",
+                "url": "{{ url('Expediente/ControlPrenatal') }}",
             },
             responsive: true,
             columns: [{
@@ -2083,142 +1957,6 @@
                 });
             }
         });
-
-        $(document).on('click', '.finalizar_cp', function() {
-            let id_consulta = $(this).attr('id');
-            let id_paciente = $(this).attr('name');
-            
-            $('#hidden_id_cpbb').val(id_consulta);
-            $('#hidden_id_pacbb').val(id_paciente);
-            $('#finalizar_CPModal').appendTo("body")
-            $('#finalizar_CPModal').modal('show');
-            $("#cerrar_cp")[0].reset();
-            $("#nacio").val("").select2();
-            $('#add_bebe').hide();    
-        });
-
-        $('#ag_databb').change(function(){   
-            let add = $('#ag_databb').val();
-            //$("#cerrar_cp")[0].reset();
-            $("#nacio").val("").select2();
-            $("#fecha_nacimientobb").val("");  
-            $("#pesobb").val("");  
-            $("#tallabb").val("");             
-
-            if(add == 1)
-            {
-                $('#add_bebe').show();
-            }
-            else if(add == 2)
-            {
-                $('#add_bebe').hide();  
-            }
-        });
-
-        $('#end_cp').click(function(){
-            let id_consulta = $('#hidden_id_cpbb').val();
-            let id_paciente = $('#hidden_id_pacbb').val();
-            let token = '{{csrf_token()}}';
-            let fecha_nacimiento = $('#fecha_nacimientobb').val();
-            let nacio = $('#nacio').val();
-            let peso = $('#pesobb').val();
-            let talla = $('#tallabb').val();
-            let question = $('#ag_databb').val();
-
-            let data = {
-                id_consulta: id_consulta,
-                id_paciente: id_paciente,
-                fecha_nacimiento: fecha_nacimiento,
-                nacio: nacio,
-                peso: peso,
-                talla: talla,
-                question: question,
-                _token: token
-            };           
-
-            if(question == ""){
-                alert("Seleccione una opción");
-            }
-            else{
-                let respuesta = confirm("¡El expediente se Finalizará!");
-            if (respuesta) {
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("end_expCP") }}',
-                    data: data
-                }).done(function(jqXHR) {
-                    $("#cerrar_cp")[0].reset();
-                    $("#nacio").val("").select2();
-                    $('#finalizar_CPModal').modal('hide');                    
-                    $('#consultaE_tables').DataTable().ajax.reload();
-                    ok(jqXHR);
-                    setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 422) {
-                        if (!$('#response_adddatabb').empty()) {
-                            $('#response_adddatabb').empty();
-                        }
-
-                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    $('#response_adddatabb').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + value + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                                });
-                            }
-                            setTimeout(function() {
-                                $('#response_adddatabb').hide();
-                            }, 5000);
-                        });
-                    }
-                    if (jqXHR.status == 442) {
-                        if (!$('#response_adddatabb').empty()) {
-                            $('#response_adddatabb').empty();
-                        }
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#response_adddatabb').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + responseText + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                        setTimeout(function() {
-                            $('#response_adddatabb').hide();
-                        }, 5000);
-
-                    }
-                    if (jqXHR.status == 500) {
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $("#cerrar_cp")[0].reset();
-                        $("#nacio").val("").select2();
-                        $('#finalizar_CPModal').modal('hide');                        
-                        $('#consultaE_tables').DataTable().ajax.reload();
-                        errorRazon(responseText)
-
-                    }
-                });
-            }         
-            }
-        });
-
 
         $('#cerrarImprimir').click(function() {
             $('#pdfModal').modal('hide');

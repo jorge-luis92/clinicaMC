@@ -72,6 +72,8 @@ Route::get('/Expediente/CEmver/{id}', [ControlPrenatalController::class, 'expedi
 Route::post('ControlP/RegistroCon', [ControlPrenatalController::class, 'regConEmb'])->name('regConEmm');
 Route::get('/ControlP/DataExiste/{id}', [ControlPrenatalController::class, 'data_existe']);
 Route::get('/ControlP/DataAnte/{id}', [ControlPrenatalController::class, 'data_ante']);
+Route::get('/Expediente/ControlPrenatal', [ControlPrenatalController::class, 'index_expCP']);
+Route::post('ControlP/End', [ControlPrenatalController::class, 'endCP'])->name('end_expCP');
 });
 
 //Citas

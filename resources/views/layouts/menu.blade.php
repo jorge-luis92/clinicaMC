@@ -106,7 +106,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
             <a class="dropdown-item" href="{{ url('Expediente/ConsultaGeneral') }}"> Consulta General</a>
-            <a class="collapse-item" href="#">Embarazadas</a>
+            <a class="collapse-item" href="{{ url('Expediente/ControlPrenatal') }}">Embarazadas</a>
           </div>
         </div>
       </li>@endif

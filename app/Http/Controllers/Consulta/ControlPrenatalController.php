@@ -37,6 +37,7 @@ class ControlPrenatalController extends Controller
                 'control_prenatal.id',
                 'control_prenatal.fecha',
                 'control_prenatal.estatus',
+                'paciente.id AS id_paciente',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
                 DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "Gestando"  
                 WHEN control_prenatal.estatus= "2" THEN "Embarazo Finalizado"
@@ -51,10 +52,6 @@ class ControlPrenatalController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    if ($data->estatus == 2) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Historial</button>';
-                        return $button;
-                    }
                     if ($data->estatus == 1) {
                         $button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
@@ -62,15 +59,11 @@ class ControlPrenatalController extends Controller
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Expediente</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
                          </div>';
-                        return $button;
-                    }
-                    if ($data->estatus == 0) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
                         return $button;
                     }
                 })
@@ -368,4 +361,151 @@ class ControlPrenatalController extends Controller
 
         return $data;
     }
+
+    public function index_expCP(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        if ($request->ajax()) {
+            $data = ControlPrenatal::select(
+                'control_prenatal.id',
+                'control_prenatal.fecha',
+                'control_prenatal.estatus',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+                DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "Gestando"  
+                WHEN control_prenatal.estatus= "2" THEN "Embarazo Finalizado"
+                WHEN control_prenatal.estatus= "0" THEN "NO SE LLEVO ACABO" END) AS estatus_c'),
+            )
+                ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
+                ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->where('control_prenatal.id_medico', $medico->id)
+                ->where('control_prenatal.estatus', '=', '2')
+                ->orderBy('control_prenatal.fecha', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    if ($data->estatus == 2) {
+                        
+                        $button = '&nbsp;
+                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        data-toggle="dropdown">
+                        <i class="fas fa-list"></i> Opciones
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>                        
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-success btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-print"></i> Imprimir</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
+                        </ul>
+                         </div>';
+                        return $button;
+                    }
+                    if ($data->estatus == 0) {
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
+                        return $button;
+                    }
+                })
+                ->rawColumns(['accion'])
+                ->editColumn('fecha', function (ControlPrenatal $dat) {
+                    return date('d/m/Y', strtotime($dat->fecha));
+                })
+                ->make(true);
+        }
+
+        $tipoConsulta = TipoConsulta::all();
+        $tipoSangre = TipoSangre::all();
+        $medicamentos = Medicamento::select(
+            'medicamento.id',
+            'medicamento.activo',
+            'stock_medicamento.cantidad',
+            'medicamento.precio_venta',
+            'medicamento.fecha_cad',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            //DB::raw("CONCAT('Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
+        )
+            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+            ->where('medicamento.activo', '=', '1')
+            ->orderBy('medicamento.nombre', 'asc')
+            ->get();
+        return view('Expedientes.ListadoExpedienteEmbarazadas')
+            ->with('tipoC', $tipoConsulta)
+            ->with('tipoS', $tipoSangre)
+            ->with('med', $medicamentos);
+    }
+
+    public function endCP(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+        $data = $request;
+        $id_exp = $data->id_exp;
+
+        return $data;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $paciente = ControlPrenatal::select('id_paciente')
+            ->where('id', $id_exp)
+            ->first();       
+
+        $data->validate([
+            'peso' => 'required|numeric|min:0|not_in:-1',
+            'semana_gesta' => 'required|numeric|min:0|not_in:-1',
+            'exploracion_fisica' =>  ['required', 'string', 'max:255'],
+            'presentacion' =>  ['required', 'string', 'max:255'],
+            'tension_arterial' =>  ['required', 'string', 'max:255'],
+            'frecuencia_cardiaca' =>  ['required', 'string', 'max:255'],
+            'fondo_uterino' =>  ['required', 'string', 'max:255'],
+            'otro' =>  ['required', 'string', 'max:255'],
+        ]);
+
+        $id_medico = $medico->id;
+        $id_paciente = $paciente->id_paciente;
+        $peso = $data->peso;
+        $semana_gesta = $data->semana_gesta;
+        $exploracion_fisica = $data->exploracion_fisica;
+        $presentacion = $data->presentacion;
+        $tension_arterial = $data->tension_arterial;
+        $frecuencia_cardiaca = $data->frecuencia_cardiaca;
+        $fondo_uterino = $data->fondo_uterino;
+        $otro = $data->otro;
+        $observaciones = $data->observaciones;
+
+        //return $data;
+
+        $seg =Seguimiento::create([
+            'id_expediente' => $id_exp,
+            'id_paciente' => $id_paciente,
+            'id_medico' => $id_medico,            
+            'exploracion_fisica' => $exploracion_fisica,
+            'semana_gesta' => $semana_gesta,
+            'peso' => $peso,
+            'ta' => $tension_arterial,            
+            'fondo_uterino' => $fondo_uterino,
+            'presentacion' => $presentacion,
+            'frecuencia_cardiaca' => $frecuencia_cardiaca,            
+            'otro' => $otro,
+            'estatus' => '1',
+            'observaciones' => $observaciones,
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+
+        $le = ControlPrenatal::latest('id')->first();
+        $id_exp = $le->id;
+
+        if ($seg != '') {
+            return response()->json('Seguimiento creado correctamente', 200);
+        }
+    }
+
 }

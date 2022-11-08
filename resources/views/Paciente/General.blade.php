@@ -1,6 +1,6 @@
 @extends('layouts.menu')
 @section('title')
-: Consulta General
+: Pacientes
 @endsection
 @section('content')
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
