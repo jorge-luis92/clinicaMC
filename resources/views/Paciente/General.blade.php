@@ -52,6 +52,8 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
+
+    <br>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">

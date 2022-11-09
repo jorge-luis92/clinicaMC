@@ -15,7 +15,7 @@
     html body .content .content-wrapper {
         padding: 0.5rem 2rem 0;
     }
-</style>
+</style>    
 <div class="container-fluid">
     @if(session('Ok2'))
     <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
@@ -52,7 +52,7 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
-
+    <br>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -1145,6 +1145,8 @@
             </div>
         </div>
     </div>
+</div>
+</div>
 </div>
 </div>
 </div>

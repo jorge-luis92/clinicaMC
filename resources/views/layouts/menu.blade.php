@@ -150,7 +150,7 @@
     </ul> <!-- End of Sidebar -->
     <!-- Content Wrapper -->
 
-    <div id="content-wrapper" class="d-flex flex-column" style="background-image: url('/image/fondo.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;">
+    <div id="content-wrapper" class="d-flex flex-column" style="background-image: url('/image/menu.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;">
       <div id="content">
         <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
           <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -201,7 +201,6 @@
         <!-- End of Topbar -->
         @yield('content')
       </div>
-
       <!-- Footer -->
       <footer class="container-fluid text-center" style="background-color: #E8C6E9; ">
         <div>

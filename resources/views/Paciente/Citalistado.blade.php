@@ -52,7 +52,7 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
-
+<br>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -84,12 +84,12 @@
                                     </tr>
                                 </thead>
                             </table>
+                            <br>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 
     <div id="altaPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -407,6 +407,7 @@
             </div>
         </div>
     </div>
+    <br>
 </div>
 </div>
 </div>
