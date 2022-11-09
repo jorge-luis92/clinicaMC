@@ -74,7 +74,7 @@ Route::get('/ControlP/DataExiste/{id}', [ControlPrenatalController::class, 'data
 Route::get('/ControlP/DataAnte/{id}', [ControlPrenatalController::class, 'data_ante']);
 Route::get('/Expediente/ControlPrenatal', [ControlPrenatalController::class, 'index_expCP']);
 Route::post('ControlP/End', [ControlPrenatalController::class, 'endCP'])->name('end_expCP');
-});
+
 
 //Citas
 Route::get('/Citas', [CitaController::class, 'index'])->name('citas');
@@ -83,5 +83,7 @@ Route::post('ConsultaGeneral/CitaE', [CitaController::class, 'reg_CitaE'])->name
 Route::get('/Cita/PacienteSel', [CitaController::class, 'sepaciente_cita']);
 
 Route::get('/Enviar', [Controller::class, 'enviarMensaje']);
+});
 
+Route::get('/runCitas', [Controller::class, 'run_script']);
 Auth::routes(["register" => false]);

@@ -28,6 +28,8 @@ class CitaController extends Controller
             ->where('id_persona', $id_persona)
             ->first();
 
+            $fecha = date('Y-m-d');
+
         if ($request->ajax()) {
             $data = Cita::select(
                 'cita.id',
@@ -49,6 +51,7 @@ class CitaController extends Controller
                 ->join('paciente', 'paciente.id', 'cita.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
                 ->where('cita.id_medico', $medico->id)
+                ->where('cita.fecha_proxima', '>=' , $fecha)
                 ->orderBy('cita.fecha', 'desc')
                 ->get();
 
