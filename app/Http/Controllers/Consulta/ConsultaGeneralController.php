@@ -394,6 +394,7 @@ class ConsultaGeneralController extends Controller
         view()->share('medico', $datos_medico);
         view()->share('medicamentos', $data_medicamentos);
         $pdf = PDF::loadView('ConsultaGeneral.Consulta_VistaPrevia', array('medicamentos' => $data_medicamentos));
+        //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
         $pdf->setPaper('letter', 'portrait');
 
         return $pdf->stream();
