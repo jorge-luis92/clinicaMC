@@ -25,26 +25,26 @@
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header">{{ __('Dashboard') }}</div>
-                            <div class="card-body" align="center"  style="background-image: url('/image/home.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;">
-                                @if (session('status'))
-                                <div class="alert alert-success" role="alert">
-                                    {{ session('status') }}
+                                <div class="card-header">{{ __('Dashboard') }}</div>
+                                <div class="card-body" align="center" style="background-image: url('/image/home.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;">
+                                    @if (session('status'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{ session('status') }}
+                                    </div>
+                                    @endif
+                                    <h3> {{ __('Bienvenido (a) ') }} <strong>{{ $data->nombre }}</strong> </h3>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
+                                    </br>
                                 </div>
-                                @endif
-                                <h3> {{ __('Bienvenido (a) ') }} <strong>{{ $data->nombre }}</strong> </h3>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                                </br>
-                            </div>
             </section>
         </div>
     </div>
