@@ -11611,7 +11611,7 @@
     #estilo_mio2 {
 
         position: fixed;
-        top: 15.6cm;
+        top: 14.8cm;
         width: auto;
         height: 0cm;
         left: 0.3cm;
@@ -11624,7 +11624,7 @@
     #tres {
 
         position: fixed;
-        top: 14.6cm;
+        top: 14cm;
         left: 0.3cm;
         right: 0.3cm;
         height: 0cm;
@@ -11642,26 +11642,26 @@
         height: 3.3cm;
     }
 
-        p {
-            margin: 0 !important;
-        }
+    p {
+        margin: 0 !important;
+    }
 
-        table {
-            margin: 0 !important;
-        }
+    table {
+        margin: 0 !important;
+    }
 
-        @font-face {
-            font-family: 'Montserrat';
-            font-style: normal;
-            /* font-weight: 100; */
-            /* src: local('Montserrat-Light'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype'); */
-            /* src: local('Montserrat'), url(storage_path('fonts/Montserrat-Light.ttf')) format('truetype'); */
-        }
+    @font-face {
+        font-family: 'Montserrat';
+        font-style: normal;
+        /* font-weight: 100; */
+        /* src: local('Montserrat-Light'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYC3USBnSvpkopQaUR-2r7iU.ttf) format('truetype'); */
+        /* src: local('Montserrat'), url(storage_path('fonts/Montserrat-Light.ttf')) format('truetype'); */
+    }
 
-        body {
-            font-family: 'Montserrat', serif;
-            background-color: #fff;
-        }
+    body {
+        font-family: 'Montserrat', serif;
+        background-color: #fff;
+    }
 </style>
 
 <?php
@@ -11706,41 +11706,40 @@ if ($edad > "1") {
     $ed = $edad . " " . "año";
 }
 ?>
-
+<header>
+    <div class="table-responsive">
+        <table class="table table-bordered" style="font-size: 9pt; padding: 0;" width="100%">
+            <table style="width:100%" align="center">
+                <tr>
+                    <th align="center"><br><img src="{{ $header1 }}" width="70px" height="80px" /> </th>
+                    <th>
+                        <p style="text-align: center; font-family:  serif; font-size: 1.4rem; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;"> {{ $genero }} {{ $nmedico }}
+                            <br> <a style="font-size: .8rem; color: black;"> {{ $es }} </a> <br> <a style="font-size: .8rem; color: black;"><strong>{{ $instituto }} </strong></a>
+                        </p>
+                        <p style="font-size: 0.7rem; color:black; text-align: left; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Farmacia "San Agustín" 951 51 150 71
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            &nbsp;&nbsp;&nbsp;Laboratorio "MC" 951 51 432 30 <br>
+                            <a style="font-size: 0.7rem; color:black; text-align: justify; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benito Juárez N° 306 - BIS, San Agustín de las Juntas
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bustamante N° 312 - Altos, Col. Centro</a> <br>
+                            <a style="font-size: 0.7rem; color:black; text-align: justify; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                &nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.</a>
+                        </p>
+                    </th>
+                    <th><br><img src="{{ $header2 }}" width="70px" height="80px" /> </th>
+                </tr>
+            </table>
+        </table>
+    </div>
+</header>
 
 <body>
-    <header>
-        <div class="table-responsive">
-            <table class="table table-bordered" style="font-size: 9pt; padding: 0;" width="100%">
-                <table style="width:100%" align="center">
-                    <tr>
-                        <th align="center"><br><img src="{{ $header1 }}" width="70px" height="80px" /> </th>
-                        <th>
-                            <p style="text-align: center; font-family:  serif; font-size: 1.4rem; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;"> {{ $genero }} {{ $nmedico }}
-                                <br> <a style="font-size: .8rem; color: black;"> {{ $es }} </a> <br> <a style="font-size: .8rem; color: black;"><strong>{{ $instituto }} </strong></a>
-                            </p>
-                            <p style="font-size: 0.7rem; color:black; text-align: left; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Farmacia "San Agustín" 951 51 150 71
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                &nbsp;&nbsp;&nbsp;Laboratorio "MC" 951 51 432 30 <br>
-                                <a style="font-size: 0.7rem; color:black; text-align: justify; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Benito Juárez N° 306 - BIS, San Agustín de las Juntas
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bustamante N° 312 - Altos, Col. Centro</a> <br>
-                                <a style="font-size: 0.7rem; color:black; text-align: justify; font-family:  serif; ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    &nbsp;&nbsp;&nbsp;&nbsp;Oaxaca de Juárez, Oaxaca.</a>
-                            </p>
-                        </th>
-                        <th><br><img src="{{ $header2 }}" width="70px" height="80px" /> </th>
-                    </tr>
-                </table>
-            </table>
-        </div>
-    </header>
 
     <footer style="font-family: serif;">
         <div align="left">
@@ -11781,7 +11780,8 @@ if ($edad > "1") {
         <img src="{{ $footer1 }}" width="100%" height="35%" />
     </footer>
 
-    <div class="table-responsive" id="estilo_mio">
+<br>
+    <div class="table-responsive">
         <table class="table table-bordered" style="font-size: 8pt; padding: 0;" width="100%">
             <table style="width:100%" align="center">
                 <tr>
@@ -11808,8 +11808,7 @@ if ($edad > "1") {
 
     </div>
 
-
-    <div align="left" id="tres">
+    <div align="left" style="width: auto; left: 0.3cm; right: 0.3cm; font-family:  serif;">
         <strong>
             <p class="text-break" style="text-align: justify; font-size: 10.5pt">
                 A continuaci&oacute;n se enlista la cantidad de medicamentos y su tratamiento.
@@ -11817,8 +11816,9 @@ if ($edad > "1") {
         </strong>
     </div>
 
-    <div class="table-responsive" id="estilo_mio2">
-        <table class="table table-bordered" style="font-size: 10pt; padding: 0;" width="100%">
+
+    <div class="table-responsive">
+        <table class="table table-bordered" style="font-size: 10pt; padding: 0; font-family:  serif;" width="100%">
             <table style="width:100%" align="center">
                 <thead>
                     <tr>

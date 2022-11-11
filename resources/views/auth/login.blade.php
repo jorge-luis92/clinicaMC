@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <div class="card" style="font-family:Century Gothic, CenturyGothic, AppleGothic;">
+            <div class="card" style="font-family:Century Gothic, CenturyGothic, AppleGothic; opacity: .7;">
                     <div class="card border-grey border-lighten-3 px-1 py-1 m-0">
                         <div>
                             @if(session('Error2'))

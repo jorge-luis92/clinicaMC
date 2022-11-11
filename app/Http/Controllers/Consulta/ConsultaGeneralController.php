@@ -80,7 +80,7 @@ class ConsultaGeneralController extends Controller
                         <i class="fas fa-list"></i> Ver
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-info btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-eye fa-1x"></i> Imprimir</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-secondary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
                         </ul>
@@ -369,6 +369,7 @@ class ConsultaGeneralController extends Controller
             'consulta_general.motivo_consulta',
             'consulta_general.examen_fisico',
             'consulta_general.observaciones',
+            'consulta_general.procedimiento',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
         )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
@@ -393,7 +394,7 @@ class ConsultaGeneralController extends Controller
         view()->share('data', $data);
         view()->share('medico', $datos_medico);
         view()->share('medicamentos', $data_medicamentos);
-        $pdf = PDF::loadView('ConsultaGeneral.Consulta_VistaPrevia', array('medicamentos' => $data_medicamentos));
+        $pdf = PDF::loadView('ConsultaGeneral.Vista_dos', array('medicamentos' => $data_medicamentos));
         //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
         $pdf->setPaper('letter', 'portrait');
 
