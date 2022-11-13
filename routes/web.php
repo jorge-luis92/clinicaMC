@@ -48,12 +48,15 @@ Route::post('ConsultaGneral/Create', [ConsultaGeneralController::class, 'create_
 Route::get('ConsultaGeneralP/{id}', [ConsultaGeneralController::class, 'data_consultag']);
 Route::post('ConsultaGneralEdit/Save', [ConsultaGeneralController::class, 'save_EditConsulta'])->name('reg_EditConsulta');
 Route::get('/Expediente/ConsultaGeneral', [ConsultaGeneralController::class, 'expediente_CG'])->name('CGexpediente');
-Route::get('/Expediente/CGver/{id}', [ConsultaGeneralController::class, 'expediente_CG_pa']);
+Route::get('/Expediente/CGver/{id}/{id2}', [ConsultaGeneralController::class, 'expediente_CG_pa']);
 Route::get('ConsultaGneralEdit/Vistaprevia/{id}', [ConsultaGeneralController::class, 'vistapreviaC']);
 Route::get('/ConsultaGeneral/CGData/{id}', [ConsultaGeneralController::class, 'verDataCon']);
 Route::get('/ConsultaGeneral/CGPaciente/{id}', [ConsultaGeneralController::class, 'verDataPac']);
 Route::post('ConsultaGeneral/End', [ConsultaGeneralController::class, 'end_consultaGeneral'])->name('end_consultaG');
 Route::post('ConsultaGeneral/Semail', [ConsultaGeneralController::class, 'enviarPdfcg'])->name('en_pdfcg');
+Route::post('ConsultaGeneral/CreateExp', [ConsultaGeneralController::class, 'create_expediente'])->name('expRegistro');
+Route::get('/Expediente/ConsultaGeneralSelPaciente', [ConsultaGeneralController::class, 'expediente_selPaciente']);
+Route::get('/ConsultaGeneral/CGDataExp/{id}/{id2}', [ConsultaGeneralController::class, 'verDataConExp']);
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');

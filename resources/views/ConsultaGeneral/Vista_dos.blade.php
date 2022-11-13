@@ -11769,8 +11769,8 @@ if ($edad > "1") {
         <table class="table table-bordered" style="font-size: 8pt; padding: 0;" width="100%">
             <table style="width:100%" align="center">
                 <tr>
-                    <td width="24%" style="font-size: 0.8rem; text-align: justify; font-family:  serif;"><strong>Fecha Consulta: </strong> {{ $cc}}</td>
-                    <td width="76%" style="font-size: 0.8rem; text-align: left; font-family:  serif;"><strong>Paciente:</strong> {{ $nombre }}&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tipo Consulta:</strong> {{ $tipo_con}}
+                    <td width="30%" style="font-size: 0.8rem; text-align: left; font-family:  serif;"><strong>Fecha Consulta: </strong> {{ $cc}}</td>
+                    <td width="70%" style="font-size: 0.8rem; text-align: left; font-family:  serif;"><strong>Paciente:</strong> {{ $nombre }}&nbsp;&nbsp;&nbsp;&nbsp; <strong>Tipo Consulta:</strong> {{ $tipo_con}}
                         <br><a style="font-size: 0.8rem; color:black; text-align: left; font-family:  serif;"><strong>Padecimiento Indicado:</strong> {{ $motivo }}</a>
                     </td>
                 </tr>

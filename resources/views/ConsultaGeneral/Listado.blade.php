@@ -15,7 +15,7 @@
     html body .content .content-wrapper {
         padding: 0.5rem 2rem 0;
     }
-</style>    
+</style>
 <div class="container-fluid">
     @if(session('Ok2'))
     <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
@@ -64,14 +64,6 @@
                                 <thead>
                                     <tr>
                                         <th align="left" style="text-align:left; padding: 3px">
-                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
-                                                <i class="fas fa-plus-circle"></i> Agregar Paciente
-                                            </a>
-                                        </th>
-                                        <th align="center" style="text-align:center; padding: 3px">
-
-                                        </th>
-                                        <th align="right" style="text-align:right; padding: 3px">
                                             <a href="#" class="btn btn-info btn-min-width btn-glow" id="nueva_consulta" style="color: white" role="button">
                                                 <i class="fas fa-notes-medical"></i> Nueva Consulta
                                             </a>
@@ -273,7 +265,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-plus"></i> Seleccionar Paciente
+                        <i class="fas fa-plus"></i> Seleccionar
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -388,6 +380,7 @@
                             </a>
                             <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                             <input type="hidden" id="id_hidden_paciente_c" name="id_hidden_paciente_c">
+                            <input type="hidden" id="id_hidden_expediente_c" name="id_hidden_expediente_c">
                             <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="crear_consulta" id="crear_consulta" role="button">
                                 <i class="fas fa-share"></i> Crear
                             </a>
@@ -410,7 +403,7 @@
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="editConsulta_P" class="form">
+                <form id="editConsulta_P">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -444,7 +437,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>Edad</label>
+                                            <label>Edad (A&ntilde;os)</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="edad_consulta" name="edad_consulta" class="form-control">
                                                 <div class="form-control-position">
@@ -457,7 +450,7 @@
                                             <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label>Tipo de Consulta</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="tip_consultaC" name="tip_consultaC" class="form-control">
@@ -467,8 +460,18 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
-                                            <label>Peso </label><span style="color:red"> *</span>
+                                        <div class="col-6">
+                                            <label>Padecimiento actual</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="motivo_consulta" id="motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Padecimiento Actual"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Peso (KG)</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Peso Paciente KG" id="peso" name="peso" class="form-control">
                                                 <div class="form-control-position">
@@ -478,7 +481,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Temperatura Paciente </label> <span style="color:red"> *</span>
+                                            <label>Temperatura Paciente (°)</label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Temperatura Paciente" id="temperatura" name="temperatura" class="form-control">
                                                 <div class="form-control-position">
@@ -487,7 +490,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>T/A</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="ta_c" name="ta_c" placeholder="T/A" class="form-control">
@@ -497,7 +500,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>Glucosa</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="glucosa" name="glucosa" placeholder="Glucosa" class="form-control">
@@ -507,17 +510,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
-                                            <label>Motivo Consulta</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="motivo_consulta" id="motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-edit'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="exploracion" id="exploracion" cols="150" rows="2" class="form-control" placeholder="Exploración Física"></textarea>
@@ -527,7 +520,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <div class="col-6">
                                             <label>Diagn&oacute;stico </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="diagnostico" id="diagnostico" cols="150" rows="3" class="form-control" placeholder="Diagnóstico Paciente"></textarea>
@@ -536,24 +529,45 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-4">
+                                            <label>¿Realiza procedimiento?</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-procedures"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="sel_pro" name="sel_pro" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="Si">Si</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-8" id="proces_show" style="display:none">
+                                            <label>Procedimiento </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="procedimiento_p" id="procedimiento_p" cols="150" rows="3" class="form-control" placeholder="Indique el procedimiento"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-procedures"></i>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                </form>
 
-                <div class="col-12">
-                    <div class="modal-footer">
-                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Cerrar
-                        </a>
-                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                        <input type="hidden" id="hidden_id_editarc" name="hidden_id_editarc">
-                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_consulta" id="reg_consulta" role="button">
-                            <i class="fas fa-save"></i> Guardar Notas
-                        </a>
-                    </div>
-                </div>
+                            <div class="col-12">
+                                <div class="modal-footer">
+                                    <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                        <i class="fas fa-ban"></i> Cerrar
+                                    </a>
+                                    <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                                    <input type="hidden" id="hidden_id_editarc" name="hidden_id_editarc">
+                                    <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_consulta" id="reg_consulta" role="button">
+                                        <i class="fas fa-save"></i> Guardar Notas
+                                    </a>
+                                </div>
+                            </div>
                 </form>
             </div>
         </div>
@@ -847,63 +861,66 @@
 
     <div id="emailPdfCG" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title" id="myModalLabel34">
-                <i class="fas fa-at"></i> Envio de Receta por email</h3>
-                <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
-                <a href="" data-dismiss="modal" class="close" aria-label="Close"></a>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-at"></i> Envio de Receta por email
+                    </h3>
+                    <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close"> -->
+                    <a href="" data-dismiss="modal" class="close" aria-label="Close"></a>
                     <span aria-hidden="true">&times;</span>
-                <!-- </button> -->
-            </div>
-                
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="modal-body">
-                        <form id="AgregarProducto1">
-                            <div class="row">                            
-                                <div class="col-12"><h4 class="form-section"><i class="fas fa-pen-square"></i> Email registrado del Paciente</h4></div>
+                    <!-- </button> -->
+                </div>
 
-                                <div class="col-12">                    
-                                    <label>Email</label>
-                                    <div class="form-group position-relative has-icon-left">
-                                        <input type="text" readonly id="pdf_receta" name="pdf_receta" class="form-control">
-                                        <div class="form-control-position">
-                                            <i class="fas fa-at"></i>
-                                        </div>
-                                    </div>                   
-                                </div>
-
-                                <div class="col-12" " id="procesando_c" style="display:none">
-                                    <div class="row mb-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="modal-body">
+                            <form id="AgregarProducto1">
+                                <div class="row">
                                     <div class="col-12">
-                                        </div>
-                                        <div class="col-md-12">
-                                        <div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div> 
-                                           <h3 style="text-align: center;">Enviando... Espere un momento.</h3>
+                                        <h4 class="form-section"><i class="fas fa-pen-square"></i> Email registrado del Paciente</h4>
                                     </div>
-                                    <div class="col-4">
+
+                                    <div class="col-12">
+                                        <label>Email</label>
+                                        <div class="form-group position-relative has-icon-left">
+                                            <input type="text" readonly id="pdf_receta" name="pdf_receta" class="form-control">
+                                            <div class="form-control-position">
+                                                <i class="fas fa-at"></i>
+                                            </div>
                                         </div>
+                                    </div>
+
+                                    <div class="col-12" " id=" procesando_c" style="display:none">
+                                        <div class="row mb-2">
+                                            <div class="col-12">
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>
+                                                <h3 style="text-align: center;">Enviando... Espere un momento.</h3>
+                                            </div>
+                                            <div class="col-4">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" id="buttons_envio" style="display:none">
+                                        <div class="modal-footer">
+                                            <a href="" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                                <i class="fas fa-ban"></i> Salir
+                                            </a>
+                                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                                            <input type="hidden" id="hidden_id_c" name="hidden_id_c">
+                                            <a class="btn btn-danger btn-min-width btn-glow" style="color: white" name="sendPdfCg" id="sendPdfCg" role="button">
+                                                <i class="fas fa-share"></i> Enviar
+                                            </a>
+                                        </div>
+                                    </div>
                                 </div>
-                                    </div>
-                                <div class="col-12" id="buttons_envio" style="display:none">
-                                    <div class="modal-footer">
-                                        <a href="" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                                            <i class="fas fa-ban"></i> Salir
-                                        </a>
-                                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                                        <input type="hidden" id="hidden_id_c" name="hidden_id_c">
-                                        <a class="btn btn-danger btn-min-width btn-glow" style="color: white" name="sendPdfCg" id="sendPdfCg" role="button">
-                                            <i class="fas fa-share"></i> Enviar
-                                        </a>
-                                    </div>
-                                </div> 
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>                
-            </div>   
-        </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1025,7 +1042,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>Edad</label>
+                                            <label>Edad (A&ntilde;os ) </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="ver_edad_consulta" name="ver_edad_consulta" class="form-control" readonly>
                                                 <div class="form-control-position">
@@ -1038,7 +1055,7 @@
                                             <h4 class="form-section"><i class="fa fa-edit"></i> Datos Consulta</h4>
                                         </div>
 
-                                        <div class="col-4">
+                                        <div class="col-3">
                                             <label>Tipo de Consulta</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="ver_tip_consultaC" name="ver_tip_consultaC" class="form-control" readonly>
@@ -1048,8 +1065,18 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-4">
-                                            <label>Peso </label>
+                                        <div class="col-6">
+                                            <label>Padecimiento Indicado</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="ver_motivo_consulta" id="ver_motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta" readonly></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Peso (KG)</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Peso Paciente KG" id="ver_peso" name="ver_peso" class="form-control" readonly>
                                                 <div class="form-control-position">
@@ -1059,7 +1086,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Temperatura Paciente </label>
+                                            <label>Temperatura Paciente (°) </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Temperatura Paciente" id="ver_temperatura" name="ver_temperatura" class="form-control" readonly>
                                                 <div class="form-control-position">
@@ -1068,7 +1095,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>T/A</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="ver_ta_c" name="ver_ta_c" placeholder="T/A" class="form-control" readonly>
@@ -1078,22 +1105,12 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
                                             <label>Glucosa</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" id="ver_glucosa" name="ver_glucosa" placeholder="Glucosa" class="form-control" readonly>
                                                 <div class="form-control-position">
                                                     <i class='fa fa-calculator'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Motivo Consulta</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="ver_motivo_consulta" id="ver_motivo_consulta" cols="150" rows="1" class="form-control" placeholder="Motivo Consulta" readonly></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-edit'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -1118,7 +1135,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-12" id="recomedaciones1" style="display:none">
                                             <label>Recomendaciones </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="ver_recomendaciones" id="ver_recomendaciones" cols="150" rows="5" class="form-control" placeholder="Recomendaciones" readonly></textarea>
@@ -1128,6 +1145,29 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-12" id="recomedaciones2" style="display:none">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <label>Recomendaciones </label>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <textarea name="ver_recomendacion" id="ver_recomendacion" cols="150" rows="5" class="form-control" placeholder="Recomendaciones" readonly></textarea>
+                                                        <div class="form-control-position">
+                                                            <i class='fas fa-list'></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label>Procedimiento realizado </label>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <textarea name="ver_procedimiento" id="ver_procedimiento" cols="150" rows="5" class="form-control" placeholder="Recomendaciones" readonly></textarea>
+                                                        <div class="form-control-position">
+                                                            <i class='fas fa-procedures'></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1213,7 +1253,6 @@
 
         });
 
-
         $('#nueva_consulta').click(function() {
             $('#verPacienteModal').appendTo("body")
             $('#verPacienteModal').modal('show');
@@ -1243,7 +1282,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Catalogo/PacienteSel') }}",
+                    "url": "{{ url('Expediente/ConsultaGeneralSelPaciente') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1427,7 +1466,8 @@
         });
 
         $(document).on('click', '.seleccionar_paciente', function() {
-            let id_paciente = $(this).attr('id');
+            let id_paciente = $(this).attr('name');
+            let id_exp = $(this).attr('id');
             $('#tipo_consulta_c').val("").select2();
             $.ajax({
                 url: "/Consulta/Paciente/" + id_paciente,
@@ -1442,6 +1482,7 @@
                         'max-height': '100%'
                     });
                     $('#id_hidden_paciente_c').val(id_paciente);
+                    $('#id_hidden_expediente_c').val(id_exp);
                     $('#nombre_select').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
                     document.getElementById("nombre_select").readOnly = true;
                 }
@@ -1451,9 +1492,11 @@
         $('#crear_consulta').click(function() {
             let token = '{{csrf_token()}}';
             let id = $('#id_hidden_paciente_c').val();
+            let id_expediente = $('#id_hidden_expediente_c').val();
             let tipo_consulta = $('#tipo_consulta_c').val();
             let data = {
                 id: id,
+                id_expediente: id_expediente,
                 tipo_consulta: tipo_consulta,
                 _token: token
             };
@@ -1546,6 +1589,7 @@
                         height: 'auto',
                         'max-height': '100%'
                     });
+                    $("#editConsulta_P")[0].reset();
                     $('#hidden_id_editarc').val(id_consulta);
                     $('#n_paciente').val(data.nombre_c);
                     $('#tipo_sangreC').val(data.tipo_sangre);
@@ -1569,6 +1613,8 @@
             let glucosa = $('#glucosa').val();
             let motivo_consulta = $('#motivo_consulta').val();
             let exploracion = $('#exploracion').val();
+            let realiza_procedimiento = $('#sel_pro').val();
+            let procedimiento = $('#procedimiento_p').val();
             let data = {
                 id: id,
                 peso: peso,
@@ -1578,6 +1624,8 @@
                 glucosa: glucosa,
                 motivo_consulta: motivo_consulta,
                 exploracion: exploracion,
+                realiza_procedimiento: realiza_procedimiento,
+                procedimiento: procedimiento,
                 _token: token
             };
 
@@ -1642,7 +1690,7 @@
                             </ul>`);
                         setTimeout(function() {
                             $('#response_editConsulta').hide();
-                        }, 5000);
+                        }, 3000);
 
                     }
                     if (jqXHR.status == 500) {
@@ -1656,6 +1704,17 @@
                 });
             }
         });
+
+        $(document).on('change', '#sel_pro', function() {
+            let procedimiento = $('#sel_pro').val();
+
+            if (procedimiento == "Si") {
+                $('#proces_show').show();
+            } else {
+                $('#proces_show').hide();
+            }
+        });
+
 
         $(document).on('click', '.receta_medica', function() {
             let id_consulta = $(this).attr('id');
@@ -2029,12 +2088,12 @@
                     url: '{{ route("create_cita") }}',
                     data: data
                 }).done(function(jqXHR) {
-                        $('#citaModal').modal('hide');
-                        $("#altaCitaForm")[0].reset();
-                        ok(jqXHR);
-                        setTimeout(function() {
-                            $('#ok').hide();
-                        }, 2000);                    
+                    $('#citaModal').modal('hide');
+                    $("#altaCitaForm")[0].reset();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status == 422) {
                         if (!$('#response_cita').empty()) {
@@ -2093,7 +2152,7 @@
                     }
                 });
             }
-          
+
         });
 
         $('#cerrarImprimir').click(function() {
@@ -2112,21 +2171,21 @@
             $('#pdfModal').modal('show');
         });
 
-        $(document).on('click', '.enviar_email', function(){
+        $(document).on('click', '.enviar_email', function() {
             let id_con = $(this).attr('id');
             let email = $(this).attr('name');
             $('#hidden_id_c').val(id_con);
             $('#pdf_receta').val(email);
-            if(email == ""){
+            if (email == "") {
                 alert('El paciente no cuenta con un correo registrado');
-            }else{
-            $('#emailPdfCG').appendTo("body")
-            $('#emailPdfCG').modal('show');
-            $('#buttons_envio').show();
+            } else {
+                $('#emailPdfCG').appendTo("body")
+                $('#emailPdfCG').modal('show');
+                $('#buttons_envio').show();
             }
         });
-         
-         $('#sendPdfCg').click(function() {
+
+        $('#sendPdfCg').click(function() {
             let token = '{{csrf_token()}}';
             let id_con = $('#hidden_id_c').val();
             let email = $('#pdf_receta').val();
@@ -2145,12 +2204,12 @@
                     url: '{{ route("en_pdfcg") }}',
                     data: data
                 }).done(function(jqXHR) {
-                        $('#emailPdfCG').modal('hide');
-                        $('#procesando_c').hide();
-                        ok(jqXHR);
-                        setTimeout(function() {
-                            $('#ok').hide();
-                        }, 3000);                    
+                    $('#emailPdfCG').modal('hide');
+                    $('#procesando_c').hide();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 3000);
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status == 500) {
                         let responseText = jQuery.parseJSON(jqXHR.responseText);
@@ -2159,10 +2218,10 @@
                     }
                 });
             }
-          
+
         });
 
-        $(document).on('click', '.detalles_consulta', function(){
+        $(document).on('click', '.detalles_consulta', function() {
             let id_consulta = $(this).attr('id');
             $('#detallesConsultaModal').appendTo("body")
             $('#detallesConsultaModal').modal('show');
@@ -2181,13 +2240,26 @@
                     $('#ver_glucosa').val(data.glucosa);
                     $('#ver_motivo_consulta').val(data.motivo_consulta);
                     $('#ver_exploracion').val(data.examen_fisico);
-                    $('#ver_diagnostico').val(data.diagnostico);
-                    $('#ver_recomendaciones').val(data.observaciones);
+                    $('#ver_diagnostico').val(data.diagnostico);                    
+                    let pro = data.procedimiento;
+
+                    if(pro == null){
+                        $('#recomedaciones2').hide();
+                        $('#recomedaciones1').show();
+                        $('#ver_recomendaciones').val(data.observaciones);
+                        
+                    }else{
+                        $('#recomedaciones1').hide();
+                        $('#recomedaciones2').show();
+                        $('#ver_recomendacion').val(data.observaciones);
+                        $('#ver_procedimiento').val(data.procedimiento);
+                        
+                    }
                 }
             });
 
-            
-            
+
+
         });
 
     });

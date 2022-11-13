@@ -8,6 +8,7 @@ use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\Cita;
 use App\Models\Paciente\ConsultaGeneral;
+use App\Models\Paciente\ExpedienteCG;
 use App\Models\Paciente\Paciente;
 use App\Models\Paciente\RecetaMedica;
 use App\Models\Paciente\TipoConsulta;
@@ -121,6 +122,48 @@ class ConsultaGeneralController extends Controller
             ->with('med', $medicamentos);
     }
 
+    public function create_expediente(Request $data)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $id_paciente = $data->id;
+        $id_medico = $medico->id;
+
+        if ($usuario->tipo_usuario == 2) {
+            $datos_medico = Medico::select('id')
+                ->where('id_persona', $usuario->id_persona)
+                ->first();
+        } else {
+            return response()->json('Error: Usuario no Identificado como Médico, Favor de Validar', 442);
+        }
+
+        $busqueda_exp = ExpedienteCG::where('id_paciente', $id_paciente)->first();
+
+        if ($busqueda_exp) {
+            return response()->json('Existe un expediente ya creado con el paciente que seleccionó.', 442);
+        }
+
+        $registrarC = ExpedienteCG::create([
+            'id_paciente' => $id_paciente,
+            'id_medico' => $id_medico,
+            'estatus' => '1',
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+
+        ]);
+
+        if ($registrarC != '') {
+            return response()->json('¡Se ha creado el expediente correctamente!, Un momento será redirigido al panel de Consultas', 200);
+        }
+    }
+
     public function create_consulta(Request $data)
     {
 
@@ -133,6 +176,7 @@ class ConsultaGeneralController extends Controller
         ]);
 
         $id_paciente = $data->id;
+        $id_expediente = $data->id_expediente;
         $tipo_consulta = $data->tipo_consulta;
         if ($usuario->tipo_usuario == 2) {
             $datos_medico = Medico::select('id')
@@ -143,6 +187,7 @@ class ConsultaGeneralController extends Controller
         }
 
         $registrarC = ConsultaGeneral::create([
+            'id_expediente' => $id_expediente,
             'id_paciente' => $id_paciente,
             'id_tipoconsulta' => $tipo_consulta,
             'id_usuario' => $id_usuario,
@@ -192,13 +237,23 @@ class ConsultaGeneralController extends Controller
         $motivo_consulta = $data->motivo_consulta;
         $exploracion = $data->exploracion;
 
-        $v->validate([
+        $data->validate([
             'peso' => 'required|numeric|min:1|not_in:-1',
             'temperatura' => 'required|numeric|min:30|not_in:-1',
             'diagnostico' => ['required', 'string', 'max:255'],
             'motivo_consulta' => ['required', 'string', 'max:255'],
             'exploracion' => ['required', 'string', 'max:255'],
+            'realiza_procedimiento' => ['required', 'string', 'max:255'],
         ]);
+
+        $proce= $data->realiza_procedimiento;
+        $procedimiento= $data->procedimiento;
+
+        if($proce == "Si"){
+            $data->validate([
+                'procedimiento' => ['required', 'string', 'max:255'],
+            ]);
+        }
 
         $updateC = ConsultaGeneral::where('id', $id)->update([
             'temperatura' => $temperatura,
@@ -209,6 +264,7 @@ class ConsultaGeneralController extends Controller
             'examen_fisico' => $exploracion,
             'ta' => $ta,
             'glucosa' => $glucosa,
+            'procedimiento' => $procedimiento,
         ]);
 
         if ($updateC != '') {
@@ -221,25 +277,34 @@ class ConsultaGeneralController extends Controller
     public function expediente_CG(Request $request)
     {
         $usuario = auth()->user();
-        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $id_medico = $medico->id;
 
         if ($request->ajax()) {
-            $data = Paciente::select(
-                'paciente.id',
+            $data = ExpedienteCG::select(
+                'expediente_cg.id',
+                'paciente.id AS id_paciente',
                 'paciente.celular',
                 'tipo_sangre.tipo',
                 'persona.edad',
                 'persona.fecha_nacimiento',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
             )
+                ->join('paciente', 'paciente.id', 'expediente_cg.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
                 ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
+                ->where('expediente_cg.id_medico', $id_medico)
                 ->orderBy('persona.nombre', 'asc')
                 ->get();
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;<button type="button" name="del" id="' . $data->id . '" class="expediente_paciente btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-archive"></i></i> Expediente</button>';
+                    $button = '&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="expediente_paciente btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history"></i></i> Historial</button>';
 
                     return $button;
                 })
@@ -254,9 +319,10 @@ class ConsultaGeneralController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
-    public function expediente_CG_pa(Request $request, $id)
+    public function expediente_CG_pa(Request $request, $id, $id2)
     {
         $id_paciente = $id;
+        $id_expediente = $id2;
         if ($request->ajax()) {
             $data = ConsultaGeneral::select(
                 'consulta_general.id',
@@ -266,6 +332,7 @@ class ConsultaGeneralController extends Controller
                 'persona.ap_paterno',
                 'persona.ap_materno',
                 'consulta_general.estatus',
+                'consulta_general.motivo_consulta',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
                 DB::raw('(CASE WHEN consulta_general.estatus = "1" THEN "Proceso"  
                 WHEN consulta_general.estatus= "3" THEN "FInalizada"
@@ -273,14 +340,16 @@ class ConsultaGeneralController extends Controller
             )
                 ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->join('expediente_cg', 'expediente_cg.id', 'consulta_general.id_expediente')
                 ->where('paciente.id', $id_paciente)
+                ->where('consulta_general.id_expediente', $id_expediente)
                 ->where('consulta_general.estatus',  '3')
                 ->orderBy('consulta_general.fecha', 'desc')
                 ->get();
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="detalles_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
                     return $button;
                 })
                 ->rawColumns(['accion'])
@@ -423,6 +492,7 @@ class ConsultaGeneralController extends Controller
             'consulta_general.examen_fisico',
             'tipo_consulta.nombre AS tipo_consulta',
             'persona.edad',
+            'consulta_general.procedimiento',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
         )
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
@@ -454,7 +524,7 @@ class ConsultaGeneralController extends Controller
         ]);
 
         if ($updateC != '') {
-        return response()->json('Se ha Finalizado la Consulta correctamente', 200);
+            return response()->json('Se ha Finalizado la Consulta correctamente', 200);
         } else {
             return response()->json('Error: Sin cambios', 500);
         }
@@ -480,7 +550,9 @@ class ConsultaGeneralController extends Controller
             ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
+            ->join('expediente_cg', 'expediente_cg.id_paciente', 'consulta_general.id_paciente')
             ->where('consulta_general.id_paciente', $id_paciente)
+            ->where('consulta_general.estatus', '=', '3')
             ->first();
 
         return $data;
@@ -561,20 +633,20 @@ class ConsultaGeneralController extends Controller
             ->first();
 
 
-        $mensaje = "Estimado (a): ". $data_paciente->nombre_c ." se adjunta en el correo el archivo PDF de su receta médica";
-        
+        $mensaje = "Estimado (a): " . $data_paciente->nombre_c . " se adjunta en el correo el archivo PDF de su receta médica";
+
         $fecha = date('Y-m-d');
         $date = date('H:i:s');
         $fecha = date('d/m/Y', strtotime($fecha));
         $date = date('h:i A', strtotime($date));
 
         $mensaje2 = "Se ha enviado correctamente la receta medica al paciente: $data_paciente->nombre_c a las " . $date . " del " . $fecha . ".";
-  
+
         $datos = array(
             'mensaje' => $mensaje
         );
 
-        $npdf = $data_paciente->nombre_c."_recetamedica.pdf";
+        $npdf = $data_paciente->nombre_c . "_recetamedica.pdf";
 
         //return $correo;
         Mail::send('ConsultaGeneral.Email', $datos, function ($mail) use ($correo, $pdf, $npdf) {
@@ -591,5 +663,51 @@ class ConsultaGeneralController extends Controller
 
         return response()->json('Se ha enviado correctamente el archivo', 200);
     }
+
+    public function expediente_selPaciente(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $id_medico = $medico->id;
+
+        if ($request->ajax()) {
+            $data = ExpedienteCG::select(
+                'expediente_cg.id',
+                'paciente.id AS id_paciente',
+                'paciente.celular',
+                'tipo_sangre.tipo',
+                'persona.edad',
+                'persona.fecha_nacimiento',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+            )
+                ->join('paciente', 'paciente.id', 'expediente_cg.id_paciente')
+                ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
+                ->where('expediente_cg.id_medico', $id_medico)
+                ->orderBy('persona.nombre', 'asc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    $button = '&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="seleccionar_paciente btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Seleccionar</button>';
+
+                    return $button;
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
+
+        $tipoConsulta = TipoConsulta::all();
+        $tipoSangre = TipoSangre::all();
+        return view('Expedientes.ListadoExpedienteGeneral')
+            ->with('tipoC', $tipoConsulta)
+            ->with('tipoS', $tipoSangre);
+    }
+
 
 }
