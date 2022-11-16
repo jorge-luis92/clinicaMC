@@ -64,16 +64,8 @@
                                 <thead>
                                     <tr>
                                         <th align="left" style="text-align:left; padding: 3px">
-                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
-                                                <i class="fas fa-plus-circle"></i> Agregar Paciente
-                                            </a>
-                                        </th>
-                                        <th align="center" style="text-align:center; padding: 3px">
-
-                                        </th>
-                                        <th align="right" style="text-align:right; padding: 3px">
                                             <a href="#" class="btn btn-info btn-min-width btn-glow" id="nueva_consulta" style="color: white" role="button">
-                                                <i class="fas fa-notes-medical"></i> Nuevo Expediente
+                                                <i class="fas fa-notes-medical"></i> Nuevo Control
                                             </a>
                                         </th>
                                     </tr>
@@ -83,10 +75,9 @@
                             <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
                                 <thead>
                                     <tr>
-                                        <th>Expediente</th>
                                         <th>Paciente</th>
-                                        <th>Creaci&oacute;n Expediente</th>
-                                        <th>Seguimiento</th>
+                                        <th>Fecha Registro</th>
+                                        <th>Etapa</th>
                                         <th width="15%">Acci&oacute;n</th>
                                     </tr>
                                 </thead>
@@ -97,6 +88,7 @@
             </div>
         </div>
     </div>
+
     <div id="altaPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-lg modal-dialog" role="document">
             <div class="modal-content">
@@ -332,7 +324,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-user-plus"></i> Datos de Inicio
+                        <i class="fas fa-baby"></i> Datos Embarazo Actual
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -356,7 +348,7 @@
                                         <div class="col-4">
                                             <label>Nombre </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" id="nombre_select_em" name="nombre_select_em" class="form-control">
+                                                <input type="text" id="nombre_select_em" name="nombre_select_em" class="form-control" readonly>
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user"></i>
                                                 </div>
@@ -366,7 +358,7 @@
                                         <div class="col-4">
                                             <label>Fecha de Nacimiento </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="date" id="fecha_nacimiento_em" name="fecha_nacimiento_em" class="form-control">
+                                                <input type="date" id="fecha_nacimiento_em" name="fecha_nacimiento_em" class="form-control" readonly>
                                                 <div class="form-control-position">
                                                     <i class="fas fa-birthday-cake"></i>
                                                 </div>
@@ -376,7 +368,7 @@
                                         <div class="col-4">
                                             <label>Edad </label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Edad" id="edad_em" name="edad_em" class="form-control">
+                                                <input type="number" placeholder="Edad" id="edad_em" name="edad_em" class="form-control" readonly>
                                                 <div class="form-control-position">
                                                     <i class="fas fa-sort"></i>
                                                 </div>
@@ -384,54 +376,10 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-diagnoses"></i> Antecedentes Ginecoobst&eacute;tricos </h4>
+                                            <h4 class="form-section"><i class="fas fa-baby"></i> Datos Embarazo</h4>
                                         </div>
 
-                                        <div class="col-3">
-                                            <label>Gestas</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-baby"></i>
-                                                </div>
-                                                <input type="number" placeholder="Gestas" id="gesta" name="gesta" class="form-control">
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Partos</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Partos" id="parto" name="parto" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-child'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Ces&aacute;reas</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Ces&aacute;reas" id="cesarea" name="cesarea" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class="fa fa-cut"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Abortos</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Abortos" id="aborto" name="aborto" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class="fa fa-stop"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-baby-carriage"></i> Embarazo Actual</h4>
-                                        </div>
-
-                                        <div class="col-3">
+                                        <div class="col-6">
                                             <label>FUM </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="date" id="fur" name="fur" class="form-control">
@@ -441,7 +389,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-3">
+                                        <div class="col-6">
                                             <label>FPP </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="date" id="fpp" name="fpp" class="form-control">
@@ -451,8 +399,8 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
-                                            <label>Estudios Laboratorio </label>
+                                        <div class="col-12">
+                                            <label>Estudios Laboratorio </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="estudio_lab" id="estudio_lab" cols="150" rows="2" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
                                                 <div class="form-control-position">
@@ -460,7 +408,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -474,6 +421,8 @@
                         </a>
                         <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                         <input type="hidden" id="id_hidden_em" name="id_hidden_em">
+                        <input type="hidden" id="id_hidden_expediente" name="id_hidden_expediente">
+                        <input type="hidden" id="id_hidden_pacienteu" name="id_hidden_pacienteu">
                         <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_expinicio" id="reg_expinicio" role="button">
                             <i class="fas fa-share"></i> Registrar
                         </a>
@@ -862,7 +811,7 @@
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="cerrar_cp" >
+                <form id="cerrar_cp">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -877,63 +826,63 @@
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-list"></i>
-                                                </div>                                        
+                                                </div>
                                                 <select class="select2 form-control" id="ag_databb" name="ag_databb" style="width: 100%;">
                                                     <option value="" selected>Seleccione</option>
                                                     <option value="1">Si</option>
                                                     <option value="2">NO</option>
                                                 </select>
-                                            </div>                                                
+                                            </div>
                                         </div>
 
                                         <div class="col-12" id="add_bebe" style="display:none">
-                                        <div class="row">
+                                            <div class="row">
 
-                                        <div class="col-6">
-                                            <label>Fecha de Nacimiento </label> <span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="date" id="fecha_nacimientobb" name="fecha_nacimientobb" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-birthday-cake"></i>
+                                                <div class="col-6">
+                                                    <label>Fecha de Nacimiento </label> <span style="color:red"> *</span>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <input type="date" id="fecha_nacimientobb" name="fecha_nacimientobb" class="form-control">
+                                                        <div class="form-control-position">
+                                                            <i class="fas fa-birthday-cake"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label>Naci&oacute;</label><span style="color:red"> *</span>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <div class="form-control-position">
+                                                            <i class="fas fa-list"></i>
+                                                        </div>
+                                                        <select class="select2 form-control" id="nacio" name="nacio" style="width: 100%;">
+                                                            <option value="" selected>Seleccione</option>
+                                                            <option value="Vivo">Vivo</option>
+                                                            <option value="Muerto">Muerto</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label>Peso </label>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <input type="number" placeholder="Peso Paciente KG" id="pesobb" name="pesobb" class="form-control">
+                                                        <div class="form-control-position">
+                                                            <i class='fas fa-weight'></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-6">
+                                                    <label>Talla </label>
+                                                    <div class="form-group position-relative has-icon-left">
+                                                        <input type="number" placeholder="Talla Paciente CM" id="tallabb" name="tallabb" class="form-control">
+                                                        <div class="form-control-position">
+                                                            <i class='fa fa-text-height'></i>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-6">
-                                            <label>Naci&oacute;</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-list"></i>
-                                                </div>                                        
-                                                <select class="select2 form-control" id="nacio" name="nacio" style="width: 100%;">
-                                                    <option value="" selected>Seleccione</option>
-                                                    <option value="Vivo">Vivo</option>
-                                                    <option value="Muerto">Muerto</option>
-                                                </select>
-                                            </div>                                                
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Peso </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Peso Paciente KG" id="pesobb" name="pesobb" class="form-control" >
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Talla </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Talla Paciente CM" id="tallabb" name="tallabb" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-text-height'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        </div>
-                                    </div>
 
                                     </div>
                                 </div>
@@ -1004,22 +953,16 @@
         $('#reg_expinicio').click(function() {
 
             let token = '{{csrf_token()}}';
-            let id_paciente = $('#id_hidden_em').val();
-            let gesta = $('#gesta').val();
-            let parto = $('#parto').val();
-            let cesarea = $('#cesarea').val();
-            let aborto = $('#aborto').val();
+            let id_paciente = $('#id_hidden_pacienteu').val();
+            let id_expediente = $('#id_hidden_expediente').val();
             let fur = $('#fur').val();
             let fpp = $('#fpp').val();
             let estudio_laboratorio = $('#estudio_lab').val();
 
             let data = {
                 id_paciente: id_paciente,
-                gesta: gesta,
-                parto: parto,
-                cesarea: cesarea,
-                aborto: aborto,
-                fur: fur,
+                id_expediente: id_expediente,
+                fum: fur,
                 fpp: fpp,
                 estudio_laboratorio: estudio_laboratorio,
                 _token: token
@@ -1027,7 +970,7 @@
 
             $.ajax({
                 method: 'POST',
-                url: '{{ route("regExpedienteEm") }}',
+                url: '{{ route("regExpedienteEmdos") }}',
                 data: data
             }).done(function(jqXHR) {
                 $("#altaExpIni")[0].reset();
@@ -1130,7 +1073,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Catalogo/ControlP') }}",
+                    "url": "{{ url('Expediente/ControlPrenatald') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1348,7 +1291,6 @@
 
         });
 
-
         $(document).on('change', '#fecha_nacimiento', function() {
             let fecha_nacimiento = $('#fecha_nacimiento').val();
             let hoy = new Date();
@@ -1395,10 +1337,10 @@
                 "url": "{{ url('Consulta/Embarazadas') }}",
             },
             responsive: true,
-            columns: [{
+            columns: [/*{
                     data: 'id',
                     name: 'id'
-                },
+                },*/
                 {
                     data: 'nombre_c',
                     name: 'nombre_c'
@@ -1498,8 +1440,8 @@
         });
 
         $(document).on('click', '.seleccionar_paciente', function() {
-            let id_paciente = $(this).attr('id');
-            $('#tipo_consulta_c').val("").select2();
+            let id_paciente = $(this).attr('name');
+            let id_expediente = $(this).attr('id');
 
             $.ajax({
                 url: "/ControlP/DataExiste/" + id_paciente,
@@ -1507,45 +1449,34 @@
                 success: function(data) {
                     alert('Error: Existe un expediente abierto con la paciente que seleccionó, ¡Favor de Verificar!')
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
                     $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
-                dataType: "json",
-                    success: function(data) {
-                        $('#expedienteInicioModal').appendTo("body")
-                        $('#expedienteInicioModal').modal('show');
-                        $('#expedienteInicioModal').css('overflow-y', 'auto');
-                        $('#expedienteInicioModal > .modal-body').css({
-                            width: 'auto',
-                            height: 'auto',
-                            'max-height': '100%'
-                        });
-                        
-                        $("#altaExpIni")[0].reset();
-
-                        $('#id_hidden_em').val(id_paciente);
-                        $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                        $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
-                        $('#edad_em').val(data.edad);
-                        document.getElementById("nombre_select_em").readOnly = true;
-                        document.getElementById("fecha_nacimiento_em").readOnly = true;
-                        document.getElementById("edad_em").readOnly = true;
-
-                        $.ajax({
-                        url: "/ControlP/DataAnte/" + id_paciente,
+                        url: "/Consulta/Paciente/" + id_paciente,
                         dataType: "json",
                         success: function(data) {
-                            $('#gesta').val(data.gesta);
-                            $('#parto').val(data.parto);
-                            $('#cesarea').val(data.cesarea);
-                            $('#aborto').val(data.aborto);
-                        }});
+                            $('#expedienteInicioModal').appendTo("body")
+                            $('#expedienteInicioModal').modal('show');
+                            $('#expedienteInicioModal').css('overflow-y', 'auto');
+                            $('#expedienteInicioModal > .modal-body').css({
+                                width: 'auto',
+                                height: 'auto',
+                                'max-height': '100%'
+                            });
+
+                            $("#altaExpIni")[0].reset();
+
+                            $('#id_hidden_em').val(id_paciente);
+                            $('#id_hidden_pacienteu').val(id_paciente);
+                            $('#id_hidden_expediente').val(id_expediente);
+                            $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                            $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
+                            $('#edad_em').val(data.edad);
+                        }
+                    });
                 }
             });
-                } 
-            });
 
-            
+
         });
 
         $('#crear_consulta').click(function() {
@@ -2088,35 +2019,32 @@
         $(document).on('click', '.finalizar_cp', function() {
             let id_consulta = $(this).attr('id');
             let id_paciente = $(this).attr('name');
-            
+
             $('#hidden_id_cpbb').val(id_consulta);
             $('#hidden_id_pacbb').val(id_paciente);
             $('#finalizar_CPModal').appendTo("body")
             $('#finalizar_CPModal').modal('show');
             $("#cerrar_cp")[0].reset();
             $("#nacio").val("").select2();
-            $('#add_bebe').hide();    
+            $('#add_bebe').hide();
         });
 
-        $('#ag_databb').change(function(){   
+        $('#ag_databb').change(function() {
             let add = $('#ag_databb').val();
             //$("#cerrar_cp")[0].reset();
             $("#nacio").val("").select2();
-            $("#fecha_nacimientobb").val("");  
-            $("#pesobb").val("");  
-            $("#tallabb").val("");             
+            $("#fecha_nacimientobb").val("");
+            $("#pesobb").val("");
+            $("#tallabb").val("");
 
-            if(add == 1)
-            {
+            if (add == 1) {
                 $('#add_bebe').show();
-            }
-            else if(add == 2)
-            {
-                $('#add_bebe').hide();  
+            } else if (add == 2) {
+                $('#add_bebe').hide();
             }
         });
 
-        $('#end_cp').click(function(){
+        $('#end_cp').click(function() {
             let id_consulta = $('#hidden_id_cpbb').val();
             let id_paciente = $('#hidden_id_pacbb').val();
             let token = '{{csrf_token()}}';
@@ -2135,37 +2063,36 @@
                 talla: talla,
                 question: question,
                 _token: token
-            };           
+            };
 
-            if(question == ""){
+            if (question == "") {
                 alert("Seleccione una opción");
-            }
-            else{
+            } else {
                 let respuesta = confirm("¡El expediente se Finalizará!");
-            if (respuesta) {
-                $.ajax({
-                    method: 'POST',
-                    url: '{{ route("end_expCP") }}',
-                    data: data
-                }).done(function(jqXHR) {
-                    $("#cerrar_cp")[0].reset();
-                    $("#nacio").val("").select2();
-                    $('#finalizar_CPModal').modal('hide');                    
-                    $('#consultaE_tables').DataTable().ajax.reload();
-                    ok(jqXHR);
-                    setTimeout(function() {
-                        $('#ok').hide();
-                    }, 2000);
-                }).fail(function(jqXHR, textStatus, errorThrown) {
-                    if (jqXHR.status == 422) {
-                        if (!$('#response_adddatabb').empty()) {
-                            $('#response_adddatabb').empty();
-                        }
+                if (respuesta) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '{{ route("end_expCP") }}',
+                        data: data
+                    }).done(function(jqXHR) {
+                        $("#cerrar_cp")[0].reset();
+                        $("#nacio").val("").select2();
+                        $('#finalizar_CPModal').modal('hide');
+                        $('#consultaE_tables').DataTable().ajax.reload();
+                        ok(jqXHR);
+                        setTimeout(function() {
+                            $('#ok').hide();
+                        }, 2000);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 422) {
+                            if (!$('#response_adddatabb').empty()) {
+                                $('#response_adddatabb').empty();
+                            }
 
-                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                            if ($.isPlainObject(value)) {
-                                $.each(value, function(key, value) {
-                                    $('#response_adddatabb').show().append(`
+                            $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                                if ($.isPlainObject(value)) {
+                                    $.each(value, function(key, value) {
+                                        $('#response_adddatabb').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -2177,19 +2104,19 @@
                                         </span>
                                     </li>
                             </ul>`);
-                                });
-                            }
-                            setTimeout(function() {
-                                $('#response_adddatabb').hide();
-                            }, 5000);
-                        });
-                    }
-                    if (jqXHR.status == 442) {
-                        if (!$('#response_adddatabb').empty()) {
-                            $('#response_adddatabb').empty();
+                                    });
+                                }
+                                setTimeout(function() {
+                                    $('#response_adddatabb').hide();
+                                }, 5000);
+                            });
                         }
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $('#response_adddatabb').show().append(`
+                        if (jqXHR.status == 442) {
+                            if (!$('#response_adddatabb').empty()) {
+                                $('#response_adddatabb').empty();
+                            }
+                            let responseText = jQuery.parseJSON(jqXHR.responseText);
+                            $('#response_adddatabb').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -2201,25 +2128,38 @@
                                         </span>
                                     </li>
                             </ul>`);
-                        setTimeout(function() {
-                            $('#response_adddatabb').hide();
-                        }, 5000);
+                            setTimeout(function() {
+                                $('#response_adddatabb').hide();
+                            }, 5000);
 
-                    }
-                    if (jqXHR.status == 500) {
-                        let responseText = jQuery.parseJSON(jqXHR.responseText);
-                        $("#cerrar_cp")[0].reset();
-                        $("#nacio").val("").select2();
-                        $('#finalizar_CPModal').modal('hide');                        
-                        $('#consultaE_tables').DataTable().ajax.reload();
-                        errorRazon(responseText)
+                        }
+                        if (jqXHR.status == 500) {
+                            let responseText = jQuery.parseJSON(jqXHR.responseText);
+                            $("#cerrar_cp")[0].reset();
+                            $("#nacio").val("").select2();
+                            $('#finalizar_CPModal').modal('hide');
+                            $('#consultaE_tables').DataTable().ajax.reload();
+                            errorRazon(responseText)
 
-                    }
-                });
-            }         
+                        }
+                    });
+                }
             }
         });
 
+        $(document).on('change', '#fur', function() {
+            let fum = $('#fur').val();
+            $.ajax({
+                url: "/ControlP/Calculofpp/" + fum,
+               // dataType: "json",
+                success: function(data) {
+                    $('#fpp').val(data);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {                  
+                }
+            });
+
+        });
 
         $('#cerrarImprimir').click(function() {
             $('#pdfModal').modal('hide');
@@ -2235,7 +2175,7 @@
 <script>
     jQuery(document).ready(function($) {
 
-       
+
     });
 </script>
 

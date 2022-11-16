@@ -77,6 +77,11 @@ Route::get('/ControlP/DataExiste/{id}', [ControlPrenatalController::class, 'data
 Route::get('/ControlP/DataAnte/{id}', [ControlPrenatalController::class, 'data_ante']);
 Route::get('/Expediente/ControlPrenatal', [ControlPrenatalController::class, 'index_expCP']);
 Route::post('ControlP/End', [ControlPrenatalController::class, 'endCP'])->name('end_expCP');
+Route::get('/ControlP/ExpedienteExiste/{id}', [ControlPrenatalController::class, 'expediente_existe']);
+Route::post('ControlP/EditAGO', [ControlPrenatalController::class, 'edit_antgo'])->name('antgo_edit');
+Route::get('/Expediente/ControlPrenatald', [ControlPrenatalController::class, 'index_expCPd']);
+Route::post('ControlP/RegistroControl', [ControlPrenatalController::class, 'regControl'])->name('regExpedienteEmdos');
+Route::get('/ControlP/Calculofpp/{id}', [ControlPrenatalController::class, 'calcular_fpp']);
 
 
 //Citas

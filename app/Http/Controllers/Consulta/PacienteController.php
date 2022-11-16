@@ -49,6 +49,7 @@ class PacienteController extends Controller
 
                     return $button;
                 })
+                ->rawColumns(['accion'])
                 ->make(true);
         }
 

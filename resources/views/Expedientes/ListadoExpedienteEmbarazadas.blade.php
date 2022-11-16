@@ -52,7 +52,7 @@
         </button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
-<br>
+    <br>
     <div class="row justify-content-center">
         <div class="col-md-12">
             <div class="card">
@@ -62,17 +62,38 @@
                         <div class="table-responsive">
                             <table class="table">
 
-                            <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Expediente</th>
-                                        <th>Paciente</th>
-                                        <th>Creaci&oacute;n Expediente</th>
-                                        <th>Seguimiento</th>
-                                        <th width="15%">Acci&oacute;n</th>
-                                    </tr>
-                                </thead>
-                            </table>
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th align="left" style="text-align:left; padding: 3px">
+                                                <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
+                                                    <i class="fas fa-plus-circle"></i> Agregar Paciente
+                                                </a>
+                                            </th>
+                                            <th align="center" style="text-align:center; padding: 3px">
+
+                                            </th>
+
+                                            <th align="right" style="text-align:right; padding: 3px">
+                                                <a href="#" class="btn btn-info btn-min-width btn-glow" id="nuevo_expediente" style="color: white" role="button">
+                                                    <i class='fas fa-file-archive'></i></i> Nuevo Expediente
+                                                </a>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                </table>
+
+
+                                <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>Expediente</th>
+                                            <th>Paciente</th>
+                                            <th>Creaci&oacute;n Expediente</th>
+                                            <th width="15%">Acci&oacute;n</th>
+                                        </tr>
+                                    </thead>
+                                </table>
                         </div>
                     </div>
                 </div>
@@ -410,7 +431,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12">
+                                        <!--<div class="col-12">
                                             <h4 class="form-section"><i class="fas fa-baby-carriage"></i> Embarazo Actual</h4>
                                         </div>
 
@@ -442,8 +463,7 @@
                                                     <i class='fa fa-check-square'></i>
                                                 </div>
                                             </div>
-                                        </div>
-
+                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -458,7 +478,7 @@
                         <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                         <input type="hidden" id="id_hidden_em" name="id_hidden_em">
                         <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_expinicio" id="reg_expinicio" role="button">
-                            <i class="fas fa-share"></i> Registrar
+                            <i class="fas fa-share"></i> Crear Expediente
                         </a>
                     </div>
                 </div>
@@ -486,7 +506,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_expN" role="alert" style="display:none"></div>
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_expN2" role="alert" style="display:none"></div>
                                         </div>
 
                                         <div class="col-12">
@@ -529,14 +549,14 @@
                                                 <div class="form-control-position">
                                                     <i class="fas fa-baby"></i>
                                                 </div>
-                                                <input type="number" placeholder="Gestas" id="gesta_ant" name="gesta_ant" class="form-control" readonly>
+                                                <input type="number" placeholder="Gestas" id="gesta_ant" name="gesta_ant" class="form-control">
                                             </div>
                                         </div>
 
                                         <div class="col-3">
                                             <label>Partos</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Partos" id="parto_ant" name="parto_ant" class="form-control" readonly>
+                                                <input type="number" placeholder="Partos" id="parto_ant" name="parto_ant" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class='fa fa-child'></i>
                                                 </div>
@@ -546,7 +566,7 @@
                                         <div class="col-3">
                                             <label>Ces&aacute;reas</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Ces&aacute;reas" id="cesarea_ant" name="cesarea_ant" class="form-control" readonly>
+                                                <input type="number" placeholder="Ces&aacute;reas" id="cesarea_ant" name="cesarea_ant" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-cut"></i>
                                                 </div>
@@ -556,47 +576,12 @@
                                         <div class="col-3">
                                             <label>Abortos</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Abortos" id="aborto_ant" name="aborto_ant" class="form-control" readonly>
+                                                <input type="number" placeholder="Abortos" id="aborto_ant" name="aborto_ant" class="form-control">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-stop"></i>
                                                 </div>
                                             </div>
                                         </div>
-
-                                        <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-baby-carriage"></i> Embarazo Actual</h4>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>FUM </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="date" id="fur_ant" name="fur_ant" class="form-control" readonly>
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>FPP </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="date" id="fpp_ant" name="fpp_ant" class="form-control" readonly>
-                                                <div class="form-control-position">
-                                                    <i class="fas fa-calendar-plus"></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Estudios Laboratorio </label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="estudio_labant" id="estudio_labant" cols="150" rows="2" class="form-control" readonly></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-check-square'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -607,6 +592,10 @@
                     <div class="modal-footer">
                         <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                             <i class="fas fa-ban"></i> Salir
+                        </a>
+                        <input type="hidden" id="id_hidden_antgo" name="id_hidden_antgo">
+                        <a class="btn btn-danger btn-min-width btn-glow" id="editar_antecedentes" style="color: white" role="button">
+                            <i class="fas fa-edit"></i> Editar
                         </a>
                     </div>
                 </div>
@@ -884,7 +873,7 @@
             let aborto = $('#aborto').val();
             let fur = $('#fur').val();
             let fpp = $('#fpp').val();
-            let estudio_laboratorio = $('#estudio_lab').val();
+            //let estudio_laboratorio = $('#estudio_lab').val();
 
             let data = {
                 id_paciente: id_paciente,
@@ -894,33 +883,38 @@
                 aborto: aborto,
                 fur: fur,
                 fpp: fpp,
-                estudio_laboratorio: estudio_laboratorio,
+                //estudio_laboratorio: estudio_laboratorio,
                 _token: token
             };
 
-            $.ajax({
-                method: 'POST',
-                url: '{{ route("regExpedienteEm") }}',
-                data: data
-            }).done(function(jqXHR) {
-                $("#altaExpIni")[0].reset();
-                $('#expedienteInicioModal').modal('hide');
-                $('#verPacienteModal').modal('hide');
-                $('#consultaE_tables').DataTable().ajax.reload();
-                ok(jqXHR);
-                setTimeout(function() {
-                    $('#ok').hide();
-                }, 2000);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status == 422) {
-                    if (!$('#response_expN').empty()) {
-                        $('#response_expN').empty();
-                    }
+            let respuesta = confirm("¡Se creará el expediente!");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("regExpedienteEm") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $("#altaExpIni")[0].reset();
+                    $('#expedienteInicioModal').modal('hide');
+                    $('#verPacienteModal').modal('hide');
+                    $('#consultaE_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                        returnUrl = window.location.protocol + "//" + window.location.host +
+                            "/Consulta/Embarazadas/";
+                        location.href = returnUrl;
+                    }, 3000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_expN').empty()) {
+                            $('#response_expN').empty();
+                        }
 
-                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                        if ($.isPlainObject(value)) {
-                            $.each(value, function(key, value) {
-                                $('#response_expN').show().append(`
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_expN').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -932,25 +926,26 @@
                                         </span>
                                     </li>
                             </ul>`);
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
 
-                    setTimeout(function() {
-                        $('#response_expN').hide();
-                    }, 4000);
-                }
-                if (jqXHR.status == 500) {
-                    var responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $("#altaExpIni")[0].reset();
-                    $('#expedienteInicioModal').modal('hide');
-                    $('#verPacienteModal').modal('hide');
-                    $('#consultaE_tables').DataTable().ajax.reload();
-                    errorRazon(responseText)
+                        setTimeout(function() {
+                            $('#response_expN').hide();
+                        }, 4000);
+                    }
+                    if (jqXHR.status == 500) {
+                        var responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $("#altaExpIni")[0].reset();
+                        $('#expedienteInicioModal').modal('hide');
+                        $('#verPacienteModal').modal('hide');
+                        $('#consultaE_tables').DataTable().ajax.reload();
+                        errorRazon(responseText)
 
-                }
-            });
+                    }
+                });
 
+            }
         });
 
         $(document).on('change', '#medSelect', function() {
@@ -974,7 +969,7 @@
 
         });
 
-        $('#nueva_consulta').click(function() {
+        $('#nuevo_expediente').click(function() {
             $('#verPacienteModal').appendTo("body")
             $('#verPacienteModal').modal('show');
             $('#verPacienteModal').css('overflow-y', 'auto');
@@ -1055,9 +1050,7 @@
                     $('#parto_ant').val(data.parto);
                     $('#cesarea_ant').val(data.cesarea);
                     $('#aborto_ant').val(data.aborto);
-                    $('#fur_ant').val(data.fur);
-                    $('#fpp_ant').val(data.fpp);
-                    $('#estudio_labant').val(data.estudio_lab);
+                    $('#id_hidden_antgo').val(id_exp);
                 }
             });
         });
@@ -1221,7 +1214,6 @@
 
         });
 
-
         $(document).on('change', '#fecha_nacimiento', function() {
             let fecha_nacimiento = $('#fecha_nacimiento').val();
             let hoy = new Date();
@@ -1279,10 +1271,6 @@
                 {
                     data: 'fecha',
                     name: 'fecha',
-                },
-                {
-                    data: 'estatus_c',
-                    name: 'estatus_c',
                 },
                 {
                     data: 'accion',
@@ -1372,53 +1360,98 @@
 
         $(document).on('click', '.seleccionar_paciente', function() {
             let id_paciente = $(this).attr('id');
-            $('#tipo_consulta_c').val("").select2();
 
-            $.ajax({
-                url: "/ControlP/DataExiste/" + id_paciente,
-                dataType: "json",
-                success: function(data) {
-                    alert('Error: Existe un expediente abierto con la paciente que seleccionó, ¡Favor de Verificar!')
-                },
-                error: function(XMLHttpRequest, textStatus, errorThrown) { 
-                    $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
-                dataType: "json",
+            /*$.ajax({
+                     url: "/ControlP/DataExiste/" + id_paciente,
+                    dataType: "json",
                     success: function(data) {
-                        $('#expedienteInicioModal').appendTo("body")
-                        $('#expedienteInicioModal').modal('show');
-                        $('#expedienteInicioModal').css('overflow-y', 'auto');
-                        $('#expedienteInicioModal > .modal-body').css({
-                            width: 'auto',
-                            height: 'auto',
-                            'max-height': '100%'
-                        });
-                        
-                        $("#altaExpIni")[0].reset();
-
-                        $('#id_hidden_em').val(id_paciente);
-                        $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                        $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
-                        $('#edad_em').val(data.edad);
-                        document.getElementById("nombre_select_em").readOnly = true;
-                        document.getElementById("fecha_nacimiento_em").readOnly = true;
-                        document.getElementById("edad_em").readOnly = true;
-
-                        $.ajax({
-                        url: "/ControlP/DataAnte/" + id_paciente,
+                    alert('Error: Existe un expediente abierto con la paciente que seleccionó, ¡Favor de Verificar!')
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $.ajax({
+                        url: "/Consulta/Paciente/" + id_paciente,
                         dataType: "json",
                         success: function(data) {
-                            $('#gesta').val(data.gesta);
-                            $('#parto').val(data.parto);
-                            $('#cesarea').val(data.cesarea);
-                            $('#aborto').val(data.aborto);
-                        }});
+                            $('#expedienteInicioModal').appendTo("body")
+                            $('#expedienteInicioModal').modal('show');
+                            $('#expedienteInicioModal').css('overflow-y', 'auto');
+                            $('#expedienteInicioModal > .modal-body').css({
+                                width: 'auto',
+                                height: 'auto',
+                                'max-height': '100%'
+                            });
+
+                            $("#altaExpIni")[0].reset();
+
+                            $('#id_hidden_em').val(id_paciente);
+                            $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                            $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
+                            $('#edad_em').val(data.edad);
+                            document.getElementById("nombre_select_em").readOnly = true;
+                            document.getElementById("fecha_nacimiento_em").readOnly = true;
+                            document.getElementById("edad_em").readOnly = true;
+
+                            $.ajax({
+                                url: "/ControlP/DataAnte/" + id_paciente,
+                                dataType: "json",
+                                success: function(data) {
+                                    $('#gesta').val(data.gesta);
+                                    $('#parto').val(data.parto);
+                                    $('#cesarea').val(data.cesarea);
+                                    $('#aborto').val(data.aborto);
+                                }
+                            });
+                        }
+                    });
+                }
+            });*/
+
+            $.ajax({
+                url: "/ControlP/ExpedienteExiste/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    alert('Error: Ya existe un expediente con la paciente que seleccionó, ¡Favor de Verificar!')
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    $.ajax({
+                        url: "/Consulta/Paciente/" + id_paciente,
+                        dataType: "json",
+                        success: function(data) {
+                            $('#expedienteInicioModal').appendTo("body")
+                            $('#expedienteInicioModal').modal('show');
+                            $('#expedienteInicioModal').css('overflow-y', 'auto');
+                            $('#expedienteInicioModal > .modal-body').css({
+                                width: 'auto',
+                                height: 'auto',
+                                'max-height': '100%'
+                            });
+
+                            $("#altaExpIni")[0].reset();
+
+                            $('#id_hidden_em').val(id_paciente);
+                            $('#nombre_select_em').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                            $('#fecha_nacimiento_em').val(data.fecha_nacimiento);
+                            $('#edad_em').val(data.edad);
+                            document.getElementById("nombre_select_em").readOnly = true;
+                            document.getElementById("fecha_nacimiento_em").readOnly = true;
+                            document.getElementById("edad_em").readOnly = true;
+
+                            /*$.ajax({
+                                url: "/ControlP/DataAnte/" + id_paciente,
+                                dataType: "json",
+                                success: function(data) {
+                                    $('#gesta').val(data.gesta);
+                                    $('#parto').val(data.parto);
+                                    $('#cesarea').val(data.cesarea);
+                                    $('#aborto').val(data.aborto);
+                                }
+                            });*/
+                        }
+                    });
                 }
             });
-                } 
-            });
 
-            
+
         });
 
         $('#crear_consulta').click(function() {
@@ -1958,6 +1991,75 @@
             }
         });
 
+        $('#editar_antecedentes').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#id_hidden_antgo').val();
+            let gesta = $('#gesta_ant').val();
+            let parto = $('#parto_ant').val();
+            let cesarea = $('#cesarea_ant').val();
+            let aborto = $('#aborto_ant').val();
+            let data = {
+                id: id,
+                gesta: gesta,
+                parto: parto,
+                cesarea: cesarea,
+                aborto: aborto,
+                _token: token
+            };
+
+            let respuesta = confirm("¡Al dar clic en aceptar se actualizarán los Antecedentes Ginecoobstréticos!");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("antgo_edit") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#antecedentesModal').modal('hide');
+                    $('#consultaE_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_expN2').empty()) {
+                            $('#response_expN2').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_expN2').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#response_expN2').hide();
+                            }, 3000);
+                        });
+                    }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#consultag_tables').DataTable().ajax.reload();
+                        $('#antecedentesModal').modal('hide');
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
+        });
+
+
         $('#cerrarImprimir').click(function() {
             $('#pdfModal').modal('hide');
         });
@@ -1972,7 +2074,7 @@
 <script>
     jQuery(document).ready(function($) {
 
-       
+
     });
 </script>
 

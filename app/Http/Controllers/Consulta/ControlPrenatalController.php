@@ -7,6 +7,7 @@ use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\AntecendenteGO;
 use App\Models\Paciente\ControlPrenatal;
+use App\Models\Paciente\ExpedienteCP;
 use App\Models\Paciente\ExpedienteInicio;
 use App\Models\Paciente\Paciente;
 use App\Models\Paciente\Seguimiento;
@@ -19,6 +20,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DB;
 use DataTables;
+use DateTime;
 
 class ControlPrenatalController extends Controller
 {
@@ -161,8 +163,6 @@ class ControlPrenatalController extends Controller
             'parto' => 'required|numeric|min:0|not_in:-1',
             'cesarea' => 'required|numeric|min:0|not_in:-1',
             'aborto' => 'required|numeric|min:0|not_in:-1',
-            'fur' =>  ['required', 'string', 'max:255'],
-            'fpp' =>  ['required', 'string', 'max:255'],
         ]);
 
         $id_paciente = $data->id_paciente;
@@ -171,13 +171,10 @@ class ControlPrenatalController extends Controller
         $parto = $data->parto;
         $cesarea = $data->cesarea;
         $aborto = $data->aborto;
-        $fur = $data->fur;
-        $fpp = $data->fpp;
-        $estudio = $data->estudio_laboratorio;
 
         //return $data;
 
-        ControlPrenatal::create([
+        /*ControlPrenatal::create([
             'id_paciente' => $id_paciente,
             'id_usuario' => $id_usuario,
             'id_medico' => $id_medico,
@@ -187,9 +184,19 @@ class ControlPrenatalController extends Controller
         ]);
 
         $le = ControlPrenatal::latest('id')->first();
+        $id_exp = $le->id;*/
+
+        ExpedienteCP::create([
+            'id_paciente' => $id_paciente,
+            'id_medico' => $id_medico,
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+
+        $le = ExpedienteCP::latest('id')->first();
         $id_exp = $le->id;
 
-        AntecendenteGO::create([
+        $regAnt = AntecendenteGO::create([
             'id_expediente' => $id_exp,
             'id_paciente' => $id_paciente,
             'id_medico' => $id_medico,
@@ -201,7 +208,7 @@ class ControlPrenatalController extends Controller
             'hora' => date('H:i:s'),
         ]);
 
-        $regAnt = ExpedienteInicio::create([
+        /*$regAnt = ExpedienteInicio::create([
             'id_expediente' => $id_exp,
             'id_paciente' => $id_paciente,
             'fur' => $fur,
@@ -209,32 +216,28 @@ class ControlPrenatalController extends Controller
             'estudio_lab' => $estudio,
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s'),
-        ]);
+        ]);*/
 
         if ($regAnt != '') {
-            return response()->json('Expediente Creado Correctamente', 200);
+            return response()->json('¡Se ha creado el expediente correctamente!, Un momento será redirigido al panel de Consultas', 200);
         }
     }
 
     public function data_ant($id)
     {
-        $data = ControlPrenatal::select(
-            'control_prenatal.fecha',
+        $data = ExpedienteCP::select(
+            'expediente_cp.fecha',
             'antecedentes_go.gesta',
             'antecedentes_go.parto',
             'antecedentes_go.cesarea',
             'antecedentes_go.aborto',
-            'expediente_inicio.fur',
-            'expediente_inicio.fpp',
-            'expediente_inicio.estudio_lab',
             'persona.fecha_nacimiento',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
         )
-            ->join('antecedentes_go', 'antecedentes_go.id_expediente', 'control_prenatal.id')
-            ->join('expediente_inicio', 'expediente_inicio.id_expediente', 'control_prenatal.id')
-            ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
+            ->join('antecedentes_go', 'antecedentes_go.id_expediente', 'expediente_cp.id')
+            ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
-            ->where('control_prenatal.id', $id)
+            ->where('expediente_cp.id', $id)
             ->first();
 
         return $data;
@@ -285,7 +288,7 @@ class ControlPrenatalController extends Controller
 
         $paciente = ControlPrenatal::select('id_paciente')
             ->where('id', $id_exp)
-            ->first();       
+            ->first();
 
         $data->validate([
             'peso' => 'required|numeric|min:0|not_in:-1',
@@ -312,17 +315,17 @@ class ControlPrenatalController extends Controller
 
         //return $data;
 
-        $seg =Seguimiento::create([
+        $seg = Seguimiento::create([
             'id_expediente' => $id_exp,
             'id_paciente' => $id_paciente,
-            'id_medico' => $id_medico,            
+            'id_medico' => $id_medico,
             'exploracion_fisica' => $exploracion_fisica,
             'semana_gesta' => $semana_gesta,
             'peso' => $peso,
-            'ta' => $tension_arterial,            
+            'ta' => $tension_arterial,
             'fondo_uterino' => $fondo_uterino,
             'presentacion' => $presentacion,
-            'frecuencia_cardiaca' => $frecuencia_cardiaca,            
+            'frecuencia_cardiaca' => $frecuencia_cardiaca,
             'otro' => $otro,
             'estatus' => '1',
             'observaciones' => $observaciones,
@@ -373,46 +376,33 @@ class ControlPrenatalController extends Controller
             ->first();
 
         if ($request->ajax()) {
-            $data = ControlPrenatal::select(
-                'control_prenatal.id',
-                'control_prenatal.fecha',
-                'control_prenatal.estatus',
+            $data = ExpedienteCP::select(
+                'expediente_cp.id',
+                'expediente_cp.fecha',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
-                DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "Gestando"  
-                WHEN control_prenatal.estatus= "2" THEN "Embarazo Finalizado"
-                WHEN control_prenatal.estatus= "0" THEN "NO SE LLEVO ACABO" END) AS estatus_c'),
             )
-                ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
+                ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
-                ->where('control_prenatal.id_medico', $medico->id)
-                ->where('control_prenatal.estatus', '=', '2')
-                ->orderBy('control_prenatal.fecha', 'desc')
+                ->where('expediente_cp.id_medico', $medico->id)
+                ->orderBy('expediente_cp.fecha', 'desc')
                 ->get();
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    if ($data->estatus == 2) {
-                        
-                        $button = '&nbsp;
+                    $button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>                        
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-success btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-print"></i> Imprimir</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
+                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
                         </ul>
                          </div>';
-                        return $button;
-                    }
-                    if ($data->estatus == 0) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
-                        return $button;
-                    }
+                    return $button;
                 })
                 ->rawColumns(['accion'])
-                ->editColumn('fecha', function (ControlPrenatal $dat) {
+                ->editColumn('fecha', function (ExpedienteCP $dat) {
                     return date('d/m/Y', strtotime($dat->fecha));
                 })
                 ->make(true);
@@ -455,7 +445,7 @@ class ControlPrenatalController extends Controller
 
         $paciente = ControlPrenatal::select('id_paciente')
             ->where('id', $id_exp)
-            ->first();       
+            ->first();
 
         $data->validate([
             'peso' => 'required|numeric|min:0|not_in:-1',
@@ -482,17 +472,17 @@ class ControlPrenatalController extends Controller
 
         //return $data;
 
-        $seg =Seguimiento::create([
+        $seg = Seguimiento::create([
             'id_expediente' => $id_exp,
             'id_paciente' => $id_paciente,
-            'id_medico' => $id_medico,            
+            'id_medico' => $id_medico,
             'exploracion_fisica' => $exploracion_fisica,
             'semana_gesta' => $semana_gesta,
             'peso' => $peso,
-            'ta' => $tension_arterial,            
+            'ta' => $tension_arterial,
             'fondo_uterino' => $fondo_uterino,
             'presentacion' => $presentacion,
-            'frecuencia_cardiaca' => $frecuencia_cardiaca,            
+            'frecuencia_cardiaca' => $frecuencia_cardiaca,
             'otro' => $otro,
             'estatus' => '1',
             'observaciones' => $observaciones,
@@ -508,4 +498,173 @@ class ControlPrenatalController extends Controller
         }
     }
 
+    public function expediente_existe($id)
+    {
+        $id_paciente = $id;
+        $data = ExpedienteCP::select('expediente_cp.id')
+            ->where('expediente_cp.id_paciente', $id_paciente)
+            ->first();
+
+        return $data;
+    }
+
+    public function edit_antgo(Request $request)
+    {
+        $usuario = auth()->user();
+        $data = $request;
+        $id_exp = $data->id;
+
+        $data->validate([
+            'gesta' => 'required|numeric|min:0|not_in:-1',
+            'parto' => 'required|numeric|min:0|not_in:-1',
+            'cesarea' => 'required|numeric|min:0|not_in:-1',
+            'aborto' =>  'required|numeric|min:0|not_in:-1',
+        ]);
+
+
+        $gesta = $data->gesta;
+        $parto = $data->parto;
+        $cesarea = $data->cesarea;
+        $aborto = $data->aborto;
+
+        $updateAntGO = AntecendenteGO::where('id_expediente', $id_exp)->update([
+            'gesta' => $gesta,
+            'parto' => $parto,
+            'cesarea' => $cesarea,
+            'aborto' => $aborto,
+        ]);
+
+
+        if ($updateAntGO != '') {
+            return response()->json('Se han actualizado correctamente los antecedentes ginecoobstréticos', 200);
+        }
+    }
+
+    public function index_expCPd(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        if ($request->ajax()) {
+            $data = ExpedienteCP::select(
+                'expediente_cp.id',
+                'expediente_cp.fecha',
+                'persona.fecha_nacimiento',
+                'paciente.id AS id_paciente',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+            )
+                ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
+                ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->where('expediente_cp.id_medico', $medico->id)
+                ->orderBy('expediente_cp.fecha', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    $button = '<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="seleccionar_paciente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-check fa-1x"></i> Seleccionar</button>';
+                    return $button;
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
+
+        $tipoConsulta = TipoConsulta::all();
+        $tipoSangre = TipoSangre::all();
+        $medicamentos = Medicamento::select(
+            'medicamento.id',
+            'medicamento.activo',
+            'stock_medicamento.cantidad',
+            'medicamento.precio_venta',
+            'medicamento.fecha_cad',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            //DB::raw("CONCAT('Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
+        )
+            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+            ->where('medicamento.activo', '=', '1')
+            ->orderBy('medicamento.nombre', 'asc')
+            ->get();
+        return view('ControlEmbarazadas.Listado')
+            ->with('tipoC', $tipoConsulta)
+            ->with('tipoS', $tipoSangre)
+            ->with('med', $medicamentos);
+    }
+
+    public function regControl(Request $request)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $data = $request;
+
+        $data->validate([
+            'fum' => 'required',
+            'fpp' => 'required',
+            'estudio_laboratorio' => 'required',
+            //'tipo_consulta' => ['required', 'string', 'max:255'],
+        ]);
+
+        $id_paciente = $data->id_paciente;
+        $id_expediente = $data->id_expediente;
+        $id_medico = $medico->id;
+        $fum = $data->fum;
+        $fpp = $data->fpp;
+        $estudio_laboratorio = $data->estudio_laboratorio;
+        $con = 0;        
+
+        $contador = ControlPrenatal::where('id_expediente', $id_expediente)
+        ->where('id_paciente', $id_paciente)
+        ->where('estatus', '=', '2')
+        ->count();
+
+        $con += 1;
+
+        //return $contador;
+
+            ControlPrenatal::create([
+                'id_expediente' => $id_paciente,
+                'id_paciente' => $id_paciente,
+                'id_usuario' => $id_usuario,
+                'id_medico' => $id_medico,
+                'registro' => $con,
+                'estatus' => '1',
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+            ]);
+
+        $le = ControlPrenatal::latest('id')->first();
+        $id_exp = $le->id;
+
+        $regAnt = ExpedienteInicio::create([
+            'id_expediente' => $id_expediente,
+            'id_paciente' => $id_paciente,
+            'id_control' => $id_exp,
+            'fur' => $fum,
+            'fpp' => $fpp,
+            'estudio_lab' => $estudio_laboratorio,
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+
+        if ($regAnt != '') {
+            return response()->json('¡Se ha creado el expediente correctamente!, Un momento será redirigido al panel de Consultas', 200);
+        }
+    }
+
+    public function calcular_fpp($fecha)
+    {
+        $fecha_c = $fecha;
+        $suma = 280;
+        $fecha = date("Y-m-d", strtotime($fecha_c . "+ " . $suma . " days"));
+        return $fecha;
+    }
 }
