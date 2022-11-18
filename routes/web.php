@@ -71,6 +71,7 @@ Route::get('/Consulta/Embarazadas', [ControlPrenatalController::class, 'index'])
 Route::get('/Catalogo/ControlP', [ControlPrenatalController::class, 'select_embarazada']);
 Route::post('ControlP/Registro', [ControlPrenatalController::class, 'regExp'])->name('regExpedienteEm');
 Route::get('/ControlP/DataAnt/{id}', [ControlPrenatalController::class, 'data_ant']);
+Route::get('/ControlP/DataAntD/{id}', [ControlPrenatalController::class, 'data_antdos']);
 Route::get('/Expediente/CEmver/{id}', [ControlPrenatalController::class, 'expediente_CE_pa']);
 Route::post('ControlP/RegistroCon', [ControlPrenatalController::class, 'regConEmb'])->name('regConEmm');
 Route::get('/ControlP/DataExiste/{id}', [ControlPrenatalController::class, 'data_existe']);

@@ -40,6 +40,7 @@ class ControlPrenatalController extends Controller
                 'control_prenatal.fecha',
                 'control_prenatal.estatus',
                 'paciente.id AS id_paciente',
+                'expediente_cp.id AS id_expediente',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
                 DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "Gestando"  
                 WHEN control_prenatal.estatus= "2" THEN "Embarazo Finalizado"
@@ -47,6 +48,7 @@ class ControlPrenatalController extends Controller
             )
                 ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
+                ->join('expediente_cp', 'expediente_cp.id', 'control_prenatal.id_expediente')
                 ->where('control_prenatal.id_medico', $medico->id)
                 ->where('control_prenatal.estatus', '=', '1')
                 ->orderBy('control_prenatal.fecha', 'desc')
@@ -61,9 +63,9 @@ class ControlPrenatalController extends Controller
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_paciente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
                          </div>';
                         return $button;
@@ -232,12 +234,36 @@ class ControlPrenatalController extends Controller
             'antecedentes_go.cesarea',
             'antecedentes_go.aborto',
             'persona.fecha_nacimiento',
+            'expediente_inicio.fur',
+            'expediente_inicio.fpp',
+            'expediente_inicio.estudio_lab',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
         )
             ->join('antecedentes_go', 'antecedentes_go.id_expediente', 'expediente_cp.id')
             ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
             ->join('persona', 'persona.id', 'paciente.id_persona')
-            ->where('expediente_cp.id', $id)
+            ->join('expediente_inicio', 'expediente_inicio.id_expediente', 'expediente_cp.id')
+            ->where('antecedentes_go.id_expediente', $id)
+            ->first();
+
+        return $data;
+    }
+
+    public function data_antdos($id)
+    {
+        $data = ExpedienteCP::select(
+            'expediente_cp.fecha',
+            'antecedentes_go.gesta',
+            'antecedentes_go.parto',
+            'antecedentes_go.cesarea',
+            'antecedentes_go.aborto',
+            'persona.fecha_nacimiento',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+        )
+            ->join('antecedentes_go', 'antecedentes_go.id_expediente', 'expediente_cp.id')
+            ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->where('antecedentes_go.id_expediente', $id)
             ->first();
 
         return $data;
@@ -298,8 +324,15 @@ class ControlPrenatalController extends Controller
             'tension_arterial' =>  ['required', 'string', 'max:255'],
             'frecuencia_cardiaca' =>  ['required', 'string', 'max:255'],
             'fondo_uterino' =>  ['required', 'string', 'max:255'],
-            'otro' =>  ['required', 'string', 'max:255'],
+            'movimiento_fetal' =>  ['required', 'string', 'max:255'],
+            'padecimiento' =>  ['required', 'string', 'max:255'],
         ]);
+
+        if($data->padecimiento == "Si"){
+            $data->validate([
+                'padecimiento_actual' =>  ['required', 'string', 'max:255'],
+            ]);
+        }
 
         $id_medico = $medico->id;
         $id_paciente = $paciente->id_paciente;
@@ -310,8 +343,10 @@ class ControlPrenatalController extends Controller
         $tension_arterial = $data->tension_arterial;
         $frecuencia_cardiaca = $data->frecuencia_cardiaca;
         $fondo_uterino = $data->fondo_uterino;
-        $otro = $data->otro;
-        $observaciones = $data->observaciones;
+        $movimiento_fetal = $data->movimiento_fetal;
+        $observaciones = $data->recomendaciones;
+        $padecimiento_actual = $data->padecimiento_actual;
+        $procedimiento_realizado = $data->procedimiento_realizado;
 
         //return $data;
 
@@ -326,8 +361,10 @@ class ControlPrenatalController extends Controller
             'fondo_uterino' => $fondo_uterino,
             'presentacion' => $presentacion,
             'frecuencia_cardiaca' => $frecuencia_cardiaca,
-            'otro' => $otro,
+            'otro' => $movimiento_fetal,
             'estatus' => '1',
+            'padecimiento' => $padecimiento_actual,
+            'procedimiento' => $procedimiento_realizado,
             'observaciones' => $observaciones,
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s'),
@@ -379,10 +416,12 @@ class ControlPrenatalController extends Controller
             $data = ExpedienteCP::select(
                 'expediente_cp.id',
                 'expediente_cp.fecha',
+                //'control_prenatal.id AS id_control',
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
             )
                 ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
+                //->join('control_prenatal', 'control_prenatal.id_expediente', 'expediente_cp.id')
                 ->where('expediente_cp.id_medico', $medico->id)
                 ->orderBy('expediente_cp.fecha', 'desc')
                 ->get();
@@ -395,7 +434,7 @@ class ControlPrenatalController extends Controller
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
                         <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
                         </ul>
                          </div>';
@@ -631,7 +670,7 @@ class ControlPrenatalController extends Controller
         //return $contador;
 
             ControlPrenatal::create([
-                'id_expediente' => $id_paciente,
+                'id_expediente' => $id_expediente,
                 'id_paciente' => $id_paciente,
                 'id_usuario' => $id_usuario,
                 'id_medico' => $id_medico,

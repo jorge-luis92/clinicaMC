@@ -438,7 +438,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-user-plus"></i> Antecedentes Ginecoobst&eacute;tricos
+                        <i class="fas fa-list"></i> Datos Inicio
                     </h3>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -487,6 +487,10 @@
                                                     <i class="fas fa-birthday-cake"></i>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-sticky-note"></i> Antecedentes Ginecoobst&eacute;tricos</h4>
                                         </div>
 
                                         <div class="col-3">
@@ -603,7 +607,7 @@
                                         </div>
                                     </div>
 
-                                    <table class="table">
+                                    <table class="table" id="ag_segnone" style="display:none;">
                                         <thead>
                                             <tr>
                                                 <th align="left" style="text-align:left; padding: 3px">
@@ -684,7 +688,7 @@
                                             <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
                                         </div>
                                         <div class="col-6">
-                                            <label>Exploraci&oacute;n F&iacute;sica</label>
+                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="expl_fisi" id="expl_fisi" cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
                                                 <div class="form-control-position">
@@ -694,7 +698,7 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label>Presentaci&oacute;n </label>
+                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="presentacion_s" id="presentacion_s" cols="150" rows="2" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
                                                 <div class="form-control-position">
@@ -704,7 +708,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>Semana Gesta </label>
+                                            <label>Semana Gesta </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Semana Gesta" id="sem_ges" name="sem_ges" class="form-control">
                                                 <div class="form-control-position">
@@ -714,7 +718,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>Peso</label>
+                                            <label>Peso</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Peso" id="peso_seg" name="peso_seg" class="form-control">
                                                 <div class="form-control-position">
@@ -724,7 +728,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>T/A </label>
+                                            <label>T/A </label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" placeholder="Tensi&oacute;n Arterial" id="tension_seg" name="tension_seg" class="form-control">
                                                 <div class="form-control-position">
@@ -734,7 +738,7 @@
                                         </div>
 
                                         <div class="col-3">
-                                            <label>Frecuencia Card&iacute;aca</label>
+                                            <label>Frecuencia Card&iacute;aca</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg" name="fc_seg" class="form-control">
                                                 <div class="form-control-position">
@@ -744,7 +748,7 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label>Fondo Uterino</label>
+                                            <label>Fondo Uterino</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" placeholder="Fondo Uterino" id="fu_seg" name="fu_seg" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
                                                 <div class="form-control-position">
@@ -753,9 +757,47 @@
                                             </div>
                                         </div>
                                         <div class="col-6">
-                                            <label>Otro</label>
+                                            <label>Movimiento Fetal</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Otro" id="otro_seg" name="otro_seg" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                                <select class="select2 form-control" id="otro" name="otro" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="Si">Si</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Padecimiento</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <select class="select2 form-control" id="padecimiento_ac" name="padecimiento_ac" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="Si">Si</option>
+                                                    <option value="No">No</option>
+                                                </select>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-diagnoses'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" id="show_pad" style="display:none">
+                                            <label>Padecimiento actual</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="padecimiento_actual" id="padecimiento_actual" cols="150" rows="2" class="form-control" placeholder="Procedimiento actual" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12" id="show_pro" style="display:none">
+                                            <label>Procedimiento</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="procedimiento_realizado" id="procedimiento_realizado" cols="150" rows="2" class="form-control" placeholder="Procedimiento realizado" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
                                                 <div class="form-control-position">
                                                     <i class='fa fa-list'></i>
                                                 </div>
@@ -763,13 +805,13 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-list"></i> Observaciones</h4>
+                                            <h4 class="form-section"><i class="fas fa-list"></i> Extras</h4>
                                         </div>
 
                                         <div class="col-12">
-                                            <label>Observaciones</label>
+                                            <label>Recomendaciones</label>
                                             <div class="form-group position-relative has-icon-left">
-                                                <textarea name="observaciones_seg" id="observaciones_seg" cols="150" rows="2" class="form-control" placeholder="Observaciones adicionales" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <textarea name="observaciones_seg" id="observaciones_seg" cols="150" rows="2" class="form-control" placeholder="Recomendaciones" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
                                                 <div class="form-control-position">
                                                     <i class='fa fa-eye'></i>
                                                 </div>
@@ -883,7 +925,6 @@
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 </div>
                             </div>
@@ -1105,7 +1146,7 @@
         });
 
         $(document).on('click', '.ver_antecedente', function() {
-            let id_exp = $(this).attr('id');
+            let id_exp = $(this).attr('name');
             $.ajax({
                 url: "/ControlP/DataAnt/" + id_exp,
                 dataType: "json",
@@ -1133,12 +1174,14 @@
         });
 
         $(document).on('click', '.exp_emb', function() {
-            let id_exp = $(this).attr('id');
+            let id_control = $(this).attr('id');
+            let id_exp = $(this).attr('name');
 
-            $('#hidden_id_exp').val(id_exp);
+            $('#hidden_id_exp').val(id_control);
 
             $('#verExpEmbModal').appendTo("body")
             $('#verExpEmbModal').modal('show');
+            $('#ag_segnone').show();
             //$('#antecedentesModal').css('overflow-y', 'auto');
             /*$('#antecedentesModal > .modal-body').css({
                         width: 'auto',
@@ -1166,7 +1209,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         ajax: {
-                            "url": "{{ url('Expediente/CEmver') }}" + "/" + id_exp,
+                            "url": "{{ url('Expediente/CEmver') }}" + "/" + id_control,
                         },
                         responsive: true,
                         columns: [{
@@ -1221,8 +1264,11 @@
             let tension_arterial = $('#tension_seg').val();
             let frecuencia_cardiaca = $('#fc_seg').val();
             let fondo_uterino = $('#fu_seg').val();
-            let otro = $('#otro_seg').val();
-            let observaciones = $('#observaciones_seg').val();
+            let movimiento_fetal = $('#otro').val();
+            let recomendaciones = $('#observaciones_seg').val();
+            let padecimiento = $('#padecimiento_ac').val();
+            let padecimiento_actual = $('#padecimiento_actual').val();
+            let procedimiento_realizado = $('#procedimiento_realizado').val();
 
             let data = {
                 id_exp: id_exp,
@@ -1233,8 +1279,11 @@
                 tension_arterial: tension_arterial,
                 frecuencia_cardiaca: frecuencia_cardiaca,
                 fondo_uterino: fondo_uterino,
-                otro: otro,
-                observaciones: observaciones,
+                movimiento_fetal: movimiento_fetal,
+                padecimiento: padecimiento,
+                padecimiento_actual: padecimiento_actual,
+                procedimiento_realizado: procedimiento_realizado,
+                recomendaciones: recomendaciones,
                 _token: token
             };
 
@@ -1244,6 +1293,10 @@
                 data: data
             }).done(function(jqXHR) {
                 $("#altaSegForm")[0].reset();
+                $('#padecimiento_ac').val('').select2();
+                $('#otro').val('').select2();
+                $('#show_pad').hide();
+                $('#show_pro').hide();
                 $('#altaSegModal').modal('hide');
                 $('#expedienteEm_table').DataTable().ajax.reload();
                 ok(jqXHR);
@@ -1337,10 +1390,11 @@
                 "url": "{{ url('Consulta/Embarazadas') }}",
             },
             responsive: true,
-            columns: [/*{
-                    data: 'id',
-                    name: 'id'
-                },*/
+            columns: [
+                /*{
+                                    data: 'id',
+                                    name: 'id'
+                                },*/
                 {
                     data: 'nombre_c',
                     name: 'nombre_c'
@@ -2151,12 +2205,11 @@
             let fum = $('#fur').val();
             $.ajax({
                 url: "/ControlP/Calculofpp/" + fum,
-               // dataType: "json",
+                // dataType: "json",
                 success: function(data) {
                     $('#fpp').val(data);
                 },
-                error: function(XMLHttpRequest, textStatus, errorThrown) {                  
-                }
+                error: function(XMLHttpRequest, textStatus, errorThrown) {}
             });
 
         });
@@ -2164,6 +2217,19 @@
         $('#cerrarImprimir').click(function() {
             $('#pdfModal').modal('hide');
         });
+
+        $(document).on('change', '#padecimiento_ac', function() {
+            let respuesta = $('#padecimiento_ac').val();
+
+            if (respuesta == "Si") {
+                $('#show_pad').show();
+                $('#show_pro').show();
+            } else {
+                $('#show_pad').hide();
+                $('#show_pro').hide();
+            }
+        });
+
 
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');

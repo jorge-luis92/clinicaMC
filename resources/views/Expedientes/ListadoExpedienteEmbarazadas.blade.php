@@ -626,18 +626,6 @@
                                         </div>
                                     </div>
 
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th align="left" style="text-align:left; padding: 3px">
-                                                    <a href="#" class="btn btn-info btn-min-width btn-glow" id="gen_seguimiento" style="color: white" role="button">
-                                                        <i class="fas fa-arrow-right"></i> Agregar Seguimiento
-                                                    </a>
-                                                </th>
-                                            </tr>
-                                        </thead>
-                                    </table>
-
                                     <div class="col-12">
                                         <div class="col-md-12 col-sm-12">
                                             <div class="row">
@@ -1032,7 +1020,7 @@
         $(document).on('click', '.ver_antecedente', function() {
             let id_exp = $(this).attr('id');
             $.ajax({
-                url: "/ControlP/DataAnt/" + id_exp,
+                url: "/ControlP/DataAntD/" + id_exp,
                 dataType: "json",
                 success: function(data) {
                     $('#antecedentesModal').appendTo("body")
@@ -1056,9 +1044,10 @@
         });
 
         $(document).on('click', '.exp_emb', function() {
-            let id_exp = $(this).attr('id');
+            let id_control = $(this).attr('id');
+            let id_exp = $(this).attr('name');
 
-            $('#hidden_id_exp').val(id_exp);
+            $('#hidden_id_exp').val(id_control);
 
             $('#verExpEmbModal').appendTo("body")
             $('#verExpEmbModal').modal('show');
@@ -1069,7 +1058,7 @@
                         'max-height': '100%'
                     });*/
             $.ajax({
-                url: "/ControlP/DataAnt/" + id_exp,
+                url: "/ControlP/DataAntD/" + id_exp,
                 dataType: "json",
                 success: function(data) {
                     pac_span.innerHTML = data.nombre_c;
@@ -1089,7 +1078,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         ajax: {
-                            "url": "{{ url('Expediente/CEmver') }}" + "/" + id_exp,
+                            "url": "{{ url('Expediente/CEmver') }}" + "/" + id_control,
                         },
                         responsive: true,
                         columns: [{

@@ -14,5 +14,5 @@ class Seguimiento extends Model
     public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_expediente', 'id_paciente', 'id_medico', 'exploracion_fisica', 'semana_gesta', 'peso', 'ta', 'fondo_uterino', 
-    'presentacion', 'frecuencia_cardiaca', 'otro', 'estatus', 'observaciones', 'fecha', 'hora'];
+    'presentacion', 'frecuencia_cardiaca', 'otro', 'estatus', 'padecimiento', 'procedimiento', 'observaciones', 'fecha', 'hora'];
 }
