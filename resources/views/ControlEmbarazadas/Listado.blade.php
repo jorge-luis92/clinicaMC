@@ -650,6 +650,7 @@
                                                     <i class="fas fa-ban"></i> Cancelar
                                                 </a>-->
                                                 <input type="hidden" id="hidden_id_exp" name="hidden_id_exp">
+                                                <input type="hidden" id="hidden_id_exp_con" name="hidden_id_exp_con">
                                                 <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                                     <i class="fas fa-ban"></i> Salir
                                                 </a>
@@ -686,25 +687,6 @@
                                         <div class="col-12">
                                             <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
                                             <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
-                                        </div>
-                                        <div class="col-6">
-                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="expl_fisi" id="expl_fisi" cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-check'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="presentacion_s" id="presentacion_s" cols="150" rows="2" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
                                         </div>
 
                                         <div class="col-3">
@@ -747,7 +729,17 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-4">
+                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" name="presentacion_s" id="presentacion_s" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
                                             <label>Fondo Uterino</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="text" placeholder="Fondo Uterino" id="fu_seg" name="fu_seg" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
@@ -756,7 +748,8 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-6">
+
+                                        <div class="col-4">
                                             <label>Movimiento Fetal</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <select class="select2 form-control" id="otro" name="otro" style="width: 100%;">
@@ -766,6 +759,16 @@
                                                 </select>
                                                 <div class="form-control-position">
                                                     <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="expl_fisi" id="expl_fisi" cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-check'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -794,7 +797,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12" id="show_pro" style="display:none">
+                                        <div class="col-6" id="show_pro" style="display:none">
                                             <label>Procedimiento</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <textarea name="procedimiento_realizado" id="procedimiento_realizado" cols="150" rows="2" class="form-control" placeholder="Procedimiento realizado" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
@@ -833,6 +836,160 @@
                         <input type="hidden" id="hidden_id_seg" name="hidden_id_seg">
                         <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_conEm" id="reg_conEm" role="button">
                             <i class="fas fa-share"></i> Registrar
+                        </a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="detallesSegModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-arrow-right"></i> Detalles Consulta: <span id="det_nombrepaciente" style="color: black;"></span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form id="altaCompra" class="form">   -->
+                <form id="altaSegForm" class="form" style="font-size: 1.1em;">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
+                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Semana Gesta </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Semana Gesta" id="sem_ges_det" readonly name="sem_ges_det" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-calendar-week'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Peso</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Peso" id="peso_seg_det" readonly name="peso_seg_det" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-weight'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>T/A </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" placeholder="Tensi&oacute;n Arterial" readonly id="tension_seg_det" name="tension_seg_det" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-chevron-down'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Frecuencia Card&iacute;aca</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg_det" readonly name="fc_seg_det" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-heartbeat'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="presentacion_s_det" id="presentacion_s_det" readonly cols="150" rows="2" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Fondo Uterino</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" placeholder="Fondo Uterino" id="fu_seg_det" name="fu_seg_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-align-right'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Movimiento Fetal</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" placeholder="Fondo Uterino" id="mov_fetal_det" name="mov_fetal_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="expl_fisi_det" id="expl_fisi_det" readonly cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-check'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6" id="show_pad2" style="display:none">
+                                            <label>Padecimiento indicado</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="padecimiento_actual_det" id="padecimiento_actual_det" readonly cols="150" rows="2" class="form-control" placeholder="Procedimiento actual" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-edit'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12" id="show_pro2" style="display:none">
+                                            <label>Procedimiento</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="procedimiento_realizado_det" id="procedimiento_realizado_det" readonly cols="150" rows="2" class="form-control" placeholder="Procedimiento realizado" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-list'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-list"></i> Extras</h4>
+                                        </div>
+
+                                        <div class="col-12">
+                                            <label>Recomendaciones</label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="observaciones_seg_det" id="observaciones_seg_det" cols="150" readonly rows="2" class="form-control" placeholder="Recomendaciones" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-eye'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
                         </a>
                     </div>
                 </div>
@@ -949,6 +1106,8 @@
         </div>
     </div>
 
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1178,6 +1337,7 @@
             let id_exp = $(this).attr('name');
 
             $('#hidden_id_exp').val(id_control);
+            $('#hidden_id_exp_con').val(id_exp);
 
             $('#verExpEmbModal').appendTo("body")
             $('#verExpEmbModal').modal('show');
@@ -1251,6 +1411,10 @@
             $('#hidden_id_seg').val(id_ex);
             $('#altaSegModal').appendTo("body")
             $('#altaSegModal').modal('show');
+            $('#otro').val('').select2();
+            $('#padecimiento_ac').val('').select2();
+            $('#show_pad').hide();
+            $('#show_pro').hide();
         });
 
         $('#reg_conEm').click(function() {
@@ -1376,7 +1540,6 @@
                 [5, 10, 25, 50, "All"]
             ],
             "order": [
-                [0, 'desc'],
                 [1, 'desc']
             ],
             processing: true,
@@ -2230,9 +2393,41 @@
             }
         });
 
-
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');
+        });
+
+        $(document).on('click', '.ver_detalles', function() {
+            let id_seguimiento = $(this).attr('id');
+            $('#detallesSegModal').appendTo("body")
+            $('#detallesSegModal').modal('show');
+            $.ajax({
+                url: "/Seguimiento/Detalles/" + id_seguimiento,
+                dataType: "json",
+                success: function(data) {
+                    det_nombrepaciente.innerHTML = " " + data.nombre_c + " ";
+                    $('#sem_ges_det').val(data.semana_gesta);
+                    $('#peso_seg_det').val(data.peso);
+                    $('#tension_seg_det').val(data.ta);
+                    $('#fc_seg_det').val(data.frecuencia_cardiaca);
+                    $('#presentacion_s_det').val(data.presentacion);
+                    $('#fu_seg_det').val(data.fondo_uterino);
+                    $('#mov_fetal_det').val(data.otro);
+                    $('#expl_fisi_det').val(data.exploracion_fisica);
+                    if (data.padecimiento == null) {
+                        $('#show_pad2').hide();
+                        $('#show_pro2').hide()
+                        $('#padecimiento_actual_det').val('');
+                        $('#procedimiento_realizado_det').val('');
+                    } else {
+                        $('#show_pad2').show();
+                        $('#show_pro2').show()
+                        $('#padecimiento_actual_det').val(data.padecimiento);
+                        $('#procedimiento_realizado_det').val(data.procedimiento);
+                    }
+                    $('#observaciones_seg_det').val(data.observaciones);
+                }
+            });
         });
 
     });
