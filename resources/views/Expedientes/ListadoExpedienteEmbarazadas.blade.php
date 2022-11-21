@@ -704,7 +704,7 @@
                                                                 <tr>
                                                                     <th width="10%">#Registro Embarazo</th>
                                                                     <th>Nombre</th>
-                                                                    <th width="15%">Fecha Registro Embarazo</th>
+                                                                    <th width="15%">Fecha Registro</th>
                                                                     <th>Etapa</th>
                                                                     <th width="15%">Acci&oacute;n</th>
                                                                 </tr>

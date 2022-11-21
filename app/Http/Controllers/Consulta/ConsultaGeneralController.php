@@ -57,18 +57,18 @@ class ConsultaGeneralController extends Controller
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
                     if ($data->estatus == 1) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Notas</button>';
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Notas</button>';
                         return $button;
                     }
                     if ($data->estatus == 2) {
                         $button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
                          </div>';
                         return $button;
@@ -76,20 +76,20 @@ class ConsultaGeneralController extends Controller
                     if ($data->estatus == 3) {
 
                         $button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Ver
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-secondary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
                         </ul>
                          </div>';
                         return $button;
                     }
                     if ($data->estatus == 0) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
+                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_cancelacion btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Ver</button>';
                         return $button;
                     }
                 })
@@ -381,16 +381,7 @@ class ConsultaGeneralController extends Controller
                     /* $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="delete_medicamento btn btn-danger btn-xs btn-glow mr-1 mb-1"><i class="fas fa-trash"></i> Eliminar</button>';
                     return $button;*/
 
-                    $button = '&nbsp;
-                        <button type="button" class="btn btn-primary btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
-                        data-toggle="dropdown">
-                        <i class="fas fa-list"></i>
-                        </button>
-                        <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="delete_medicamento btn btn-danger btn-xs btn-glow mr-1 mb-1"><i class="fas fa-trash"></i> Eliminar</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="editar_tratamiento btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-edit fa-1x"></i> Editar</button></li>
-                        </ul>
-                         </div>';
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="delete_medicamento btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-trash"></i> Eliminar</button>';
                     return $button;
                 })
                 ->rawColumns(['accion'])
@@ -709,5 +700,17 @@ class ConsultaGeneralController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
+    public function delete_medicamento($id){
+
+        $id_registro = $id;
+
+        $deleted = RecetaMedica::where('id', $id_registro)->delete();
+
+        if ($deleted != '') {
+            return response()->json('Medicamento eliminado correctamente', 200);
+        } else {
+            return response()->json('Error: Sin cambios', 442);
+        }
+    }
 
 }

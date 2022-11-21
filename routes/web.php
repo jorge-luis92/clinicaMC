@@ -57,6 +57,7 @@ Route::post('ConsultaGeneral/Semail', [ConsultaGeneralController::class, 'enviar
 Route::post('ConsultaGeneral/CreateExp', [ConsultaGeneralController::class, 'create_expediente'])->name('expRegistro');
 Route::get('/Expediente/ConsultaGeneralSelPaciente', [ConsultaGeneralController::class, 'expediente_selPaciente']);
 Route::get('/ConsultaGeneral/CGDataExp/{id}/{id2}', [ConsultaGeneralController::class, 'verDataConExp']);
+Route::get('ConsultaG/DeleteMedicamento/{id}', [ConsultaGeneralController::class, 'delete_medicamento']);
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');

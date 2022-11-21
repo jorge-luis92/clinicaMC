@@ -411,6 +411,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_editConsulta" role="alert" style="display:none"></div>
+                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_delete_me" role="alert" style="display:none"></div>
                                         </div>
 
                                         <div class="col-12">
@@ -750,8 +751,8 @@
                                     <div class="row">
 
                                         <div class="col-12">
-                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none">
-                                            </div>
+                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none"></div>
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe2" role="alert" style="display:none"></div>
                                         </div>
                                         <div class="col-4">
                                             <label>Medicamento</label><span style="color:red"> *</span>
@@ -1668,7 +1669,7 @@
                             }
                             setTimeout(function() {
                                 $('#response_editConsulta').hide();
-                            }, 5000);
+                            }, 3000);
                         });
                     }
                     if (jqXHR.status == 442) {
@@ -1714,7 +1715,6 @@
                 $('#proces_show').hide();
             }
         });
-
 
         $(document).on('click', '.receta_medica', function() {
             let id_consulta = $(this).attr('id');
@@ -1869,14 +1869,14 @@
 
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
-                    if (!$('#alerts_regMe').empty()) {
-                        $('#alerts_regMe').empty();
+                    if (!$('#alerts_regMe2').empty()) {
+                        $('#alerts_regMe2').empty();
                     }
 
                     $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                         if ($.isPlainObject(value)) {
                             $.each(value, function(key, value) {
-                                $('#alerts_regMe').show().append(`
+                                $('#alerts_regMe2').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1891,13 +1891,13 @@
                             });
                         }
                         setTimeout(function() {
-                            $('#alerts_regMe').hide();
+                            $('#alerts_regMe2').hide();
                         }, 5000);
                     });
                 }
                 if (jqXHR.status == 442) {
-                    if (!$('#alerts_regMe').empty()) {
-                        $('#alerts_regMe').empty();
+                    if (!$('#alerts_regMe2').empty()) {
+                        $('#alerts_regMe2').empty();
                     }
                     let responseText = jQuery.parseJSON(jqXHR.responseText);
                     $('#alerts_regMe').show().append(`
@@ -1913,7 +1913,7 @@
                                     </li>
                             </ul>`);
                     setTimeout(function() {
-                        $('#alerts_regMe').hide();
+                        $('#alerts_regMe2').hide();
                     }, 5000);
 
                 }
@@ -2240,20 +2240,20 @@
                     $('#ver_glucosa').val(data.glucosa);
                     $('#ver_motivo_consulta').val(data.motivo_consulta);
                     $('#ver_exploracion').val(data.examen_fisico);
-                    $('#ver_diagnostico').val(data.diagnostico);                    
+                    $('#ver_diagnostico').val(data.diagnostico);
                     let pro = data.procedimiento;
 
-                    if(pro == null){
+                    if (pro == null) {
                         $('#recomedaciones2').hide();
                         $('#recomedaciones1').show();
                         $('#ver_recomendaciones').val(data.observaciones);
-                        
-                    }else{
+
+                    } else {
                         $('#recomedaciones1').hide();
                         $('#recomedaciones2').show();
                         $('#ver_recomendacion').val(data.observaciones);
                         $('#ver_procedimiento').val(data.procedimiento);
-                        
+
                     }
                 }
             });
@@ -2262,6 +2262,36 @@
 
         });
 
+        $(document).on('click', '.delete_medicamento', function() {
+            let id_medicamento = $(this).attr('id');
+
+            let respuesta = confirm("Una vez que de clic en aceptar, ¡Se eliminará el registro en la receta médica!");
+            if (respuesta) {
+                $.ajax({
+                    url: "/ConsultaG/DeleteMedicamento/" + id_medicamento,
+                    dataType: "json",
+                    success: function(data) {
+                        $('#medicamentos_paciente_table').DataTable().ajax.reload();
+                        $('#alerts_delete_me').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + data + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#alerts_delete_me').hide();
+                        }, 2000);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {}
+                });
+            }
+        });
     });
 </script>
 

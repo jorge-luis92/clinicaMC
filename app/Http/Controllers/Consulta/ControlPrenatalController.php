@@ -58,14 +58,14 @@ class ControlPrenatalController extends Controller
                 ->addColumn('accion', function ($data) {
                     if ($data->estatus == 1) {
                         $button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
                          </div>';
                         return $button;
@@ -287,10 +287,22 @@ class ControlPrenatalController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+
+                    $button = '&nbsp;<div class="btn-group">
+                    <button type="button" class="btn btn-primary btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
+                            data-toggle="dropdown">
+                            <i class="fas fa-list"></i> Opciones
+                      <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                    <li>&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button></li>
+                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="baja btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Medicamentos</button></li>
+                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="baja btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
+                    </ul>
+                  </div>';
                     return $button;
                 })
-                ->rawColumns(['accion'])
+                ->rawColumns(['accion']) 
                 ->editColumn('fecha', function (Seguimiento $data) {
                     return date('d/m/Y', strtotime($data->fecha));
                 })
