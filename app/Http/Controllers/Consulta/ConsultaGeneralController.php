@@ -713,4 +713,24 @@ class ConsultaGeneralController extends Controller
         }
     }
 
+    public function check_expediente($id){
+
+        $id_paciente = $id;
+
+        $check = ExpedienteCG::where('id_paciente', $id_paciente)->first();
+
+        if ($check) {
+            $datos = Persona::select(
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+            )
+            ->join('paciente', 'paciente.id_persona', 'persona.id')
+            ->where('paciente.id', $id_paciente)
+            ->first();
+            return $datos;
+        } else {
+            return response()->json('No existe', 442);
+        }
+    }
+
+
 }

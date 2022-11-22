@@ -29,7 +29,6 @@ class Controller extends BaseController
 
     public function  run_script()
     {
-
         $usuario = auth()->user();
         $id_persona = $usuario->id_persona;
 
@@ -76,7 +75,53 @@ class Controller extends BaseController
             $fecha = date('d/m/Y', strtotime($cita->fecha_proxima));
             $date = date('h:i A', strtotime($cita->hora_proxima));
 
-            $mensaje = "Cita el día de hoy con ". $cita->genero_s." paciente: <b>" . $cita->nombre_c . "</b>" . " de tipo <b>" . $cita->tipo_c . "</b>  a las " . $date . " del día " . $fecha . ".";
+            $mensaje = "Cita el día de hoy con " . $cita->genero_s . " paciente: <b>" . $cita->nombre_c . "</b>" . " de tipo <b>" . $cita->tipo_c . "</b>  a las " . $date . " del día " . $fecha . ".";
+
+            Telegram::sendMessage([
+                'chat_id' => '-1001726685878',
+                'parse_mode' => 'HTML',
+                'text' =>  $mensaje
+            ]);
+        }
+    }
+
+    public function run_depurar()
+    {
+
+        $usuario = auth()->user();
+        $id_persona = $usuario->id_persona;
+
+        $medico = Medico::select('id')
+            ->where('id_persona', $id_persona)
+            ->first();
+
+        $fecha = date('Y-m-d');
+
+        $cita_pasada = Cita::select(
+            'cita.id',
+        )
+            ->where('cita.id_medico', $medico->id)
+            ->where('cita.fecha_proxima', '<', $fecha)
+            ->where('estatus', '=', '1')
+            ->get();
+        //return $cita_pasada;
+
+        foreach ($cita_pasada as  $cita) {
+            $updateCita = Cita::where('id', $cita->id)->update([
+                'estatus' => '0',
+            ]);
+        }
+
+        if ($updateCita != '') {
+            $mensaje = "Citas actualizadas";
+
+            Telegram::sendMessage([
+                'chat_id' => '-1001726685878',
+                'parse_mode' => 'HTML',
+                'text' =>  $mensaje
+            ]);
+        } else {
+            $mensaje = "Ocurrió un error";
 
             Telegram::sendMessage([
                 'chat_id' => '-1001726685878',

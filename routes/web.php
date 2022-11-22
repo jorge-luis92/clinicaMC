@@ -54,6 +54,7 @@ Route::post('ConsultaGeneral/CreateExp', [ConsultaGeneralController::class, 'cre
 Route::get('/Expediente/ConsultaGeneralSelPaciente', [ConsultaGeneralController::class, 'expediente_selPaciente']);
 Route::get('/ConsultaGeneral/CGDataExp/{id}/{id2}', [ConsultaGeneralController::class, 'verDataConExp']);
 Route::get('ConsultaG/DeleteMedicamento/{id}', [ConsultaGeneralController::class, 'delete_medicamento']);
+Route::get('ConsultaG/CheckExpediente/{id}', [ConsultaGeneralController::class, 'check_expediente']);
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
@@ -100,9 +101,9 @@ Route::get('/Citas', [CitaController::class, 'index'])->name('citas');
 Route::post('ConsultaGeneral/Cita', [CitaController::class, 'reg_Cita'])->name('create_cita');
 Route::post('ConsultaGeneral/CitaE', [CitaController::class, 'reg_CitaE'])->name('create_citaE');
 Route::get('/Cita/PacienteSel', [CitaController::class, 'sepaciente_cita']);
-
 Route::get('/Enviar', [Controller::class, 'enviarMensaje']);
 });
 
 Route::get('/runCitas', [Controller::class, 'run_script']);
+Route::get('/runDepurar', [Controller::class, 'run_depurar']);
 Auth::routes(["register" => false]);
