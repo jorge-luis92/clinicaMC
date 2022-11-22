@@ -8,6 +8,7 @@ use App\Models\Medicamento\Medicamento;
 use App\Models\Medicamento\StockMedicamento;
 use App\Models\Paciente\ConsultaGeneral;
 use App\Models\Paciente\RecetaMedica;
+use App\Models\Paciente\RecetaSeguimiento;
 use App\Models\Paciente\TipoConsulta;
 use App\Models\Paciente\TipoSangre;
 use DB;
@@ -216,6 +217,57 @@ class MedicamentoController extends Controller
         } else {
             $registrarRM = RecetaMedica::create([
                 'id_consulta' => $id_consulta,
+                'id_medicamento' => $id_medicamento,
+                'cantidad' => $cantidad,
+                'tratamiento' => $tratamiento,
+                'id_usuario' => $id_usuario,
+                'fecha' => date('Y-m-d'),
+                'hora' => date('H:i:s'),
+            ]);
+            if ($registrarRM != '') {
+                return response()->json('Se ha agregado correctamente el Medicamento', 200);
+            }
+        }
+    }
+
+    public function regMed_RecetaSeg(Request $data)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        //return $data;
+        $data->validate([
+            'cantidad' => 'required|numeric|min:1|not_in:-1',
+            'tratamiento' => ['required', 'string', 'max:255'],
+        ]);
+
+        $id_control = $data->id_control;
+        $id_seguimiento = $data->id_seguimiento;
+        $id_medicamento = $data->id_medicamento;
+        $cantidad = $data->cantidad;
+        $tratamiento = $data->tratamiento;
+
+        $busqueda = RecetaSeguimiento::select('cantidad')
+            ->where('id_control', $id_control)
+            ->where('id_seguimiento', $id_seguimiento)
+            ->where('id_medicamento', $id_medicamento)
+            ->first();
+
+        if ($busqueda != '') {
+            $updateM = RecetaSeguimiento::where('id_control', $id_control)
+                ->where('id_seguimiento', $id_seguimiento)
+                ->where('id_medicamento', $id_medicamento)
+                ->update([
+                    'cantidad' => $busqueda->cantidad + $cantidad,
+                ]);
+            if ($updateM != '') {
+                return response()->json('Se ha actualizado la cantidad del medicamento', 200);
+            }
+        } else {
+            $registrarRM = RecetaSeguimiento::create([
+                'id_control' => $id_control,
+                'id_seguimiento' => $id_seguimiento,
                 'id_medicamento' => $id_medicamento,
                 'cantidad' => $cantidad,
                 'tratamiento' => $tratamiento,

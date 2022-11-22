@@ -10,6 +10,7 @@ use App\Models\Paciente\ControlPrenatal;
 use App\Models\Paciente\ExpedienteCP;
 use App\Models\Paciente\ExpedienteInicio;
 use App\Models\Paciente\Paciente;
+use App\Models\Paciente\RecetaSeguimiento;
 use App\Models\Paciente\Seguimiento;
 use App\Models\Paciente\TipoConsulta;
 use App\Models\Paciente\TipoSangre;
@@ -280,6 +281,7 @@ class ControlPrenatalController extends Controller
                 'seguimiento.peso',
                 'seguimiento.fondo_uterino',
                 'seguimiento.fecha',
+                'seguimiento.id_expediente',
             )
                 ->where('seguimiento.id_expediente', $id_exp)
                 ->orderBy('seguimiento.fecha', 'desc')
@@ -296,8 +298,8 @@ class ControlPrenatalController extends Controller
                     </button>
                     <ul class="dropdown-menu">
                     <li>&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button></li>
-                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="baja btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Medicamentos</button></li>
-                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="baja btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
+                      <li>&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="receta_medica btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Medicamentos</button></li>
+                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="imprimir_seguimiento btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
                     </ul>
                   </div>';
                     return $button;
@@ -847,5 +849,49 @@ class ControlPrenatalController extends Controller
             ->first();
 
         return $data;
+    }
+
+    public function med_pacienteRecSeg(Request $request, $id, $id2)
+    {
+        $id_control = $id;
+        $id_seguimiento = $id2;
+
+        if ($request->ajax()) {
+            $data = RecetaSeguimiento::select(
+                'receta_seguimiento.id',
+                'receta_seguimiento.cantidad',
+                'receta_seguimiento.tratamiento',
+                DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            )
+                ->join('control_prenatal', 'control_prenatal.id', 'receta_seguimiento.id_control')
+                ->join('medicamento', 'medicamento.id', 'receta_seguimiento.id_medicamento')
+                ->where('receta_seguimiento.id_seguimiento', $id_seguimiento)
+                ->where('receta_seguimiento.id_control', $id_control)
+                ->orderBy('receta_seguimiento.id', 'desc')
+                ->get();
+
+            return DataTables::of($data)
+                ->addColumn('accion', function ($data) {
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="delete_medicamento btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-trash"></i> Eliminar</button>';
+                    return $button;
+                })
+                ->rawColumns(['accion'])
+                ->make(true);
+        }
+
+        return view('ControlEmbarazadas.Listado');
+    }
+
+    public function delete_medicamentoSeg($id){
+
+        $id_registro = $id;
+
+        $deleted = RecetaSeguimiento::where('id', $id_registro)->delete();
+
+        if ($deleted != '') {
+            return response()->json('Medicamento eliminado correctamente', 200);
+        } else {
+            return response()->json('Error: Sin cambios', 442);
+        }
     }
 }

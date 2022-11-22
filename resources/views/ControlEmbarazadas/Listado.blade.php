@@ -1106,6 +1106,138 @@
         </div>
     </div>
 
+    <div id="recetaMedicaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-xl modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fas fa-tablets"></i> Seleccionar Medicamento
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="ag_medicamentos_pa" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+
+                                        <div class="col-12">
+                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe" role="alert" style="display:none"></div>
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_regMe2" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Medicamento</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-tablets"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="medSelect" name="medSelect" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($med as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->descripcion }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Existencia </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Existencia" id="existencia" name="existencia" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-store'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Precio Venta </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Precio Venta" id="pre_venta" name="pre_venta" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-money-bill'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Cantidad </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" id="cant_medicamento" placeholder="Cantidad Medicamento" name="cant_medicamento" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-plus-square"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-8">
+                                            <label>Tratamiento </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="tratamiento" id="tratamiento" cols="150" rows="3" class="form-control" placeholder="Tratamiento"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fas fa-procedures'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th align="left" style="text-align:left; padding: 3px">
+                                                    <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="ag_medicamentoC" id="ag_medicamentoC" role="button">
+                                                        <i class="fas fa-plus"></i> Agregar
+                                                    </a>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+
+                                    </br>
+
+                                    <div class="col-12">
+                                        <h4 class="form-section"><i class="fas fa-tablets"></i> Medicamentos Agregados</h4>
+                                    </div>
+
+
+                                    <div class="col-12">
+                                        <div class="table-responsive" style="width:100%">
+                                            <table id="medicamentos_paciente_table" class="table table-bordered table-striped" style="width:100%">
+                                                <thead>
+                                                    <tr>
+                                                        <th>ID</th>
+                                                        <th>Descripci&oacute;n</th>
+                                                        <th>Cantidad</th>
+                                                        <th>Tratamiento</th>
+                                                        <th width="15%">Acci&oacute;n</th>
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12">
+                                        <div class="modal-footer">
+                                            <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                            <i class="fas fa-ban"></i> Cancelar
+                                        </a>-->
+                                            <input type="hidden" id="hidden_id_con_s" name="hidden_id_con_s">
+                                            <input type="hidden" id="hidden_id_seg_s" name="hidden_id_seg_s">
+                                            <a href="#" id="cerrar_salir2" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                                                <i class="fas fa-ban"></i> Salir
+                                            </a>
+                                        </div>
+                                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    </div>
+</div>
+</div>
 </div>
 </div>
 </div>
@@ -1434,77 +1566,81 @@
             let padecimiento_actual = $('#padecimiento_actual').val();
             let procedimiento_realizado = $('#procedimiento_realizado').val();
 
-            let data = {
-                id_exp: id_exp,
-                exploracion_fisica: exploracion_fisica,
-                presentacion: presentacion,
-                semana_gesta: semana_gesta,
-                peso: peso,
-                tension_arterial: tension_arterial,
-                frecuencia_cardiaca: frecuencia_cardiaca,
-                fondo_uterino: fondo_uterino,
-                movimiento_fetal: movimiento_fetal,
-                padecimiento: padecimiento,
-                padecimiento_actual: padecimiento_actual,
-                procedimiento_realizado: procedimiento_realizado,
-                recomendaciones: recomendaciones,
-                _token: token
-            };
+            let respuesta = confirm("¿Está seguro de Guardar los datos recopilados?");
+            if (respuesta) {
 
-            $.ajax({
-                method: 'POST',
-                url: '{{ route("regConEmm") }}',
-                data: data
-            }).done(function(jqXHR) {
-                $("#altaSegForm")[0].reset();
-                $('#padecimiento_ac').val('').select2();
-                $('#otro').val('').select2();
-                $('#show_pad').hide();
-                $('#show_pro').hide();
-                $('#altaSegModal').modal('hide');
-                $('#expedienteEm_table').DataTable().ajax.reload();
-                ok(jqXHR);
-                setTimeout(function() {
-                    $('#ok').hide();
-                }, 2000);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status == 422) {
-                    if (!$('#response_agEmb').empty()) {
-                        $('#response_agEmb').empty();
-                    }
+                let data = {
+                    id_exp: id_exp,
+                    exploracion_fisica: exploracion_fisica,
+                    presentacion: presentacion,
+                    semana_gesta: semana_gesta,
+                    peso: peso,
+                    tension_arterial: tension_arterial,
+                    frecuencia_cardiaca: frecuencia_cardiaca,
+                    fondo_uterino: fondo_uterino,
+                    movimiento_fetal: movimiento_fetal,
+                    padecimiento: padecimiento,
+                    padecimiento_actual: padecimiento_actual,
+                    procedimiento_realizado: procedimiento_realizado,
+                    recomendaciones: recomendaciones,
+                    _token: token
+                };
 
-                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                        if ($.isPlainObject(value)) {
-                            $.each(value, function(key, value) {
-                                $('#response_agEmb').show().append(`
-            <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <ul class="list-group">
-                        <li class="list-group-item" style="color:black">` + value + `
-                            <span class="float-left">
-                                <i class="fa fa-exclamation-circle mr-1"></i>
-                            </span>
-                        </li>
-                </ul>`);
-                            });
-                        }
-                    });
-
-                    setTimeout(function() {
-                        $('#response_agEmb').hide();
-                    }, 4000);
-                }
-                if (jqXHR.status == 500) {
-                    var responseText = jQuery.parseJSON(jqXHR.responseText);
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("regConEmm") }}',
+                    data: data
+                }).done(function(jqXHR) {
                     $("#altaSegForm")[0].reset();
+                    $('#padecimiento_ac').val('').select2();
+                    $('#otro').val('').select2();
+                    $('#show_pad').hide();
+                    $('#show_pro').hide();
                     $('#altaSegModal').modal('hide');
                     $('#expedienteEm_table').DataTable().ajax.reload();
-                    errorRazon(responseText)
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_agEmb').empty()) {
+                            $('#response_agEmb').empty();
+                        }
 
-                }
-            });
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_agEmb').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + value + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                                });
+                            }
+                        });
+
+                        setTimeout(function() {
+                            $('#response_agEmb').hide();
+                        }, 4000);
+                    }
+                    if (jqXHR.status == 500) {
+                        var responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $("#altaSegForm")[0].reset();
+                        $('#altaSegModal').modal('hide');
+                        $('#expedienteEm_table').DataTable().ajax.reload();
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
 
         });
 
@@ -1906,11 +2042,13 @@
         });
 
         $(document).on('click', '.receta_medica', function() {
-            let id_consulta = $(this).attr('id');
-            $('#hidden_id_con').val(id_consulta);
+            let id_seguimiento = $(this).attr('id');
+            let id_control = $(this).attr('name');
+            $('#hidden_id_con_s').val(id_control);
+            $('#hidden_id_seg_s').val(id_seguimiento);
             $('#recetaMedicaModal').appendTo("body")
             $('#recetaMedicaModal').modal('show');
-            $('#medicamentos_tables').DataTable({
+            /*$('#medicamentos_tables').DataTable({
                 "lengthMenu": [
                     [5, 10, 25, 50, -1],
                     [5, 10, 25, 50, "All"]
@@ -1956,7 +2094,7 @@
                     }
                 ]
 
-            });
+            });*/
 
             $('#medicamentos_paciente_table').DataTable({
                 "lengthMenu": [
@@ -1973,7 +2111,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('RecetaMedica/Select') }}" + "/" + id_consulta,
+                    "url": "{{ url('RecetaMedica/SelectSeg') }}" + "/" + id_control + "/" + id_seguimiento,
                 },
                 responsive: true,
                 columns: [{
@@ -2020,12 +2158,14 @@
 
         $('#ag_medicamentoC').click(function() {
             let token = '{{csrf_token()}}';
-            let id_consulta = $('#hidden_id_con').val();
+            let id_control = $('#hidden_id_con_s').val();
+            let id_seguimiento = $('#hidden_id_seg_s').val();
             let id_medicamento = $('#medSelect').val();
             let cantidad = $('#cant_medicamento').val();
             let tratamiento = $('#tratamiento').val();
             let data = {
-                id_consulta: id_consulta,
+                id_control: id_control,
+                id_seguimiento: id_seguimiento,
                 id_medicamento: id_medicamento,
                 cantidad: cantidad,
                 tratamiento: tratamiento,
@@ -2033,7 +2173,7 @@
             };
             $.ajax({
                 method: 'POST',
-                url: '{{ route("med_RecetaMedica") }}',
+                url: '{{ route("med_RecetaMedicaSeg") }}',
                 data: data
             }).done(function(jqXHR) {
                 $("#ag_medicamentos_pa")[0].reset();
@@ -2058,14 +2198,14 @@
 
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
-                    if (!$('#alerts_regMe').empty()) {
-                        $('#alerts_regMe').empty();
+                    if (!$('#alerts_regMe2').empty()) {
+                        $('#alerts_regMe2').empty();
                     }
 
                     $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                         if ($.isPlainObject(value)) {
                             $.each(value, function(key, value) {
-                                $('#alerts_regMe').show().append(`
+                                $('#alerts_regMe2').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -2080,16 +2220,16 @@
                             });
                         }
                         setTimeout(function() {
-                            $('#alerts_regMe').hide();
+                            $('#alerts_regMe2').hide();
                         }, 5000);
                     });
                 }
                 if (jqXHR.status == 442) {
-                    if (!$('#alerts_regMe').empty()) {
-                        $('#alerts_regMe').empty();
+                    if (!$('#alerts_regMe2').empty()) {
+                        $('#alerts_regMe2').empty();
                     }
                     let responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $('#alerts_regMe').show().append(`
+                    $('#alerts_regMe2').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -2102,7 +2242,7 @@
                                     </li>
                             </ul>`);
                     setTimeout(function() {
-                        $('#alerts_regMe').hide();
+                        $('#alerts_regMe2').hide();
                     }, 5000);
 
                 }
@@ -2428,6 +2568,37 @@
                     $('#observaciones_seg_det').val(data.observaciones);
                 }
             });
+        });
+
+        $(document).on('click', '.delete_medicamento', function() {
+            let id_medicamento = $(this).attr('id');
+
+            let respuesta = confirm("Una vez que de clic en aceptar, ¡Se eliminará el registro en la receta médica!");
+            if (respuesta) {
+                $.ajax({
+                    url: "/ConsultaP/DeleteMedicamento/" + id_medicamento,
+                    dataType: "json",
+                    success: function(data) {
+                        $('#medicamentos_paciente_table').DataTable().ajax.reload();
+                        $('#alerts_regMe').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + data + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#alerts_regMe').hide();
+                        }, 2000);
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {}
+                });
+            }
         });
 
     });

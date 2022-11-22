@@ -163,7 +163,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Edad </label> <span style="color:red"> *</span>
+                                            <label>Edad (A&ntilde;os)</label> <span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Edad" id="edad" name="edad" class="form-control">
                                                 <div class="form-control-position">
@@ -202,7 +202,7 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label>Talla </label><span style="color:red"> *</span>
+                                            <label>Talla (CM)</label><span style="color:red"> *</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
                                                 <div class="form-control-position">
@@ -269,6 +269,173 @@
         </div>
     </div>
 
+    <div id="detalles_pacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-list"></i> Datos Paciente
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <!-- <form id="altaCompra" class="form">   -->
+                <form id="altaPaciente2" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_paciente_detalle" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-4">
+                                            <label>Nombre(s) </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_detalle" name="nombre_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Apellido paterno </label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ap_pat_detalle" name="ap_pat_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Apellido materno </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="ap_mat_detalle" placeholder="Apellido Materno" name="ap_mat_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Fecha de Nacimiento </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fecha_nacimiento_detalle" name="fecha_nacimiento_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Edad (A&ntilde;os)</label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" id="edad_detalle" name="edad_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-sort"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Tipo Sangre</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-shield"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="tipo_sangre_detalle" name="tipo_sangre_detalle" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($tipoS as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->tipo }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>G&eacute;nero</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="genero_detalle" name="genero_detalle" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    <option value="M">Femenino</option>
+                                                    <option value="H">Masculino</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Talla (CM) </label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" id="talla_detalle" name="talla_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-text-height'></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-12">
+                                            <h4 class="form-section"><i class="fas fa-user-check"></i> Datos de Contacto</h4>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Celular </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Celular - WhatsApp" id="celular_detalle" name="celular_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Correo </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="email" placeholder="Correo Electrónico" id="email_detalle" name="email_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label>Contacto Emergencia </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="number" placeholder="Contacto de Emergencia" id="contacto_emergencia_detalle" name="contacto_emergencia_detalle" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user-lock"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </form>
+
+                <div class="col-12">
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                        <input type="hidden" id="hidden_id_detalle" name="hidden_id_detalle">
+                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="editar_paciente" id="editar_paciente" role="button">
+                            <i class="fas fa-share"></i> Actualizar Datos
+                        </a>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
 </div>
 </div>
@@ -319,6 +486,32 @@
 
             } else {*/
             $('#edad').val(edad);
+            meses.innerHTML = "";
+            //}
+
+
+        });
+
+        $(document).on('change', '#fecha_nacimiento_detalle', function() {
+            let fecha_nacimiento = $('#fecha_nacimiento_detalle').val();
+            let hoy = new Date();
+            let nacimiento = new Date(fecha_nacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            let m = hoy.getMonth() - nacimiento.getMonth();
+            let d = hoy.getDay() - nacimiento.getDay();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            /*if (edad < 1) {
+                $('#edad').val(edad);
+                if (m < 2) {
+                    meses.innerHTML = m + " mes de Nacimiento";
+                } else {
+                    meses.innerHTML = m + " meses de Nacimiento";
+                }
+
+            } else {*/
+            $('#edad_detalle').val(edad);
             meses.innerHTML = "";
             //}
 
@@ -400,15 +593,132 @@
                 talla: talla,
                 _token: token
             };
+            let respuesta = confirm("¡Al dar clic en aceptar se registrarán los datos del paciente!");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("PacienteRegistro") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#altaPacienteModal').modal('hide');
+                    $('#tipo_sangre').val("").select2();
+                    $('#genero').val("").select2();
+                    $("#altaPaciente")[0].reset();
+                    $('#paciente_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_paciente').empty()) {
+                            $('#response_paciente').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_paciente').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                        });
+                        setTimeout(function() {
+                            $('#response_paciente').hide();
+                        }, 2000);
+                    }
+                    if (jqXHR.status == 500) {
+                        var responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#paciente_tables').DataTable().ajax.reload();
+                        $('#altaPacienteModal').modal('hide');
+                        $('#tipo_sangre').val("").select2();
+                        $("#altaPaciente")[0].reset();
+                        errorRazon(responseText)
+
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.detalles_paciente', function() {
+            let id_paciente = $(this).attr('id');
+
+            $('#hidden_id_detalle').val(id_paciente);
+
+            $('#detalles_pacienteModal').appendTo("body")
+            $('#detalles_pacienteModal').modal('show');
+
+            $.ajax({
+                url: "/Consulta/Paciente/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    //pac_span.innerHTML = data.nombre_c;
+                    $('#nombre_detalle').val(data.nombre);
+                    $('#ap_pat_detalle').val(data.ap_paterno);
+                    $('#ap_mat_detalle').val(data.ap_materno);
+                    $('#fecha_nacimiento_detalle').val(data.fecha_nacimiento);
+                    $('#edad_detalle').val(data.edad);
+                    $('#tipo_sangre_detalle').val(data.tipo_sangre).select2();
+                    $('#genero_detalle').val(data.genero).select2();
+                    $('#talla_detalle').val(data.talla);
+                    $('#celular_detalle').val(data.celular);
+                    $('#email_detalle').val(data.correo);
+                    $('#contacto_emergencia_detalle').val(data.contacto_emergencia);
+                }
+            });
+        });
+
+        $('#editar_paciente').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_paciente = $('#hidden_id_detalle').val();
+            let nombre = $('#nombre_detalle').val();
+            let ap_pat = $('#ap_pat_detalle').val();
+            let ap_mat = $('#ap_mat_detalle').val();
+            let fecha_nacimiento = $('#fecha_nacimiento_detalle').val();
+            let edad = $('#edad_detalle').val();
+            let tipo_sangre = $('#tipo_sangre_detalle').val();
+            let celular = $('#celular_detalle').val();
+            let email = $('#email_detalle').val();
+            let contacto_emergencia = $('#contacto_emergencia_detalle').val();
+            let genero = $('#genero_detalle').val();
+            let talla = $('#talla_detalle').val();
+
+            let data = {
+                nombre: nombre,
+                ap_pat: ap_pat,
+                ap_mat: ap_mat,
+                fecha_nacimiento: fecha_nacimiento,
+                edad: edad,
+                tipo_sangre: tipo_sangre,
+                celular: celular,
+                email: email,
+                contacto_emergencia: contacto_emergencia,
+                genero: genero,
+                id_paciente: id_paciente,
+                talla: talla,
+                _token: token
+            };
+            let respuesta = confirm("¡Al dar clic en aceptar se actualizarán los datos del paciente!");
+            if (respuesta) {
             $.ajax({
                 method: 'POST',
-                url: '{{ route("PacienteRegistro") }}',
+                url: '{{ route("PacienteEditar") }}',
                 data: data
             }).done(function(jqXHR) {
-                $('#altaPacienteModal').modal('hide');
-                $('#tipo_sangre').val("").select2();
-                $('#genero').val("").select2();
-                $("#altaPaciente")[0].reset();
+                $('#detalles_pacienteModal').modal('hide');
+                //$('#tipo_sangre').val("").select2();
+                //$('#genero').val("").select2();
+                $("#altaPaciente2")[0].reset();
                 $('#paciente_tables').DataTable().ajax.reload();
                 ok(jqXHR);
                 setTimeout(function() {
@@ -416,14 +726,14 @@
                 }, 2000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
-                    if (!$('#response_paciente').empty()) {
-                        $('#response_paciente').empty();
+                    if (!$('#response_paciente_detalle').empty()) {
+                        $('#response_paciente_detalle').empty();
                     }
 
                     $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                         if ($.isPlainObject(value)) {
                             $.each(value, function(key, value) {
-                                $('#response_paciente').show().append(`
+                                $('#response_paciente_detalle').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -438,17 +748,21 @@
                             });
                         }
                     });
+                    setTimeout(function() {
+                        $('#response_paciente_detalle').hide();
+                    }, 2000);
                 }
                 if (jqXHR.status == 500) {
                     var responseText = jQuery.parseJSON(jqXHR.responseText);
                     $('#paciente_tables').DataTable().ajax.reload();
-                    $('#altaPacienteModal').modal('hide');
+                    $('#detalles_pacienteModal').modal('hide');
                     $('#tipo_sangre').val("").select2();
                     $("#altaPaciente")[0].reset();
                     errorRazon(responseText)
 
                 }
             });
+        }
         });
 
     });

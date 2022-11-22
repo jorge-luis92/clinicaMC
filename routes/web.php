@@ -40,10 +40,6 @@ Route::post('Usuario/Registro', [UsuarioController::class, 'regUsuario'])->name(
 
 //Consulta General
 Route::get('/Consulta/ConsultaGeneral', [ConsultaGeneralController::class, 'index'])->name('consulta_general');
-Route::post('Paciente/Registro', [PacienteController::class, 'regPaciente'])->name('PacienteRegistro');
-Route::get('/Catalogo/Pacientes', [PacienteController::class, 'index'])->name('listadoGeneral');
-Route::get('/Catalogo/PacienteSel', [PacienteController::class, 'select_paciente']);
-Route::get('Consulta/Paciente/{id}', [PacienteController::class, 'data_paciente']);
 Route::post('ConsultaGneral/Create', [ConsultaGeneralController::class, 'create_consulta'])->name('consultaRegistro');
 Route::get('ConsultaGeneralP/{id}', [ConsultaGeneralController::class, 'data_consultag']);
 Route::post('ConsultaGneralEdit/Save', [ConsultaGeneralController::class, 'save_EditConsulta'])->name('reg_EditConsulta');
@@ -87,7 +83,17 @@ Route::get('/ControlP/Calculofpp/{id}', [ControlPrenatalController::class, 'calc
 Route::get('/Expediente/EmbarazadasFinal', [ControlPrenatalController::class, 'index_exp']);
 Route::get('/ControlP/ExpEmb/{id}', [ControlPrenatalController::class, 'data_expEmb']);
 Route::get('/Seguimiento/Detalles/{id}', [ControlPrenatalController::class, 'detalles_seguimiento']);
+Route::post('Medicamentos/RecetaMedicaSeg', [MedicamentoController::class, 'regMed_RecetaSeg'])->name('med_RecetaMedicaSeg');
+Route::get('/RecetaMedica/SelectSeg/{id}/{id2}', [ControlPrenatalController::class, 'med_pacienteRecSeg']);
+Route::get('ConsultaP/DeleteMedicamento/{id}', [ControlPrenatalController::class, 'delete_medicamentoSeg']);
 
+
+//Pacientes
+Route::get('/Catalogo/Pacientes', [PacienteController::class, 'index'])->name('listadoGeneral');
+Route::post('Paciente/Registro', [PacienteController::class, 'regPaciente'])->name('PacienteRegistro');
+Route::get('/Catalogo/PacienteSel', [PacienteController::class, 'select_paciente']);
+Route::get('Consulta/Paciente/{id}', [PacienteController::class, 'data_paciente']);
+Route::post('Paciente/Editar', [PacienteController::class, 'editPaciente'])->name('PacienteEditar');
 
 //Citas
 Route::get('/Citas', [CitaController::class, 'index'])->name('citas');
