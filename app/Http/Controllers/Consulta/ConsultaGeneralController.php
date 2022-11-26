@@ -156,7 +156,6 @@ class ConsultaGeneralController extends Controller
             'estatus' => '1',
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s'),
-
         ]);
 
         if ($registrarC != '') {
@@ -246,10 +245,10 @@ class ConsultaGeneralController extends Controller
             'realiza_procedimiento' => ['required', 'string', 'max:255'],
         ]);
 
-        $proce= $data->realiza_procedimiento;
-        $procedimiento= $data->procedimiento;
+        $proce = $data->realiza_procedimiento;
+        $procedimiento = $data->procedimiento;
 
-        if($proce == "Si"){
+        if ($proce == "Si") {
             $data->validate([
                 'procedimiento' => ['required', 'string', 'max:255'],
             ]);
@@ -700,7 +699,8 @@ class ConsultaGeneralController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
-    public function delete_medicamento($id){
+    public function delete_medicamento($id)
+    {
 
         $id_registro = $id;
 
@@ -713,7 +713,8 @@ class ConsultaGeneralController extends Controller
         }
     }
 
-    public function check_expediente($id){
+    public function check_expediente($id)
+    {
 
         $id_paciente = $id;
 
@@ -723,14 +724,117 @@ class ConsultaGeneralController extends Controller
             $datos = Persona::select(
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
             )
-            ->join('paciente', 'paciente.id_persona', 'persona.id')
-            ->where('paciente.id', $id_paciente)
-            ->first();
+                ->join('paciente', 'paciente.id_persona', 'persona.id')
+                ->where('paciente.id', $id_paciente)
+                ->first();
             return $datos;
         } else {
             return response()->json('No existe', 442);
         }
     }
 
+    public function create_consulta_cita(Request $data)
+    {
 
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $datos = $data;
+
+        //return $datos; 
+        $id_paciente = $datos->id;
+        $id_cita = $datos->id_cita;
+        $check = ExpedienteCG::where('id_paciente', $id_paciente)->first();
+
+        //return $data;
+        $datos->validate([
+            'tipo_consulta' => ['required', 'string', 'max:255'],
+        ]);
+
+        $id_expediente = $check->id;
+        $tipo_consulta = $data->tipo_consulta;
+
+        if ($usuario->tipo_usuario == 2) {
+            $datos_medico = Medico::select('id')
+                ->where('id_persona', $usuario->id_persona)
+                ->first();
+        } else {
+            return response()->json('Error: Usuario no Identificado como Médico, Favor de Validar', 442);
+        }
+
+        $registrarC = ConsultaGeneral::create([
+            'id_expediente' => $id_expediente,
+            'id_paciente' => $id_paciente,
+            'id_tipoconsulta' => $tipo_consulta,
+            'id_usuario' => $id_usuario,
+            'id_medico' => $datos_medico->id,
+            'estatus' => '1',
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+
+        ]);
+
+        $updateCita = Cita::where('id', $id_cita)->update([
+            'estatus' => '2',
+        ]);
+
+        if ($updateCita != '') {
+            return response()->json('¡Se ha creado la consulta correctamente!, Un momento será redirigido al panel de Consultas', 200);
+        }
+    }
+
+    public function create_consulta_cita2(Request $data)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $datos = $data;
+
+        $id_cita = $datos->id_cita;
+        $id_paciente = $datos->id;
+
+        $datos->validate([
+            'tipo_consulta' => ['required', 'string', 'max:255'],
+        ]);
+
+        $tipo_consulta = $data->tipo_consulta;
+
+        if ($usuario->tipo_usuario == 2) {
+            $datos_medico = Medico::select('id')
+                ->where('id_persona', $usuario->id_persona)
+                ->first();
+        } else {
+            return response()->json('Error: Usuario no Identificado como Médico, Favor de Validar', 442);
+        }
+
+        $registrarC = ExpedienteCG::create([
+            'id_paciente' => $id_paciente,
+            'id_medico' => $datos_medico->id,
+            'estatus' => '1',
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+        ]);
+
+        $lp = ExpedienteCG::latest('id')->first();
+
+        ConsultaGeneral::create([
+            'id_expediente' => $lp->id,
+            'id_paciente' => $id_paciente,
+            'id_tipoconsulta' => $tipo_consulta,
+            'id_usuario' => $id_usuario,
+            'id_medico' => $datos_medico->id,
+            'estatus' => '1',
+            'fecha' => date('Y-m-d'),
+            'hora' => date('H:i:s'),
+
+        ]);
+
+        $updateCita = Cita::where('id', $id_cita)->update([
+            'estatus' => '2',
+        ]);
+
+        if ($updateCita != '') {
+            return response()->json('¡Se ha creado la consulta correctamente!, Un momento será redirigido al panel de Consultas', 200);
+        }
+    }
 }

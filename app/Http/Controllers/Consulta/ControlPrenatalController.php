@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Medicamento\Medicamento;
 use App\Models\Medico\Medico;
 use App\Models\Paciente\AntecendenteGO;
+use App\Models\Paciente\Cita;
 use App\Models\Paciente\ControlPrenatal;
 use App\Models\Paciente\ExpedienteCP;
 use App\Models\Paciente\ExpedienteInicio;
@@ -304,7 +305,7 @@ class ControlPrenatalController extends Controller
                   </div>';
                     return $button;
                 })
-                ->rawColumns(['accion']) 
+                ->rawColumns(['accion'])
                 ->editColumn('fecha', function (Seguimiento $data) {
                     return date('d/m/Y', strtotime($data->fecha));
                 })
@@ -443,13 +444,13 @@ class ControlPrenatalController extends Controller
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
                     $button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
+                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
-                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
+                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
                         </ul>
                          </div>';
                     return $button;
@@ -882,7 +883,8 @@ class ControlPrenatalController extends Controller
         return view('ControlEmbarazadas.Listado');
     }
 
-    public function delete_medicamentoSeg($id){
+    public function delete_medicamentoSeg($id)
+    {
 
         $id_registro = $id;
 
@@ -892,6 +894,51 @@ class ControlPrenatalController extends Controller
             return response()->json('Medicamento eliminado correctamente', 200);
         } else {
             return response()->json('Error: Sin cambios', 442);
+        }
+    }
+
+    public function check_expediente_cp($id)
+    {
+
+        $id_paciente = $id;
+
+        $check = ExpedienteCP::where('id_paciente', $id_paciente)->first();
+
+        if ($check) {
+            $datos = Persona::select(
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+            )
+                ->join('paciente', 'paciente.id_persona', 'persona.id')
+                ->where('paciente.id', $id_paciente)
+                ->first();
+            return $datos;
+        } else {
+            return response()->json('No existe', 442);
+        }
+    }
+
+    public function confirmar_cp(Request $data)
+    {
+        $usuario = auth()->user();
+
+        $datos = $data;
+
+        $id_cita = $datos->id_cita;
+
+        if ($usuario->tipo_usuario == 2) {
+            Medico::select('id')
+                ->where('id_persona', $usuario->id_persona)
+                ->first();
+        } else {
+            return response()->json('Error: Usuario no Identificado como Médico, Favor de Validar', 442);
+        }
+
+        $updateCita = Cita::where('id', $id_cita)->update([
+            'estatus' => '2',
+        ]);
+
+        if ($updateCita != '') {
+            return response()->json('¡Cita confirmada!, Un momento será redirigido al panel de Consultas', 200);
         }
     }
 }

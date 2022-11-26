@@ -245,7 +245,7 @@ class CitaController extends Controller
             $data = Paciente::select(
                 'paciente.id',
                 'paciente.celular',
-                'tipo_sangre.tipo',
+                //'tipo_sangre.tipo',
                 'persona.edad',
                 'persona.nombre',
                 'persona.ap_paterno',
@@ -254,7 +254,7 @@ class CitaController extends Controller
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
             )
                 ->join('persona', 'persona.id', 'paciente.id_persona')
-                ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
+                //->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
                 ->orderBy('persona.id', 'desc')
                 ->get();
 

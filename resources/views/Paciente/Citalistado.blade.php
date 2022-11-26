@@ -68,6 +68,13 @@
                                                 <i class="fas fa-plus-circle"></i> Crear Cita
                                             </a>
                                         </th>
+                                        <th align="center" style="text-align:center; padding: 3px">
+                                        </th>
+                                        <th align="right" style="text-align:right; padding: 3px">
+                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="agregar_paciente" style="color: white" role="button">
+                                                <i class="fas fa-user"></i> Agregar Paciente
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
                             </table>
@@ -104,7 +111,7 @@
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="altaPaciente" class="form">
+                <form id="altaPaciente">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -144,7 +151,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Fecha de Nacimiento </label> <span style="color:red"> *</span>
+                                            <label>Fecha de Nacimiento </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="form-control">
                                                 <div class="form-control-position">
@@ -154,7 +161,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Edad </label> <span style="color:red"> *</span>
+                                            <label>Edad </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Edad" id="edad" name="edad" class="form-control">
                                                 <div class="form-control-position">
@@ -165,7 +172,7 @@
                                         </div>
 
                                         <div class="col-4">
-                                            <label>Tipo Sangre</label><span style="color:red"> *</span>
+                                            <label>Tipo Sangre</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-user-shield"></i>
@@ -178,7 +185,7 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label>G&eacute;nero</label><span style="color:red"> *</span>
+                                            <label>G&eacute;nero</label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fa fa-user"></i>
@@ -192,7 +199,7 @@
                                         </div>
 
                                         <div class="col-6">
-                                            <label>Talla </label><span style="color:red"> *</span>
+                                            <label>Talla </label>
                                             <div class="form-group position-relative has-icon-left">
                                                 <input type="number" placeholder="Talla Paciente CM" id="talla" name="talla" class="form-control">
                                                 <div class="form-control-position">
@@ -426,7 +433,7 @@
                                 <div class="modal-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_consulta_crear" role="alert" style="display:none"></div>
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_consulta_cita" role="alert" style="display:none"></div>
                                         </div>
                                         <div class="col-6">
                                             <label>Nombre </label>
@@ -464,6 +471,7 @@
                             </a>
                             <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                             <input type="hidden" id="id_hidden_paciente_cita" name="id_hidden_paciente_cita">
+                            <input type="hidden" id="id_hidden_id_cita" name="id_hidden_id_cita">
                             <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="crear_consulta" id="crear_consulta" role="button">
                                 <i class="fas fa-share"></i> Crear
                             </a>
@@ -474,8 +482,125 @@
         </div>
     </div>
 
+    <div id="consultaModal2" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-check"></i> Creaci&oacute;n Consulta
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="altaConsultaCrd2" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_consulta_cita2" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_select_cita2" name="nombre_select2" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <label>Tipo de Consulta</label><span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <div class="form-control-position">
+                                                    <i class="fa fa-user"></i>
+                                                </div>
+                                                <select class="select2 form-control" id="tipo_consulta_cita2" name="tipo_consulta_cita2" style="width: 100%;">
+                                                    <option value="">Seleccione</option>
+                                                    @foreach($tipoC as $x)
+                                                    <option value="{{ $x->id }}">{{ $x->nombre }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                <i class="fas fa-ban"></i> Cancelar
+                            </a>
+                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                            <input type="hidden" id="id_hidden_paciente_cita2" name="id_hidden_paciente_cita2">
+                            <input type="hidden" id="id_hidden_id_cita2" name="id_hidden_id_cita2">
+                            <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="crear_consulta2" id="crear_consulta2" role="button">
+                                <i class="fas fa-share"></i> Crear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="consultaPrenatalModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-check"></i> Confirmaci&oacute;n de Cita
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="altaCpform" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_cp role=" alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_cp" name="nombre_cp" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                <i class="fas fa-ban"></i> Cancelar
+                            </a>
+                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                            <input type="hidden" id="id_hidden_paciente_cita_pre" name="id_hidden_paciente_cita_pre">
+                            <input type="hidden" id="id_hidden_id_cita_pre" name="id_hidden_id_cita_pre">
+                            <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="confirmar_consulta_cp" id="confirmar_consulta_cp" role="button">
+                                <i class="fas fa-share"></i> Confirmar
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
     <br>
-</div>
 </div>
 </div>
 </div>
@@ -578,7 +703,7 @@
                 [5, 10, 25, 50, "All"]
             ],
             "order": [
-                [3, 'desc']
+                [0, 'desc']
             ],
             processing: true,
             serverSide: true,
@@ -626,7 +751,7 @@
             let id_paciente = $(this).attr('id');
             $('#tipo_consulta_c').val("").select2();
             $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
+                url: "/Consulta/Paciente2/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     $('#citaModal').appendTo("body")
@@ -638,7 +763,7 @@
                         'max-height': '100%'
                     });
                     $('#id_hidden_cita').val(id_paciente);
-                    $('#nombre_cita').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
+                    $('#nombre_cita').val(data.nombre_c);
                 }
             });
         });
@@ -878,7 +1003,7 @@
         $(document).on('click', '.create_cg', function() {
             let id_cita = $(this).attr('id');
             let id_paciente = $(this).attr('name');
-            $('#tipo_consulta_c').val("").select2();
+            $('#tipo_consulta_cita').val("").select2();
             $.ajax({
                 url: "/ConsultaG/CheckExpediente/" + id_paciente,
                 dataType: "json",
@@ -892,12 +1017,28 @@
                         'max-height': '100%'
                     });
                     $('#id_hidden_paciente_cita').val(id_paciente);
+                    $('#id_hidden_id_cita').val(id_cita);
                     $('#nombre_select_cita').val(data.nombre_c);
-                    console.log(data)
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
-                    //alert(XMLHttpRequest.responseJSON);
-
+                    //alert(XMLHttpRequest.responseJSON);                   
+                    $.ajax({
+                        url: "/Consulta/Paciente2/" + id_paciente,
+                        dataType: "json",
+                        success: function(data) {
+                            $('#consultaModal2').appendTo("body")
+                            $('#consultaModal2').modal('show');
+                            $('#consultaModal2').css('overflow-y', 'auto');
+                            $('#consultaModal2 > .modal-body').css({
+                                width: 'auto',
+                                height: 'auto',
+                                'max-height': '100%'
+                            });
+                            $('#id_hidden_paciente_cita2').val(id_paciente);
+                            $('#id_hidden_id_cita2').val(id_cita);
+                            $('#nombre_select_cita2').val(data.nombre_c);
+                        }
+                    });
                 }
             });
         });
@@ -905,35 +1046,276 @@
         $('#crear_consulta').click(function() {
             let token = '{{csrf_token()}}';
             let id = $('#id_hidden_paciente_cita').val();
-            let tipo_consulta = $('#tipo_consulta_c').val();
+            let id_cita = $('#id_hidden_id_cita').val();
+            let tipo_consulta = $('#tipo_consulta_cita').val();
             let data = {
                 id: id,
+                id_cita: id_cita,
                 tipo_consulta: tipo_consulta,
                 _token: token
             };
             $.ajax({
                 method: 'POST',
-                url: '{{ route("consultaRegistro") }}',
+                url: '{{ route("consultaRegistrocita") }}',
                 data: data
             }).done(function(jqXHR) {
-                $('#tipo_consulta_c').val("").select2();
+                $('#tipo_consulta_cita').val("").select2();
                 $('#consultaModal').modal('hide');
-                $('#verPacienteModal').modal('hide');
-                $('#consultag_tables').DataTable().ajax.reload();
+                $('#cita_tables').DataTable().ajax.reload();
                 ok(jqXHR);
                 setTimeout(function() {
                     $('#ok').hide();
-                }, 2000);
+                    returnUrl = window.location.protocol + "//" + window.location.host +
+                        "/Consulta/ConsultaGeneral/";
+                    location.href = returnUrl;
+                }, 3000);
             }).fail(function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 422) {
-                    if (!$('#response_paciente').empty()) {
-                        $('#response_paciente').empty();
+                    if (!$('#response_consulta_cita').empty()) {
+                        $('#response_consulta_cita').empty();
                     }
 
                     $.each(JSON.parse(jqXHR.responseText), function(key, value) {
                         if ($.isPlainObject(value)) {
                             $.each(value, function(key, value) {
-                                $('#response_consulta_crear').show().append(`
+                                $('#response_consulta_cita').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + value + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                            });
+                        }
+                        setTimeout(function() {
+                            $('#response_consulta_cita').hide();
+                        }, 2000);
+                    });
+                }
+                if (jqXHR.status == 500) {
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#tipo_consulta_cita').val("").select2();
+                    $('#cita_tables').DataTable().ajax.reload();
+                    $('#consultaModal').modal('hide');
+                    errorRazon(responseText)
+
+                }
+            });
+        });
+
+        $('#crear_consulta2').click(function() {
+            let token = '{{csrf_token()}}';
+            let id = $('#id_hidden_paciente_cita2').val();
+            let id_cita = $('#id_hidden_id_cita2').val();
+            let tipo_consulta = $('#tipo_consulta_cita2').val();
+            let data = {
+                id: id,
+                id_cita: id_cita,
+                tipo_consulta: tipo_consulta,
+                _token: token
+            };
+            $.ajax({
+                method: 'POST',
+                url: '{{ route("consultaRegistrocita2") }}',
+                data: data
+            }).done(function(jqXHR) {
+                $('#tipo_consulta_cita2').val("").select2();
+                $('#consultaModal2').modal('hide');
+                $('#cita_tables').DataTable().ajax.reload();
+                ok(jqXHR);
+                setTimeout(function() {
+                    $('#ok').hide();
+                    returnUrl = window.location.protocol + "//" + window.location.host +
+                        "/Consulta/ConsultaGeneral/";
+                    location.href = returnUrl;
+                }, 3000);
+            }).fail(function(jqXHR, textStatus, errorThrown) {
+                if (jqXHR.status == 422) {
+                    if (!$('#response_consulta_cita2').empty()) {
+                        $('#response_consulta_cita2').empty();
+                    }
+                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                        if ($.isPlainObject(value)) {
+                            $.each(value, function(key, value) {
+                                $('#response_consulta_cita2').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + value + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                            });
+                        }
+                        setTimeout(function() {
+                            $('#response_consulta_cita2').hide();
+                        }, 2000);
+                    });
+                }
+                if (jqXHR.status == 500) {
+                    let responseText = jQuery.parseJSON(jqXHR.responseText);
+                    $('#tipo_consulta_cita2').val("").select2();
+                    $('#cita_tables').DataTable().ajax.reload();
+                    $('#consultaModal2').modal('hide');
+                    errorRazon(responseText)
+
+                }
+            });
+        });
+
+        $(document).on('click', '.create_cp', function() {
+            let id_cita = $(this).attr('id');
+            let id_paciente = $(this).attr('name');
+            $.ajax({
+                url: "/ConsultaP/CheckExpediente/" + id_paciente,
+                dataType: "json",
+                success: function(data) {
+                    $('#consultaPrenatalModal').appendTo("body")
+                    $('#consultaPrenatalModal').modal('show');
+                    $('#consultaPrenatalModal').css('overflow-y', 'auto');
+                    $('#consultaPrenatalModal > .modal-body').css({
+                        width: 'auto',
+                        height: 'auto',
+                        'max-height': '100%'
+                    });
+                    $('#id_hidden_paciente_cita_pre').val(id_paciente);
+                    $('#id_hidden_id_cita_pre').val(id_cita);
+                    $('#nombre_cp').val(data.nombre_c);
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert(XMLHttpRequest.responseJSON);
+                    let respuesta = confirm("La paciente seleccionada no tiene un expediente creado, de clic en aceptar para confirmar la cita y acceder al Panel de Expedientes");
+                    let token = '{{csrf_token()}}';
+                    let data = {
+                        id_cita: id_cita,
+                        _token: token
+                    };
+                    if (respuesta) {
+
+                        $.ajax({
+                            method: 'POST',
+                            url: '{{ route("confirmar_cp_cita") }}',
+                            data: data
+                        }).done(function(jqXHR) {
+                            $('#consultaPrenatalModal').modal('hide');
+                            $('#cita_tables').DataTable().ajax.reload();
+                            ok(jqXHR);
+                            setTimeout(function() {
+                                $('#ok').hide();
+                                returnUrl = window.location.protocol + "//" + window.location.host +
+                                    "/Expediente/ControlPrenatal/";
+                                location.href = returnUrl;
+                            }, 2000);
+                        }).fail(function(jqXHR, textStatus, errorThrown) {
+                            if (jqXHR.status == 500) {
+                                let responseText = jQuery.parseJSON(jqXHR.responseText);
+                                $('#consultaPrenatalModal').modal('hide');
+                                $('#cita_tables').DataTable().ajax.reload();
+                                errorRazon(responseText);
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+        $('#confirmar_consulta_cp').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_cita = $('#id_hidden_id_cita_pre').val();
+            let data = {
+                id_cita: id_cita,
+                _token: token
+            };
+            let respuesta = confirm("¿Confirmar cita?");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("confirmar_cp_cita") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#consultaPrenatalModal').modal('hide');
+                    $('#cita_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                        returnUrl = window.location.protocol + "//" + window.location.host +
+                            "/Consulta/Embarazadas/";
+                        location.href = returnUrl;
+                    }, 3000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#consultaPrenatalModal').modal('hide');
+                        $('#cita_tables').DataTable().ajax.reload();
+                        errorRazon(responseText);
+                    }
+                });
+            }
+        });
+
+        $('#registrar_paciente').click(function() {
+            let token = '{{csrf_token()}}';
+            let nombre = $('#nombre').val();
+            let ap_pat = $('#ap_pat').val();
+            let ap_mat = $('#ap_mat').val();
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let edad = $('#edad').val();
+            let tipo_sangre = $('#tipo_sangre').val();
+            let celular = $('#celular').val();
+            let email = $('#email').val();
+            let contacto_emergencia = $('#contacto_emergencia').val();
+            let genero = $('#genero').val();
+            let talla = $('#talla').val();
+
+            let data = {
+                nombre: nombre,
+                ap_pat: ap_pat,
+                ap_mat: ap_mat,
+                fecha_nacimiento: fecha_nacimiento,
+                edad: edad,
+                tipo_sangre: tipo_sangre,
+                celular: celular,
+                email: email,
+                contacto_emergencia: contacto_emergencia,
+                genero: genero,
+                talla: talla,
+                _token: token
+            };
+            let respuesta = confirm("¡Al dar clic en aceptar se registrarán los datos del paciente!");
+            if (respuesta) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("PacienteRegistro2") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#altaPacienteModal').modal('hide');
+                    $('#tipo_sangre').val("").select2();
+                    $('#genero').val("").select2();
+                    $("#altaPaciente")[0].reset();
+                    $('#pacientes_tables2').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_paciente').empty()) {
+                            $('#response_paciente').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_paciente').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -945,66 +1327,24 @@
                                         </span>
                                     </li>
                             </ul>`);
-                            });
-                        }
+                                });
+                            }
+                        });
                         setTimeout(function() {
-                            $('#response_consulta_crear').hide();
+                            $('#response_paciente').hide();
                         }, 2000);
-                    });
-                }
-                if (jqXHR.status == 442) {
-                    if (!$('#response_paciente').empty()) {
-                        $('#response_paciente').empty();
                     }
-                    let responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $('#response_consulta_crear').show().append(`
-                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                            <ul class="list-group">
-                                    <li class="list-group-item" style="color:black">` + responseText + `
-                                        <span class="float-left">
-                                            <i class="fa fa-exclamation-circle mr-1"></i>
-                                        </span>
-                                    </li>
-                            </ul>`);
-                    setTimeout(function() {
-                        $('#response_consulta_crear').hide();
-                    }, 2000);
+                    if (jqXHR.status == 500) {
+                        var responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#pacientes_tables2').DataTable().ajax.reload();
+                        $('#altaPacienteModal').modal('hide');
+                        $('#tipo_sangre').val("").select2();
+                        $("#altaPaciente")[0].reset();
+                        errorRazon(responseText)
 
-                }
-                if (jqXHR.status == 500) {
-                    let responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $('#tipo_consulta_c').val("").select2();
-                    $('#consultag_tables').DataTable().ajax.reload();
-                    $('#consultaModal').modal('hide');
-                    errorRazon(responseText)
-
-                }
-            });
-        });
-
-        $(document).on('click', '.create_cp', function() {
-            let id_cita = $(this).attr('id');
-            let id_paciente = $(this).attr('name');
-            $('#tipo_consulta_c').val("").select2();
-            $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
-                dataType: "json",
-                success: function(data) {
-                    $('#citaModal').appendTo("body")
-                    $('#citaModal').modal('show');
-                    $('#citaModal').css('overflow-y', 'auto');
-                    $('#citaModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });
-                    $('#id_hidden_cita').val(id_paciente);
-                    $('#nombre_cita').val(data.nombre + " " + data.ap_paterno + " " + data.ap_materno);
-                }
-            });
+                    }
+                });
+            }
         });
 
         $('#cerrarImprimir').click(function() {
@@ -1014,6 +1354,33 @@
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');
         });
+
+        $(document).on('change', '#fecha_nacimiento', function() {
+            let fecha_nacimiento = $('#fecha_nacimiento').val();
+            let hoy = new Date();
+            let nacimiento = new Date(fecha_nacimiento);
+            let edad = hoy.getFullYear() - nacimiento.getFullYear();
+            let m = hoy.getMonth() - nacimiento.getMonth();
+            let d = hoy.getDay() - nacimiento.getDay();
+            if (m < 0 || (m === 0 && hoy.getDate() < nacimiento.getDate())) {
+                edad--;
+            }
+            /*if (edad < 1) {
+                $('#edad').val(edad);
+                if (m < 2) {
+                    meses.innerHTML = m + " mes de Nacimiento";
+                } else {
+                    meses.innerHTML = m + " meses de Nacimiento";
+                }
+
+            } else {*/
+            $('#edad').val(edad);
+            meses.innerHTML = "";
+            //}
+
+
+        });
+
 
     });
 </script>

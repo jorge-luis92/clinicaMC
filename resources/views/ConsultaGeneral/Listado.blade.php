@@ -1582,24 +1582,42 @@
                 url: "/ConsultaGeneralP/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
-                    $('#editarConsultaModal').appendTo("body")
-                    $('#editarConsultaModal').modal('show');
-                    $('#editarConsultaModal').css('overflow-y', 'auto');
-                    $('#editarConsultaModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });
-                    $("#editConsulta_P")[0].reset();
-                    $('#hidden_id_editarc').val(id_consulta);
-                    $('#n_paciente').val(data.nombre_c);
-                    $('#tipo_sangreC').val(data.tipo_sangre);
-                    $('#edad_consulta').val(data.edad);
-                    $('#tip_consultaC').val(data.tipo_consulta);
-                    document.getElementById("n_paciente").readOnly = true;
-                    document.getElementById("tipo_sangreC").readOnly = true;
-                    document.getElementById("edad_consulta").readOnly = true;
-                    document.getElementById("tip_consultaC").readOnly = true;
+                    if (data.edad == null) {
+                        let respuesta = confirm("¡El paciente no tiene los datos actualizados! De clic en aceptar para acceder al panel de Pacientes y actualizar sus datos");
+                        if (respuesta) {
+                            returnUrl = window.location.protocol + "//" + window.location.host +
+                                "/Catalogo/Pacientes/";
+                            location.href = returnUrl;
+                        }
+                    } else {
+                        $('#editarConsultaModal').appendTo("body")
+                        $('#editarConsultaModal').modal('show');
+                        $('#editarConsultaModal').css('overflow-y', 'auto');
+                        $('#editarConsultaModal > .modal-body').css({
+                            width: 'auto',
+                            height: 'auto',
+                            'max-height': '100%'
+                        });
+                        $("#editConsulta_P")[0].reset();
+                        $('#hidden_id_editarc').val(id_consulta);
+                        $('#n_paciente').val(data.nombre_c);
+                        $('#tipo_sangreC').val(data.tipo_sangre);
+                        $('#edad_consulta').val(data.edad);
+                        $('#tip_consultaC').val(data.tipo_consulta);
+                        document.getElementById("n_paciente").readOnly = true;
+                        document.getElementById("tipo_sangreC").readOnly = true;
+                        document.getElementById("edad_consulta").readOnly = true;
+                        document.getElementById("tip_consultaC").readOnly = true;
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {
+                    //alert(XMLHttpRequest.responseJSON);
+                    let respuesta = confirm("¡El paciente no tiene los datos actualizados! De clic en aceptar para acceder al panel de Pacientes y actualizar sus datos");
+                    if (respuesta) {
+                        returnUrl = window.location.protocol + "//" + window.location.host +
+                            "/Catalogo/Pacientes/";
+                        location.href = returnUrl;
+                    }
                 }
             });
         });
@@ -2292,6 +2310,7 @@
                 });
             }
         });
+
     });
 </script>
 

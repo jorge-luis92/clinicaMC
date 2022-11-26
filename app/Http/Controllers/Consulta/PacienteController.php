@@ -177,6 +177,7 @@ class PacienteController extends Controller
             'paciente.contacto_emergencia',
             'paciente.correo',
             'tipo_sangre.id AS tipo_sangre',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),            
         )
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
@@ -245,5 +246,85 @@ class PacienteController extends Controller
         if ($updatePaciente != '') {
             return response()->json('Datos actualizados correctamente', 200);
         }
+    }
+
+    public function regPaciente2(Request $v)
+    {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $nombre = $v->nombre;
+        $ap_pat = $v->ap_pat;
+        $ap_mat = $v->ap_mat;
+        $usuario = $v->usuario;
+        $fecha_nacimiento = $v->fecha_nacimiento;
+        $edad = $v->edad;
+        $tipo_sangre = $v->tipo_sangre;
+        $celular = $v->celular;
+        $email = $v->email;
+        $contacto_emergencia = $v->contacto_emergencia;
+        $genero = $v->genero;
+        $talla = $v->talla;
+        $tipo_s = "";
+
+        $v->validate([
+            'nombre' => ['required', 'string', 'max:255'],
+            'ap_pat' => ['required', 'string', 'max:255'],
+        ]);
+
+        if ($ap_mat == null) {
+            $ap_mat = " ";
+        }
+
+        if($tipo_sangre == ""){
+            $tipo_s = 7;
+        }else{
+            $tipo_s = $tipo_sangre;
+        }
+
+        Persona::create([
+            'nombre' => $nombre,
+            'ap_paterno' => $ap_pat,
+            'ap_materno' => $ap_mat,
+            'edad' => $edad,
+            'genero' => $genero,
+            'fecha_nacimiento' => $fecha_nacimiento,
+            'id_usuario' => $id_usuario,
+            'fecha_registro' => date('Y-m-d'),
+            'hora_registro' => date('H:i:s'),
+
+        ]);
+
+        $lp = Persona::latest('id')->first();
+
+        $registrarP = Paciente::create([
+            'id_persona' => $lp->id,
+            'id_tiposangre' => $tipo_s,
+            'talla' => $talla,
+            'celular' => $celular,
+            'contacto_emergencia' => $contacto_emergencia,
+            'correo' => $email,
+            'id_usuario' => $id_usuario,
+            'fecha_registro' => date('Y-m-d'),
+            'hora_registro' => date('H:i:s'),
+        ]);
+
+        if ($registrarP != '') {
+            return response()->json('Paciente creado satisfactoriamente', 200);
+        }
+    }
+
+    public function data_paciente2($id)
+    {
+        $data = Paciente::select(
+            'paciente.id',
+            'persona.fecha_nacimiento',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),            
+        )
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->where('paciente.id', $id)
+            ->first();
+
+        return $data;
     }
 }
