@@ -61,7 +61,7 @@ class ConsultaGeneralController extends Controller
                         return $button;
                     }
                     if ($data->estatus == 2) {
-                        $button = '&nbsp;
+                        /*$button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
@@ -70,12 +70,16 @@ class ConsultaGeneralController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
-                         </div>';
+                         </div>';*/
+
+                         $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button>';
+                         $button .= '<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button>';
+                         
                         return $button;
                     }
                     if ($data->estatus == 3) {
 
-                        $button = '&nbsp;
+                        /*$button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Ver
@@ -85,7 +89,11 @@ class ConsultaGeneralController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
                         </ul>
-                         </div>';
+                         </div>';*/
+                         $button ='<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button>';
+                         $button .='<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button>';
+                         $button .='<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button>';
+                         
                         return $button;
                     }
                     if ($data->estatus == 0) {
@@ -348,7 +356,7 @@ class ConsultaGeneralController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="detalles_consulta btn btn-success btn-xs btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="detalles_consulta btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
                     return $button;
                 })
                 ->rawColumns(['accion'])
@@ -366,7 +374,7 @@ class ConsultaGeneralController extends Controller
                 'receta_medica.id',
                 'receta_medica.cantidad',
                 'receta_medica.tratamiento',
-                DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+                DB::raw("CONCAT(medicamento.sustancia,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
             )
                 ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
                 ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
@@ -837,4 +845,6 @@ class ConsultaGeneralController extends Controller
             return response()->json('¡Se ha creado la consulta correctamente!, Un momento será redirigido al panel de Consultas', 200);
         }
     }
+
+    
 }

@@ -23,6 +23,7 @@ use Illuminate\Support\Facades\Hash;
 use DB;
 use DataTables;
 use DateTime;
+use PDF;
 
 class ControlPrenatalController extends Controller
 {
@@ -59,7 +60,7 @@ class ControlPrenatalController extends Controller
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
                     if ($data->estatus == 1) {
-                        $button = '&nbsp;
+                        /*$button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
@@ -69,7 +70,10 @@ class ControlPrenatalController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
                         </ul>
-                         </div>';
+                         </div>';*/
+                        $button = '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button>';
+                        $button .= '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button>';
+                        $button .= '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button>';
                         return $button;
                     }
                 })
@@ -283,6 +287,7 @@ class ControlPrenatalController extends Controller
                 'seguimiento.fondo_uterino',
                 'seguimiento.fecha',
                 'seguimiento.id_expediente',
+                'seguimiento.estatus',
             )
                 ->where('seguimiento.id_expediente', $id_exp)
                 ->orderBy('seguimiento.fecha', 'desc')
@@ -291,18 +296,27 @@ class ControlPrenatalController extends Controller
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
 
-                    $button = '&nbsp;<div class="btn-group">
-                    <button type="button" class="btn btn-primary btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
-                            data-toggle="dropdown">
-                            <i class="fas fa-list"></i> Opciones
-                      <span class="caret"></span>
-                    </button>
-                    <ul class="dropdown-menu">
-                    <li>&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button></li>
-                      <li>&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="receta_medica btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Medicamentos</button></li>
-                      <li>&nbsp;<button type="button" name="del" id="' . $data->id . '" class="imprimir_seguimiento btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button></li>
-                    </ul>
-                  </div>';
+                    if ($data->estatus == 1) {
+                        /* $button = '&nbsp;<div class="btn-group">
+                        <button type="button" class="btn btn-primary btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
+                                data-toggle="dropdown">
+                                <i class="fas fa-list"></i> Opciones
+                        <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu">
+                        <li>&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Finalizar</button></li>
+                        <li>&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="receta_medica btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Medicamentos</button></li>
+                        </ul>
+                    </div>';*/
+                        $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fa fa-check"></i> Finalizar</button>';
+                        $button .= '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="receta_medica btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-prescription-bottle"></i> Medicamentos </button>';
+                    }
+                    // <li>&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button></li>
+                    if ($data->estatus == 2) {
+                        $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
+                        //$button .= '&nbsp;<button type="button" name="del" id="' . $data->id . '" class="imprimir_seguimiento btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button>';
+                        $button .= '&nbsp;<a type="button" href="/ControlPrenatal/SeguimientoPDF/' . $data->id . '" target="_blank" class="btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</a>';
+                    }
                     return $button;
                 })
                 ->rawColumns(['accion'])
@@ -443,7 +457,7 @@ class ControlPrenatalController extends Controller
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;
+                    /*$button = '&nbsp;
                         <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
@@ -452,7 +466,10 @@ class ControlPrenatalController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
                         <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
                         </ul>
-                         </div>';
+                         </div>';*/
+                    $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button>';
+                    $button .= '<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button>';
+
                     return $button;
                 })
                 ->rawColumns(['accion'])
@@ -710,7 +727,7 @@ class ControlPrenatalController extends Controller
         ]);
 
         if ($regAnt != '') {
-            return response()->json('¡Se ha creado el expediente correctamente!, Un momento será redirigido al panel de Consultas', 200);
+            return response()->json('¡Se ha creado el nuevo control correctamente!', 200);
         }
     }
 
@@ -862,7 +879,7 @@ class ControlPrenatalController extends Controller
                 'receta_seguimiento.id',
                 'receta_seguimiento.cantidad',
                 'receta_seguimiento.tratamiento',
-                DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+                DB::raw("CONCAT(medicamento.sustancia,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
             )
                 ->join('control_prenatal', 'control_prenatal.id', 'receta_seguimiento.id_control')
                 ->join('medicamento', 'medicamento.id', 'receta_seguimiento.id_medicamento')
@@ -940,5 +957,86 @@ class ControlPrenatalController extends Controller
         if ($updateCita != '') {
             return response()->json('¡Cita confirmada!, Un momento será redirigido al panel de Consultas', 200);
         }
+    }
+
+    public function finalizar_seguimiento($id)
+    {
+
+        $updateSeguimiento = Seguimiento::where('id', $id)->update([
+            'estatus' => '2',
+        ]);
+
+        if ($updateSeguimiento != '') {
+            return response()->json('Consulta Finalizada', 200);
+        }
+    }
+
+    public function pdf_cp($id)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+        $id_consulta = $id;
+        $id_seg = $id;
+
+        $datos_medico = Medico::select(
+            'medico.cedula',
+            'medico.celular',
+            'persona.genero',
+            'medico.especialidad',
+            'medico.institutos',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
+            DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
+            WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+        )
+            ->join('persona', 'persona.id', 'medico.id_persona')
+            ->where('medico.id_persona', $id_persona)
+            ->first();
+
+        $data = Seguimiento::select(
+            'seguimiento.id',
+            'seguimiento.exploracion_fisica',
+            'seguimiento.semana_gesta',
+            'seguimiento.peso',
+            'seguimiento.ta',
+            'seguimiento.fondo_uterino',
+            'seguimiento.presentacion',
+            'seguimiento.frecuencia_cardiaca',
+            'seguimiento.otro AS movimiento_fetal',
+            'seguimiento.padecimiento',
+            'seguimiento.procedimiento',
+            'seguimiento.observaciones AS recomendaciones',
+            'seguimiento.fecha',
+            'persona.edad',
+            'paciente.talla',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+        )
+            ->join('paciente', 'paciente.id', 'seguimiento.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->where('seguimiento.id', $id_seg)
+            ->first();
+        $n_pdf = "control_prenatal_".$data->nombre_c.".pdf";   
+
+        $data_medicamentos = RecetaSeguimiento::select(
+            'receta_seguimiento.id',
+            'receta_seguimiento.cantidad',
+            'receta_seguimiento.tratamiento',
+            DB::raw("CONCAT(medicamento.sustancia,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+        )
+            ->join('medicamento', 'medicamento.id', 'receta_seguimiento.id_medicamento')
+            ->where('receta_seguimiento.id_seguimiento', $id_seg)
+            ->orderBy('receta_seguimiento.id', 'desc')
+            ->get();
+
+
+        view()->share('data', $data);
+        view()->share('medico', $datos_medico);
+        view()->share('medicamentos', $data_medicamentos);
+        $pdf = PDF::loadView('ControlEmbarazadas.Detalles', array('medicamentos' => $data_medicamentos));
+        //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
+        $pdf->setPaper('letter', 'portrait');
+
+        return $pdf->stream($n_pdf);
     }
 }

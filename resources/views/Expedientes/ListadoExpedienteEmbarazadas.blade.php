@@ -90,7 +90,7 @@
                                             <th>Expediente</th>
                                             <th>Paciente</th>
                                             <th>Creaci&oacute;n Expediente</th>
-                                            <th width="15%">Acci&oacute;n</th>
+                                            <th width="30%">Acci&oacute;n</th>
                                         </tr>
                                     </thead>
                                 </table>

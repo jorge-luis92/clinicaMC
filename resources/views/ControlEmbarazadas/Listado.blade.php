@@ -78,7 +78,7 @@
                                         <th>Paciente</th>
                                         <th>Fecha Registro</th>
                                         <th>Etapa</th>
-                                        <th width="15%">Acci&oacute;n</th>
+                                        <th width="38%">Acci&oacute;n</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -605,6 +605,8 @@
                                     <div class="col-12">
                                         <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response" role="alert" style="display:none">
                                         </div>
+                                        <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_fin" role="alert" style="display:none">
+                                        </div>
                                     </div>
 
                                     <table class="table" id="ag_segnone" style="display:none;">
@@ -633,7 +635,7 @@
                                                                     <th>Peso</th>
                                                                     <th>Fondo Uterino</th>
                                                                     <th>Fecha Consulta</th>
-                                                                    <th width="15%">Acci&oacute;n</th>
+                                                                    <th width="26%">Acci&oacute;n</th>
                                                                 </tr>
                                                             </thead>
                                                         </table>
@@ -1235,7 +1237,7 @@
         </div>
     </div>
 
-    </div>
+</div>
 </div>
 </div>
 </div>
@@ -1300,29 +1302,31 @@
                 _token: token
             };
 
-            $.ajax({
-                method: 'POST',
-                url: '{{ route("regExpedienteEmdos") }}',
-                data: data
-            }).done(function(jqXHR) {
-                $("#altaExpIni")[0].reset();
-                $('#expedienteInicioModal').modal('hide');
-                $('#verPacienteModal').modal('hide');
-                $('#consultaE_tables').DataTable().ajax.reload();
-                ok(jqXHR);
-                setTimeout(function() {
-                    $('#ok').hide();
-                }, 2000);
-            }).fail(function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status == 422) {
-                    if (!$('#response_expN').empty()) {
-                        $('#response_expN').empty();
-                    }
+            let confirmacion = confirm('¡Al dar clic en aceptar, se creará un nuevo control prenatal!');
+            if(confirmacion) {
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("regExpedienteEmdos") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $("#altaExpIni")[0].reset();
+                    $('#expedienteInicioModal').modal('hide');
+                    $('#verPacienteModal').modal('hide');
+                    $('#consultaE_tables').DataTable().ajax.reload();
+                    ok(jqXHR);
+                    setTimeout(function() {
+                        $('#ok').hide();
+                    }, 3000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_expN').empty()) {
+                            $('#response_expN').empty();
+                        }
 
-                    $.each(JSON.parse(jqXHR.responseText), function(key, value) {
-                        if ($.isPlainObject(value)) {
-                            $.each(value, function(key, value) {
-                                $('#response_expN').show().append(`
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_expN').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -1334,24 +1338,25 @@
                                         </span>
                                     </li>
                             </ul>`);
-                            });
-                        }
-                    });
+                                });
+                            }
+                        });
 
-                    setTimeout(function() {
-                        $('#response_expN').hide();
-                    }, 4000);
-                }
-                if (jqXHR.status == 500) {
-                    var responseText = jQuery.parseJSON(jqXHR.responseText);
-                    $("#altaExpIni")[0].reset();
-                    $('#expedienteInicioModal').modal('hide');
-                    $('#verPacienteModal').modal('hide');
-                    $('#consultaE_tables').DataTable().ajax.reload();
-                    errorRazon(responseText)
+                        setTimeout(function() {
+                            $('#response_expN').hide();
+                        }, 4000);
+                    }
+                    if (jqXHR.status == 500) {
+                        var responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $("#altaExpIni")[0].reset();
+                        $('#expedienteInicioModal').modal('hide');
+                        $('#verPacienteModal').modal('hide');
+                        $('#consultaE_tables').DataTable().ajax.reload();
+                        errorRazon(responseText)
 
-                }
-            });
+                    }
+                });
+            }
 
         });
 
@@ -2180,6 +2185,9 @@
                 $('#medSelect').val("").select2();
                 $('#medicamentos_paciente_table').DataTable().ajax.reload();
                 let responseText = jqXHR;
+                if (!$('#alerts_regMe').empty()) {
+                    $('#alerts_regMe').empty();
+                }
                 $('#alerts_regMe').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -2261,23 +2269,32 @@
 
         $(document).on('click', '.finalizar_consulta', function() {
             let id_consulta = $(this).attr('id');
-            //let id_consulta = $('#hidden_id_con').val();
-            $('#hidden_id_con_fin').val(id_consulta);
-            $('#finalizarConsultaModal').appendTo("body")
-            $('#finalizarConsultaModal').modal('show');
 
-            $.ajax({
-                url: "/ConsultaGeneral/CGData/" + id_consulta,
-                dataType: "json",
-                success: function(data) {
-                    $('#nombre_paciente').val(data.nombre_p);
-                    $('#mot_consul').val(data.motivo_consulta);
-                    $('#talla_pac').val(data.talla);
-                    $('#peso_pac').val(data.peso);
-                    $('#diag_paciente').val(data.diagnostico);
-                    $('#temp_pac').val(data.temperatura);
-                }
-            });
+            let confirmacion = confirm('¡Al dar clic en Aceptar finalizará la consulta!');
+            if (confirmacion) {
+                $.ajax({
+                    url: "/ConsultaPrenatal/Finalizar/" + id_consulta,
+                    dataType: "json",
+                    success: function(data) {
+                        $('#expedienteEm_table').DataTable().ajax.reload();
+                        $('#response_fin').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + data + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#response_fin').hide();
+                        }, 2000);
+                    }
+                });
+            }
         });
 
         $('#vista_previaReceta').click(function() {

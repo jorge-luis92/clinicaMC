@@ -80,7 +80,7 @@
                                         <th>Diagnostico</th>
                                         <th>Estatus</th>
                                         <th>Fecha Consulta</th>
-                                        <th width="15%">Acci&oacute;n</th>
+                                        <th width="29%">Acci&oacute;n</th>
                                     </tr>
                                 </thead>
                             </table>
@@ -1347,7 +1347,6 @@
             ],
             "order": [
                 [0, 'desc'],
-                [1, 'desc']
             ],
             processing: true,
             serverSide: true,
@@ -1869,6 +1868,10 @@
                 $('#medSelect').val("").select2();
                 $('#medicamentos_paciente_table').DataTable().ajax.reload();
                 let responseText = jqXHR;
+                if (!$('#alerts_regMe').empty()) {
+                    $('#alerts_regMe').empty();
+                }
+
                 $('#alerts_regMe').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -2290,7 +2293,11 @@
                     dataType: "json",
                     success: function(data) {
                         $('#medicamentos_paciente_table').DataTable().ajax.reload();
-                        $('#alerts_delete_me').show().append(`
+                        if (!$('#alerts_regMe').empty()) {
+                            $('#alerts_regMe').empty();
+                        }
+
+                        $('#alerts_regMe').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -2303,7 +2310,7 @@
                                     </li>
                             </ul>`);
                         setTimeout(function() {
-                            $('#alerts_delete_me').hide();
+                            $('#alerts_regMe').hide();
                         }, 2000);
                     },
                     error: function(XMLHttpRequest, textStatus, errorThrown) {}

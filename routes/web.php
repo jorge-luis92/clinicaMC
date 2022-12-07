@@ -91,6 +91,9 @@ Route::get('/RecetaMedica/SelectSeg/{id}/{id2}', [ControlPrenatalController::cla
 Route::get('ConsultaP/DeleteMedicamento/{id}', [ControlPrenatalController::class, 'delete_medicamentoSeg']);
 Route::get('ConsultaP/CheckExpediente/{id}', [ControlPrenatalController::class, 'check_expediente_cp']);
 Route::post('ConsultaPrenatal/Confirmar', [ControlPrenatalController::class, 'confirmar_cp'])->name('confirmar_cp_cita');
+Route::get('ConsultaPrenatal/Finalizar/{id}', [ControlPrenatalController::class, 'finalizar_seguimiento']);
+Route::get('ControlPrenatal/SeguimientoPDF/{id}', [ControlPrenatalController::class, 'pdf_cp']);
+//
 
 
 //Pacientes
