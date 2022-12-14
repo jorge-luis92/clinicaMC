@@ -11568,7 +11568,7 @@
 
 <style>
     <?php
-    $fondo = public_path() . '/image/fondo_cg.png';
+    $fondo = public_path() . '/image/fondo1.png';
     ?>@page {
         margin: 0cm 0cm;
     }
@@ -11587,59 +11587,23 @@
         background-repeat: no-repeat;
         position: relative;
         background-color: #FFFFFF;
-        background-size: 7cm;
+        background-size: 4cm;
     }
 
     header {
         position: fixed;
         top: .9cm;
-        left: .3cm;
-        right: .3cm;
+        left: 1cm;
+        right: 1cm;
         height: 0cm;
     }
 
-    #estilo_mio {
-        position: fixed;
-        top: 4.4cm;
-        width: auto;
-        height: 0cm;
-        left: 0.3cm;
-        right: 0.3cm;
-        text-align: left;
-    }
-
-    #estilo_mio2 {
-
-        position: fixed;
-        top: 14.8cm;
-        width: auto;
-        height: 0cm;
-        left: 0.3cm;
-        right: 0.3cm;
-        text-align: left;
-        font-family: serif;
-
-    }
-
-    #tres {
-
-        position: fixed;
-        top: 14cm;
-        left: 0.3cm;
-        right: 0.3cm;
-        height: 0cm;
-        width: auto;
-        text-align: left;
-        font-family: serif;
-
-    }
-
-    footer {
+     footer {
         position: fixed;
         bottom: 0cm;
-        left: 0.3cm;
-        right: 0.3cm;
-        height: 4.2cm;
+        left: 1cm;
+        right: 1cm;
+        height: 3.2cm;
     }
 
     p {
@@ -11668,7 +11632,7 @@
 $header1 = public_path() . '/image/logopdf1.png';
 $header2 = public_path() . '/image/logopdf2.png';
 $header3 = public_path() . '/image/wa.png';
-$footer1 = public_path() . '/image/edit.png';
+$footer1 = public_path() . '/image/footer1.png';
 setlocale(LC_ALL, 'es_MX');
 setlocale(LC_TIME, "spanish");
 $fc = $data->fecha;
@@ -11713,7 +11677,7 @@ if ($edad > "1") {
                 <tr>
                     <th align="center"><img src="{{ $header1 }}" width="70px" height="80px" /> </th>
                     <th>
-                        <p style="text-align: center; font-family:  serif; font-size: 1.6rem; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;"> Servicios Médicos "San Agustín"
+                        <p style="text-align: center; font-family:  serif; font-size: 1.6rem; font-style: normal; font-variant: normal; font-weight: 700; line-height: 26.4px;"> Servicios Médicos y Laboratorio "San Agustín"
                             <br> <a style="font-size: .8rem; color: black;"> {{ $es }} </a> <br> <a style="font-size: .8rem; color: black;"><strong>{{ $instituto }} </strong></a>
                         </p>
                     </th>
@@ -11732,10 +11696,11 @@ if ($edad > "1") {
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_____________________________________ <br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                _____________________________________ <br>
                 <a class="text-break" style="text-align: center; font-size: 11pt; color: black;">
                     <img src="{{ $header3 }}" width="35px" height="30px" /> <strong> {{ $tel }} </strong>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -11744,7 +11709,7 @@ if ($edad > "1") {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <strong>{{ $genero }} {{ $nmedico }} </strong>
                 </a> <br>
                 <a class="text-break" style="text-align: center; font-size: 10.5pt; color: black;">
@@ -11757,12 +11722,12 @@ if ($edad > "1") {
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C&eacute;dula Profesional
+                    &nbsp;&nbsp;&nbsp;&nbsp;C&eacute;dula Profesional
                     <strong> {{ $ced }} </strong>
                 </a>
             </p>
         </div>
-        <img src="{{ $footer1 }}" width="100%" height="60%" />
+       <!-- <img src="{{ $footer1 }}" width="100%" height="100%" />-->
     </footer>
 
     <div class="table-responsive">
@@ -11796,7 +11761,7 @@ if ($edad > "1") {
         <strong>
             <p class="text-break" style="text-align: justify; font-size: 10.5pt">
                 A continuaci&oacute;n se enlista la cantidad de medicamentos y su tratamiento.
-            </p>
+            </p> <br>
         </strong>
     </div>
 

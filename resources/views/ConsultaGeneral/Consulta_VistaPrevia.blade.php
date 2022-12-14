@@ -11668,7 +11668,7 @@
 $header1 = public_path() . '/image/logopdf1.png';
 $header2 = public_path() . '/image/logopdf2.png';
 $header3 = public_path() . '/image/wa.png';
-$footer1 = public_path() . '/image/footer.png';
+$footer1 = public_path() . '/image/footer1.png';
 setlocale(LC_ALL, 'es_MX');
 setlocale(LC_TIME, "spanish");
 $fc = $data->fecha;

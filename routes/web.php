@@ -57,6 +57,7 @@ Route::get('ConsultaG/DeleteMedicamento/{id}', [ConsultaGeneralController::class
 Route::get('ConsultaG/CheckExpediente/{id}', [ConsultaGeneralController::class, 'check_expediente']);
 Route::post('ConsultaGeneral/CreateC', [ConsultaGeneralController::class, 'create_consulta_cita'])->name('consultaRegistrocita');
 Route::post('ConsultaGeneral/CreateC2', [ConsultaGeneralController::class, 'create_consulta_cita2'])->name('consultaRegistrocita2');
+Route::get('ConsultaGeneral/PDF/{id}', [ConsultaGeneralController::class, 'vista_pdf']);
 
 //Medicamentos
 Route::get('/Medicamentos/Inventario', [MedicamentoController::class, 'index'])->name('medicamento_inventario');
@@ -93,6 +94,8 @@ Route::get('ConsultaP/CheckExpediente/{id}', [ControlPrenatalController::class, 
 Route::post('ConsultaPrenatal/Confirmar', [ControlPrenatalController::class, 'confirmar_cp'])->name('confirmar_cp_cita');
 Route::get('ConsultaPrenatal/Finalizar/{id}', [ControlPrenatalController::class, 'finalizar_seguimiento']);
 Route::get('ControlPrenatal/SeguimientoPDF/{id}', [ControlPrenatalController::class, 'pdf_cp']);
+Route::get('/ControlP/CalculoNacido/{id}', [ControlPrenatalController::class, 'consulta_fechapp']);
+Route::post('ControlP/FinalizarControl', [ControlPrenatalController::class, 'end_seguimiento'])->name('finalizar_seguimientoCP');
 //
 
 

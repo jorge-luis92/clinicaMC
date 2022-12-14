@@ -72,9 +72,9 @@ class ConsultaGeneralController extends Controller
                         </ul>
                          </div>';*/
 
-                         $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button>';
-                         $button .= '<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button>';
-                         
+                        $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="receta_medica btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-prescription-bottle fa-1x"></i> Receta Médica</button>';
+                        $button .= '<button type="button" name="del" id="' . $data->id . '" class="finalizar_consulta btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button>';
+
                         return $button;
                     }
                     if ($data->estatus == 3) {
@@ -90,10 +90,10 @@ class ConsultaGeneralController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button></li>
                         </ul>
                          </div>';*/
-                         $button ='<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_pdf btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button>';
-                         $button .='<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button>';
-                         $button .='<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button>';
-                         
+                        $button = '&nbsp;<a type="button" href="/ConsultaGeneral/PDF/' . $data->id . '" target="_blank" class="btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</a>';
+                        $button .= '<button type="button" name="del" id="' . $data->id . '" class="detalles_consulta btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-list fa-1x"></i> Detalles</button>';
+                        $button .= '<button type="button" name="' . $data->correo . '" id="' . $data->id . '" class="enviar_email btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fas fa-email fa-1x"></i> Enviar Receta por Correo</button>';
+
                         return $button;
                     }
                     if ($data->estatus == 0) {
@@ -396,76 +396,6 @@ class ConsultaGeneralController extends Controller
         }
 
         return view('ConsultaGeneral.Listado');
-    }
-
-    public function vistapreviaC($id)
-    {
-
-        $usuario = auth()->user();
-        $id_usuario = $usuario->id;
-        $id_persona = $usuario->id_persona;
-        $id_consulta = $id;
-
-        $datos_medico = Medico::select(
-            'medico.cedula',
-            'medico.celular',
-            'persona.genero',
-            'medico.especialidad',
-            'medico.institutos',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
-            DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
-            WHEN persona.genero= "M" THEN "Dra." END) AS doc')
-        )
-            ->join('persona', 'persona.id', 'medico.id_persona')
-            ->where('medico.id_persona', $id_persona)
-            ->first();
-
-        $data = ConsultaGeneral::select(
-            'consulta_general.id',
-            'consulta_general.temperatura',
-            'consulta_general.peso',
-            'tipo_consulta.nombre',
-            'consulta_general.fecha',
-            'consulta_general.estatus',
-            'paciente.talla',
-            'consulta_general.glucosa',
-            'consulta_general.fecha',
-            'consulta_general.diagnostico',
-            'persona.edad',
-            'consulta_general.ta',
-            'consulta_general.motivo_consulta',
-            'consulta_general.examen_fisico',
-            'consulta_general.observaciones',
-            'consulta_general.procedimiento',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
-        )
-            ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
-            ->join('persona', 'persona.id', 'paciente.id_persona')
-            ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
-            ->where('consulta_general.id', $id_consulta)
-            ->first();
-
-        $data_medicamentos = RecetaMedica::select(
-            'receta_medica.id',
-            'receta_medica.cantidad',
-            'receta_medica.tratamiento',
-            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
-        )
-            ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
-            ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
-            ->where('consulta_general.id', $id_consulta)
-            ->orderBy('receta_medica.id', 'desc')
-            ->get();
-
-
-        view()->share('data', $data);
-        view()->share('medico', $datos_medico);
-        view()->share('medicamentos', $data_medicamentos);
-        $pdf = PDF::loadView('ConsultaGeneral.Vista_dos', array('medicamentos' => $data_medicamentos));
-        //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
-        $pdf->setPaper('letter', 'portrait');
-
-        return $pdf->stream();
     }
 
     public function verDataCon($id)
@@ -846,5 +776,73 @@ class ConsultaGeneralController extends Controller
         }
     }
 
-    
+    public function vista_pdf($id)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+        $id_persona = $usuario->id_persona;
+        $id_consulta = $id;
+
+        $datos_medico = Medico::select(
+            'medico.cedula',
+            'medico.celular',
+            'persona.genero',
+            'medico.especialidad',
+            'medico.institutos',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
+            DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
+            WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+        )
+            ->join('persona', 'persona.id', 'medico.id_persona')
+            ->where('medico.id_persona', $id_persona)
+            ->first();
+
+        $data = ConsultaGeneral::select(
+            'consulta_general.id',
+            'consulta_general.temperatura',
+            'consulta_general.peso',
+            'tipo_consulta.nombre',
+            'consulta_general.fecha',
+            'consulta_general.estatus',
+            'paciente.talla',
+            'consulta_general.glucosa',
+            'consulta_general.fecha',
+            'consulta_general.diagnostico',
+            'persona.edad',
+            'consulta_general.ta',
+            'consulta_general.motivo_consulta',
+            'consulta_general.examen_fisico',
+            'consulta_general.observaciones',
+            'consulta_general.procedimiento',
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p")
+        )
+            ->join('paciente', 'paciente.id', 'consulta_general.id_paciente')
+            ->join('persona', 'persona.id', 'paciente.id_persona')
+            ->join('tipo_consulta', 'tipo_consulta.id', 'consulta_general.id_tipoconsulta')
+            ->where('consulta_general.id', $id_consulta)
+            ->first();
+
+        $data_medicamentos = RecetaMedica::select(
+            'receta_medica.id',
+            'receta_medica.cantidad',
+            'receta_medica.tratamiento',
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+        )
+            ->join('consulta_general', 'consulta_general.id', 'receta_medica.id_consulta')
+            ->join('medicamento', 'medicamento.id', 'receta_medica.id_medicamento')
+            ->where('consulta_general.id', $id_consulta)
+            ->orderBy('receta_medica.id', 'desc')
+            ->get();
+
+
+        view()->share('data', $data);
+        view()->share('medico', $datos_medico);
+        view()->share('medicamentos', $data_medicamentos);
+        $pdf = PDF::loadView('ConsultaGeneral.Vista_dos', array('medicamentos' => $data_medicamentos));
+        //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
+        $pdf->setPaper('letter', 'portrait');
+
+        return $pdf->stream();
+    }
 }

@@ -13,6 +13,6 @@ class DatoBebe extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'id_paciente', 'id_medico', 'fecha_nacimiento', 'nacio', 'peso',
+    protected $fillable = ['id', 'id_paciente', 'id_expediente' , 'id_control', 'fecha_nacimiento', 'nacio', 'peso',
      'talla', 'fecha', 'hora'];
 }

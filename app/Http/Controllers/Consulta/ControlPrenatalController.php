@@ -8,6 +8,7 @@ use App\Models\Medico\Medico;
 use App\Models\Paciente\AntecendenteGO;
 use App\Models\Paciente\Cita;
 use App\Models\Paciente\ControlPrenatal;
+use App\Models\Paciente\DatoBebe;
 use App\Models\Paciente\ExpedienteCP;
 use App\Models\Paciente\ExpedienteInicio;
 use App\Models\Paciente\Paciente;
@@ -18,6 +19,7 @@ use App\Models\Paciente\TipoSangre;
 use App\Models\Persona\Persona;
 use App\Models\Usuario\TipoUsuario;
 use App\Models\Usuario\Usuario;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use DB;
@@ -1016,7 +1018,7 @@ class ControlPrenatalController extends Controller
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->where('seguimiento.id', $id_seg)
             ->first();
-        $n_pdf = "control_prenatal_".$data->nombre_c.".pdf";   
+        $n_pdf = "control_prenatal_" . $data->nombre_c . ".pdf";
 
         $data_medicamentos = RecetaSeguimiento::select(
             'receta_seguimiento.id',
@@ -1038,5 +1040,107 @@ class ControlPrenatalController extends Controller
         $pdf->setPaper('letter', 'portrait');
 
         return $pdf->stream($n_pdf);
+    }
+
+    public function consulta_fechapp($id)
+    {
+        $hoy = date('Y-m-d');
+        $uno = date_create($hoy);
+        $data = ExpedienteCP::select(
+            'expediente_inicio.fpp',
+        )
+            ->join('expediente_inicio', 'expediente_inicio.id_expediente', 'expediente_cp.id')
+            ->where('expediente_inicio.id_expediente', $id)
+            ->first();
+
+        $fecha_c = $data->fpp;
+        //return "fpp: " . $fecha_c . " hoy: " . $hoy;
+        if ($hoy >= $fecha_c) {
+            return "ready";
+        } else {
+
+            $currentDate = Carbon::createFromFormat('Y-m-d', $hoy);
+            $shippingDate = Carbon::createFromFormat('Y-m-d', $fecha_c);
+
+            $diferencia_en_dias = $currentDate->diffInDays($shippingDate);
+            return $diferencia_en_dias;
+        }
+        // $suma = 280;
+        //
+    }
+
+    public function end_seguimiento(Request $request)
+    {
+
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
+
+        $data = $request;
+
+        //return $data;
+
+        $question = $data->question;
+        $nacio = $data->nacio;
+        $observaciones = $data->observaciones;
+
+        if ($question == 1) {
+            $data->validate([
+                'fecha_nacimiento' => 'required',
+                'nacio' => 'required',
+            ]);
+        }
+
+        if ($nacio == "Vivo") {
+            $data->validate([
+                'peso' => 'required',
+                'talla' => 'required',
+            ]);
+        }
+        $fecha_nacimiento = $data->fecha_nacimiento;
+        $peso = $data->peso;
+        $talla = $data->talla;
+
+        $id_expediente = $data->id_expediente;
+        $id_control = $data->id_control;
+
+        $datos_paciente =  ControlPrenatal::select('id_paciente')
+            ->where([
+                ['id_expediente', $id_expediente],
+                ['id', $id_control],
+            ])
+            ->first();
+
+        $update = ControlPrenatal::where([
+            ['id_expediente', $id_expediente],
+            ['id', $id_control],
+        ])->update([
+            'estatus' => 2,
+            'observaciones' => $observaciones,
+        ]);
+
+        $id_paciente = $datos_paciente->id_paciente;
+
+        if ($update != "") {
+            if ($question == 1) {
+                DatoBebe::create([
+                    'id_paciente' => $id_paciente,
+                    'id_expediente' => $id_expediente,
+                    'id_control' => $id_control,
+                    'fecha_nacimiento' => $fecha_nacimiento,
+                    'nacio' => $nacio,
+                    'peso' => $peso,
+                    'talla' => $talla,
+                    'fecha' => date('Y-m-d'),
+                    'hora' => date('H:i:s'),
+                ]);
+                return response()->json('Se ha finalizado correctamente el control y se han guardado correctamente los datos del bebé', 200);
+            } else {
+                return response()->json('Se ha finalizado correctamente el control.', 200);
+            }
+        } else {
+            return response()->json('Error al intentar finalizar el control.', 500);
+        }
+
+        return $datos_paciente;
     }
 }

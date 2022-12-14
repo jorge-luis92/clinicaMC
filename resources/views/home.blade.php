@@ -25,7 +25,7 @@
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <div class="card">
-                                <div class="card-header">{{ __('Dashboard') }}</div>
+                                <div class="card-header"><strong> {{ __('Dashboard') }} </strong> </div>
                                 <div class="card-body" align="center" style="background-image: url('/image/home.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF;">
                                     @if (session('status'))
                                     <div class="alert alert-success" role="alert">

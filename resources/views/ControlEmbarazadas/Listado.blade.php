@@ -1001,7 +1001,7 @@
     </div>
 
     <div id="finalizar_CPModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
+        <div class="modal-sm modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h3 class="modal-title" id="myModalLabel34">
@@ -1012,7 +1012,7 @@
                     </button>
                 </div>
                 <!-- <form id="altaCompra" class="form">   -->
-                <form id="cerrar_cp">
+                <form id="cerrar_cpForm">
                     <div class="form-body">
                         <div class="row">
                             <div class="col-md-12">
@@ -1023,7 +1023,7 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <label>Agregar Datos Reci&eacute;n Nacido</label>
+                                            <label>Agregar Datos Reci&eacute;n Nacido</label> <span style="color:red">*</span>
                                             <div class="form-group position-relative has-icon-left">
                                                 <div class="form-control-position">
                                                     <i class="fas fa-list"></i>
@@ -1031,7 +1031,7 @@
                                                 <select class="select2 form-control" id="ag_databb" name="ag_databb" style="width: 100%;">
                                                     <option value="" selected>Seleccione</option>
                                                     <option value="1">Si</option>
-                                                    <option value="2">NO</option>
+                                                    <option value="2">No</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -1063,24 +1063,33 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
-                                                    <label>Peso </label>
+                                                <div class="col-6" id="pesobb_show" style="display: none;">
+                                                    <label>Peso</label>
                                                     <div class="form-group position-relative has-icon-left">
-                                                        <input type="number" placeholder="Peso Paciente KG" id="pesobb" name="pesobb" class="form-control">
+                                                        <input type="number" placeholder="Peso KG" id="pesobb" name="pesobb" class="form-control">
                                                         <div class="form-control-position">
                                                             <i class='fas fa-weight'></i>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="col-6">
+                                                <div class="col-6" id="tallabb_show" style="display: none;">
                                                     <label>Talla </label>
                                                     <div class="form-group position-relative has-icon-left">
-                                                        <input type="number" placeholder="Talla Paciente CM" id="tallabb" name="tallabb" class="form-control">
+                                                        <input type="number" placeholder="Talla CM" id="tallabb" name="tallabb" class="form-control">
                                                         <div class="form-control-position">
                                                             <i class='fa fa-text-height'></i>
                                                         </div>
                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <label>Observaciones </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <textarea name="observaciones_adicionales" id="observaciones_adicionales" cols="3" rows="3" class="form-control" placeholder="Observaciones"></textarea>
+                                                <div class="form-control-position">
+                                                    <i class='fa fa-eye'></i>
                                                 </div>
                                             </div>
                                         </div>
@@ -1098,7 +1107,7 @@
                         <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
                         <input type="hidden" id="hidden_id_pacbb" name="hidden_id_pacbb">
                         <input type="hidden" id="hidden_id_cpbb" name="hidden_id_cpbb">
-                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="end_cp" id="end_cp" role="button">
+                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="finalizar_seguimiento" id="finalizar_seguimiento" role="button">
                             <i class="fas fa-share"></i> Finalizar
                         </a>
                     </div>
@@ -1252,24 +1261,6 @@
 <script>
     jQuery(document).ready(function($) {
 
-        $('#alertaAlta').hide();
-        $('#alertaEli').hide();
-        $('#alertaMod').hide();
-
-        $('#errorRazon').hide();
-
-        $('#cerrar_salir').click(function() {
-            // paciente_table.destroy();
-            $('#verPacienteModal').modal('hide');
-
-        });
-
-        $('#cerrar_salir2').click(function() {
-            // paciente_table.destroy();
-            $('#recetaMedicaModal').modal('hide');
-
-        });
-
         function errorRazon(valor) {
             $('#error1').html('<span>' + valor + '</span>');
             $('#errorRazon').show();
@@ -1279,6 +1270,20 @@
             $('#ok1').html('<span>' + valor + '</span>');
             $('#ok').show();
         }
+
+        $('#alertaAlta').hide();
+        $('#alertaEli').hide();
+        $('#alertaMod').hide();
+
+        $('#errorRazon').hide();
+
+        $('#cerrar_salir').click(function() {
+            $('#verPacienteModal').modal('hide');
+        });
+
+        $('#cerrar_salir2').click(function() {
+            $('#recetaMedicaModal').modal('hide');
+        });
 
         $('#agregar_paciente').click(function() {
             $('#altaPacienteModal').modal('show');
@@ -1303,7 +1308,7 @@
             };
 
             let confirmacion = confirm('¡Al dar clic en aceptar, se creará un nuevo control prenatal!');
-            if(confirmacion) {
+            if (confirmacion) {
                 $.ajax({
                     method: 'POST',
                     url: '{{ route("regExpedienteEmdos") }}',
@@ -1833,8 +1838,6 @@
                     });
                 }
             });
-
-
         });
 
         $('#crear_consulta').click(function() {
@@ -2391,16 +2394,37 @@
         });
 
         $(document).on('click', '.finalizar_cp', function() {
-            let id_consulta = $(this).attr('id');
-            let id_paciente = $(this).attr('name');
+            let id_control = $(this).attr('id');
+            let id_expediente = $(this).attr('name');
 
-            $('#hidden_id_cpbb').val(id_consulta);
-            $('#hidden_id_pacbb').val(id_paciente);
-            $('#finalizar_CPModal').appendTo("body")
-            $('#finalizar_CPModal').modal('show');
-            $("#cerrar_cp")[0].reset();
-            $("#nacio").val("").select2();
-            $('#add_bebe').hide();
+            $.ajax({
+                url: "/ControlP/CalculoNacido/" + id_expediente,
+                // dataType: "json",
+                success: function(data) {
+                    if (data == "ready") {
+                        $('#hidden_id_cpbb').val(id_control);
+                        $('#hidden_id_pacbb').val(id_expediente);
+                        $('#finalizar_CPModal').appendTo("body")
+                        $('#finalizar_CPModal').modal('show');
+                        $("#cerrar_cp")[0].reset();
+                        $("#nacio").val("").select2();
+                        $('#add_bebe').hide();
+                    } else {
+                        let confirmar = confirm("Faltan aún " + data + " días para la fecha probable de parto. ¿Desea continuar?");
+                        if (confirmar) {
+                            $('#hidden_id_cpbb').val(id_control);
+                            $('#hidden_id_pacbb').val(id_expediente);
+                            $('#finalizar_CPModal').appendTo("body")
+                            $('#finalizar_CPModal').modal('show');
+                            $("#cerrar_cp")[0].reset();
+                            $("#nacio").val("").select2();
+                            $('#add_bebe').hide();
+                        }
+                    }
+                },
+                error: function(XMLHttpRequest, textStatus, errorThrown) {}
+            });
+
         });
 
         $('#ag_databb').change(function() {
@@ -2413,7 +2437,7 @@
 
             if (add == 1) {
                 $('#add_bebe').show();
-            } else if (add == 2) {
+            } else if (add == 2 || add == "") {
                 $('#add_bebe').hide();
             }
         });
@@ -2550,6 +2574,18 @@
             }
         });
 
+        $(document).on('change', '#nacio', function() {
+            let respuesta = $('#nacio').val();
+
+            if (respuesta == "Vivo") {
+                $('#pesobb_show').show();
+                $('#tallabb_show').show();
+            } else if (respuesta == "Muerto" || respuesta == "") {
+                $('#pesobb_show').hide();
+                $('#tallabb_show').hide();
+            }
+        });
+
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');
         });
@@ -2618,14 +2654,126 @@
             }
         });
 
+        $('#finalizar_seguimiento').click(function() {
+
+            let id_control = $('#hidden_id_cpbb').val();
+            let id_expediente = $('#hidden_id_pacbb').val();
+            let token = '{{csrf_token()}}';
+            let fecha_nacimiento = $('#fecha_nacimientobb').val();
+            let nacio = $('#nacio').val();
+            let peso = $('#pesobb').val();
+            let talla = $('#tallabb').val();
+            let question = $('#ag_databb').val();
+            let observaciones = $('#observaciones_adicionales').val();
+
+            let data = {
+                id_control: id_control,
+                id_expediente: id_expediente,
+                fecha_nacimiento: fecha_nacimiento,
+                nacio: nacio,
+                peso: peso,
+                talla: talla,
+                question: question,
+                observaciones: observaciones,
+                _token: token
+            };
+
+            if (question == "") {
+                alert("Seleccione una opción");
+            } else {
+                let respuesta = confirm("¡El expediente se Finalizará!");
+
+                if (respuesta) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '{{ route("finalizar_seguimientoCP") }}',
+                        data: data
+                    }).done(function(jqXHR) {
+                        $("#cerrar_cpForm")[0].reset();
+                        $("#nacio").val("").select2();
+                        $("#ag_databb").val("").select2();
+                        $('#pesobb_show').hide();
+                        $('#tallabb_show').hide();
+                        $('#add_bebe').hide();
+                        $('#finalizar_CPModal').modal('hide');
+                        $('#consultaE_tables').DataTable().ajax.reload();
+                        ok(jqXHR);
+                        setTimeout(function() {
+                            $('#ok').hide();
+                        }, 2000);
+                    }).fail(function(jqXHR, textStatus, errorThrown) {
+                        if (jqXHR.status == 422) {
+                            if (!$('#response_adddatabb').empty()) {
+                                $('#response_adddatabb').empty();
+                            }
+
+                            $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                                if ($.isPlainObject(value)) {
+                                    $.each(value, function(key, value) {
+                                        $('#response_adddatabb').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                    });
+                                }
+                                setTimeout(function() {
+                                    $('#response_adddatabb').hide();
+                                }, 3000);
+                            });
+                        }
+                        if (jqXHR.status == 442) {
+                            if (!$('#response_adddatabb').empty()) {
+                                $('#response_adddatabb').empty();
+                            }
+                            let responseText = jQuery.parseJSON(jqXHR.responseText);
+                            $('#response_adddatabb').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                            setTimeout(function() {
+                                $('#response_adddatabb').hide();
+                            }, 3000);
+
+                        }
+                        if (jqXHR.status == 500) {
+                            let responseText = jQuery.parseJSON(jqXHR.responseText);
+                            $("#cerrar_cpForm")[0].reset();
+                            $("#nacio").val("").select2();
+                            $("#ag_databb").val("").select2();
+                            $('#pesobb_show').hide();
+                            $('#tallabb_show').hide();
+                            $('#add_bebe').hide();
+                            $('#finalizar_CPModal').modal('hide');
+                            $('#consultaE_tables').DataTable().ajax.reload();
+                            errorRazon(responseText);
+                            setTimeout(function() {
+                                $('#errorRazon').hide();
+                            }, 5000);
+
+                        }
+                    });
+                }
+            }
+        });
+
     });
 </script>
 
-<script>
-    jQuery(document).ready(function($) {
-
-
-    });
-</script>
 
 @endsection

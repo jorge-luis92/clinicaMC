@@ -621,20 +621,6 @@
                                             <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="alerts_finally" role="alert" style="display:none"></div>
                                         </div>
                                         <div class="col-12">
-                                            <div class="table-responsive-lg">
-                                                <table class="table">
-                                                    <thead>
-                                                        <tr>
-                                                            <th align="left" style="text-align:left; padding: 3px">
-                                                                <a href="#" class="btn btn-warning btn-xs btn-glow" id="vista_previaReceta" style="color: white" role="button">
-                                                                    <i class="fas fa-eye"></i> Vista Previa
-                                                                </a>
-                                                            </th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
-                                            </div>
-
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="row">
                                                     <div class="col-4">
@@ -1972,14 +1958,6 @@
             });
         });
 
-        $('#vista_previaReceta').click(function() {
-            let id_consulta = $('#hidden_id_con_fin').val();
-            $('#pdfModal').appendTo("body")
-            $('#pdfModal').css('overflow-y', 'auto');
-            $('#form_resultPDF').html('<iframe src="../../ConsultaGneralEdit/Vistaprevia/' + id_consulta + '" style="width:100%; height:500px;" frameborder="0"></iframe>');
-            $('#pdfModal').modal('show');
-        });
-
         $('#fin_consulta').click(function() {
             let token = '{{csrf_token()}}';
             let id = $('#hidden_id_con_fin').val();
@@ -2182,14 +2160,6 @@
 
         $('#cerrarImprimir2').click(function() {
             $('#pdfModal').modal('hide');
-        });
-
-        $(document).on('click', '.ver_pdf', function() {
-            let id_consulta = $(this).attr('id');
-            $('#pdfModal').appendTo("body")
-            $('#pdfModal').css('overflow-y', 'auto');
-            $('#form_resultPDF').html('<iframe src="../../ConsultaGneralEdit/Vistaprevia/' + id_consulta + '" style="width:100%; height:500px;" frameborder="0"></iframe>');
-            $('#pdfModal').modal('show');
         });
 
         $(document).on('click', '.enviar_email', function() {
