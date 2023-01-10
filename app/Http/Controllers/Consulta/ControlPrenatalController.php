@@ -861,6 +861,7 @@ class ControlPrenatalController extends Controller
             'seguimiento.procedimiento',
             'seguimiento.observaciones',
             'seguimiento.fecha',
+            'seguimiento.id_paciente',
             DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
         )
             ->join('paciente', 'paciente.id', 'seguimiento.id_paciente')
@@ -963,6 +964,8 @@ class ControlPrenatalController extends Controller
 
     public function finalizar_seguimiento($id)
     {
+        $usuario = auth()->user();
+        $id_usuario = $usuario->id;
 
         $updateSeguimiento = Seguimiento::where('id', $id)->update([
             'estatus' => '2',

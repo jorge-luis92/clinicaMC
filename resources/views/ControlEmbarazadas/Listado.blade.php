@@ -1246,6 +1246,78 @@
         </div>
     </div>
 
+    <div id="citaModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class='fa fa-arrow-right'></i> Próxima Cita
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form id="altaCitaForm" class="form">
+                    <div class="form-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="modal-body">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_cita" role="alert" style="display:none"></div>
+                                        </div>
+                                        <div class="col-6">
+                                            <label>Nombre </label>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="text" id="nombre_cita" name="nombre_cita" class="form-control" readonly>
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Fecha Agendar</label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="date" id="fecha_agenda" name="fecha_agenda" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3">
+                                            <label>Hora Agendar</label> <span style="color:red"> *</span>
+                                            <div class="form-group position-relative has-icon-left">
+                                                <input type="time" id="hora_agenda" name="hora_agenda" class="form-control">
+                                                <div class="form-control-position">
+                                                    <i class="fas fa-birthday-cake"></i>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="modal-footer">
+                            <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                                <i class="fas fa-ban"></i> Salir
+                            </a>
+                            <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
+                            <input type="hidden" id="id_hidden_cita" name="id_hidden_cita">
+                            <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="agen_cita" id="agen_cita" role="button">
+                                <i class="fas fa-share"></i> Crear
+                            </a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 </div>
 </div>
@@ -2274,11 +2346,16 @@
             let id_consulta = $(this).attr('id');
 
             let confirmacion = confirm('¡Al dar clic en Aceptar finalizará la consulta!');
+
             if (confirmacion) {
                 $.ajax({
                     url: "/ConsultaPrenatal/Finalizar/" + id_consulta,
                     dataType: "json",
                     success: function(data) {
+                        if (!$('#response_fin').empty()) {
+                            $('#response_fin').empty();
+                        }
+
                         $('#expedienteEm_table').DataTable().ajax.reload();
                         $('#response_fin').show().append(`
                         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
@@ -2295,6 +2372,23 @@
                         setTimeout(function() {
                             $('#response_fin').hide();
                         }, 2000);
+                        let prox = confirm("¿Se agendará próxima cita?");
+                        if (prox) {
+                            $.ajax({
+                                url: "/Seguimiento/Detalles/" + id_consulta,
+                                dataType: "json",
+                                success: function(data) {
+                                    $('#citaModal').appendTo("body")
+                                    $('#citaModal').modal('show');
+                                    $('#nombre_cita').val(data.nombre_c);
+                                    $('#id_hidden_cita').val(data.id_paciente);
+                                    $('#finalizarConsultaModal').modal('hide');
+                                    setTimeout(function() {
+                                        $('#ok').hide();
+                                    }, 2000);
+                                }
+                            });
+                        }
                     }
                 });
             }
@@ -2770,6 +2864,129 @@
                     });
                 }
             }
+        });
+
+        $('#agen_cita').click(function() {
+            let token = '{{csrf_token()}}';
+            let id_paciente = $('#id_hidden_cita').val();
+            let fecha_agenda = $('#fecha_agenda').val();
+            let hora_agenda = $('#hora_agenda').val();
+            let data = {
+                id_paciente: id_paciente,
+                fecha_agenda: fecha_agenda,
+                hora_agenda: hora_agenda,
+                _token: token
+            };
+
+            let respuesta = confirm("¿Confirmar Cita?");
+            if (respuesta) {
+
+                $.ajax({
+                    method: 'POST',
+                    url: '{{ route("create_citaE") }}',
+                    data: data
+                }).done(function(jqXHR) {
+                    $('#citaModal').modal('hide');
+                    $("#altaCitaForm")[0].reset();
+                    if (!$('#response_fin').empty()) {
+                        $('#response_fin').empty();
+                    }
+                    $('#response_fin').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + jqXHR + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                    setTimeout(function() {
+                        $('#response_fin').hide();
+                    }, 2000);
+                }).fail(function(jqXHR, textStatus, errorThrown) {
+                    if (jqXHR.status == 422) {
+                        if (!$('#response_cita').empty()) {
+                            $('#response_cita').empty();
+                        }
+
+                        $.each(JSON.parse(jqXHR.responseText), function(key, value) {
+                            if ($.isPlainObject(value)) {
+                                $.each(value, function(key, value) {
+                                    $('#response_cita').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + value + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                                });
+                            }
+                            setTimeout(function() {
+                                $('#response_cita').hide();
+                            }, 3000);
+                        });
+                    }
+                    if (jqXHR.status == 442) {
+                        if (!$('#response_cita').empty()) {
+                            $('#response_cita').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#response_cita').show().append(`
+                        <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <ul class="list-group">
+                                    <li class="list-group-item" style="color:black">` + responseText + `
+                                        <span class="float-left">
+                                            <i class="fa fa-exclamation-circle mr-1"></i>
+                                        </span>
+                                    </li>
+                            </ul>`);
+                        setTimeout(function() {
+                            $('#response_cita').hide();
+                        }, 3000);
+
+                    }
+                    if (jqXHR.status == 404) {
+                                if (!$('#response_cita').empty()) {
+                                    $('#response_cita').empty();
+                                }
+                                let responseText = jQuery.parseJSON(jqXHR.responseText);
+                                $('#response_cita').show().append(`
+                                    <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <ul class="list-group">
+                                                <li class="list-group-item" style="color:black">` + responseText + `
+                                                    <span class="float-left">
+                                                        <i class="fa fa-exclamation-circle mr-1"></i>
+                                                    </span>
+                                                </li>
+                                        </ul>`);
+                                setTimeout(function() {
+                                    $('#response_cita').hide();
+                                }, 4000);
+
+                            }
+                    if (jqXHR.status == 500) {
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#citaModal').modal('hide');
+                        $("#altaCitaForm")[0].reset();
+                        errorRazon(responseText)
+                    }
+                });
+            }
+
         });
 
     });
