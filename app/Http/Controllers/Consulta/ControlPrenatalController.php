@@ -252,6 +252,8 @@ class ControlPrenatalController extends Controller
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('expediente_inicio', 'expediente_inicio.id_expediente', 'expediente_cp.id')
             ->where('antecedentes_go.id_expediente', $id)
+            ->where('expediente_inicio.estatus', '=', 1)
+            ->orderBy('expediente_inicio.id', 'desc')
             ->first();
 
         return $data;
@@ -724,6 +726,7 @@ class ControlPrenatalController extends Controller
             'fur' => $fum,
             'fpp' => $fpp,
             'estudio_lab' => $estudio_laboratorio,
+            'estatus' => 1,
             'fecha' => date('Y-m-d'),
             'hora' => date('H:i:s'),
         ]);
@@ -1113,12 +1116,20 @@ class ControlPrenatalController extends Controller
             ])
             ->first();
 
-        $update = ControlPrenatal::where([
+        $update1 = ControlPrenatal::where([
             ['id_expediente', $id_expediente],
             ['id', $id_control],
         ])->update([
             'estatus' => 2,
             'observaciones' => $observaciones,
+        ]);
+
+        $update = ExpedienteInicio::where([
+            ['id_expediente', $id_expediente],
+            ['id', $id_control],
+            ['estatus', '=', '1'],
+        ])->update([
+            'estatus' => 2,
         ]);
 
         $id_paciente = $datos_paciente->id_paciente;
