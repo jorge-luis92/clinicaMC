@@ -124,7 +124,7 @@ class ConsultaGeneralController extends Controller
             ->orderBy('medicamento.nombre', 'asc')
             ->get();
 
-        return view('ConsultaGeneral.listado')
+        return view('ConsultaGeneral.Listado')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre)
             ->with('med', $medicamentos);

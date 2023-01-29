@@ -101,7 +101,7 @@ class ControlPrenatalController extends Controller
             ->where('medicamento.activo', '=', '1')
             ->orderBy('medicamento.nombre', 'asc')
             ->get();
-        return view('ControlEmbarazadas.listado')
+        return view('ControlEmbarazadas.Listado')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre)
             ->with('med', $medicamentos);
