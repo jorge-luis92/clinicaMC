@@ -64,7 +64,7 @@ class MedicamentoController extends Controller
 
         $tipoConsulta = TipoConsulta::all();
         $tipoSangre = TipoSangre::all();
-        return view('Medicamento.listado')
+        return view('Medicamento.Listado')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre);
     }
@@ -160,7 +160,7 @@ class MedicamentoController extends Controller
 
         $tipoConsulta = TipoConsulta::all();
         $tipoSangre = TipoSangre::all();
-        return view('Medicamento.listado')
+        return view('Medicamento.Listado')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre);
     }
