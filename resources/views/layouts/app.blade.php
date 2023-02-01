@@ -31,7 +31,7 @@
 
 </head>
 
-<body style="background-image: url('/image/menu.jpg'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF; background-size: cover;">
+<body style="background-image: url('/image/fondo_inicio.png'); background-position:center; background-repeat: no-repeat; position: relative; background-color: #FFFFFF; background-size: cover;">
     <div class="app-content content">
         <main class="py-4">
             @yield('content')
