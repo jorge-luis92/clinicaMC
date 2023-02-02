@@ -78,7 +78,7 @@
           </div>
         </div>
       </li>
-
+      @if(Auth::user()->tipo_usuario == 2)
       <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#consultas" aria-expanded="true" aria-controls="collapseTwo">
           <i class="fas fa-stethoscope"></i><span style="font-size: 0.8em;">&nbsp;Consulta</span>
@@ -88,13 +88,13 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header" style="color: blue">Opciones:</h6>
             <a class="dropdown-item" href="{{ url('Citas') }}"> Citas</a>            
-            @if(Auth::user()->tipo_usuario == 2)
+            
             <a class="dropdown-item" href="{{ url('Consulta/ConsultaGeneral') }}"> General</a>
             <a class="collapse-item" href="{{ url('Consulta/Embarazadas') }}">Embarazadas</a>
-            @endif
+            
           </div>
         </div>
-      </li>
+      </li>@endif
 
       @if(Auth::user()->tipo_usuario == 2)
       <li class="nav-item">

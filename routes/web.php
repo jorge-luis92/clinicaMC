@@ -120,4 +120,4 @@ Route::get('/Enviar', [Controller::class, 'enviarMensaje']);
 
 Route::get('/runCitas', [Controller::class, 'run_script']);
 Route::get('/runDepurar', [Controller::class, 'run_depurar']);
-Auth::routes(["register" => false]);
+Auth::routes(["register" => true]);
