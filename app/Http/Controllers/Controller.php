@@ -131,7 +131,7 @@ class Controller extends BaseController
         }
     }
 
-    public function verCFDI_facturados($id)
+    public function verCFDI_facturados()
   {
     $usuario = auth()->user();
 
