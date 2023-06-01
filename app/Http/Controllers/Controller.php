@@ -130,4 +130,42 @@ class Controller extends BaseController
             ]);
         }
     }
+
+    public function verCFDI_facturados($id)
+  {
+    $usuario = auth()->user();
+
+
+    $cfdi_uid = '13cbaf33-4526-4ad3-93a8-909825fdae6b';
+    $name_file =  "prueba.pdf";
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+      CURLOPT_URL => 'https://factura.com/api/v4/cfdi40/' . $cfdi_uid . '/pdf',
+      // CURLOPT_URL => 'https://sandbox.factura.com/api/v4/cfdi40/'.$cfdi_uid.'/pdf',
+      CURLOPT_RETURNTRANSFER => true,
+      CURLOPT_ENCODING => '',
+      CURLOPT_MAXREDIRS => 10,
+      CURLOPT_TIMEOUT => 0,
+      CURLOPT_FOLLOWLOCATION => true,
+      CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+      CURLOPT_CUSTOMREQUEST => 'GET',
+      CURLOPT_HTTPHEADER => array(
+        'Content-Type: application/json',
+        'F-PLUGIN: 9d4095c8f7ed5785cb14c0e3b033eeb8252416ed',
+        // 'F-Api-Key: JDJ5JDEwJERadzJSUjBGQ082OHE1MDBJb0RxZy43TmdndjFtYkM3MWYyMHdkLjJOU2ltYm5oUUhWTWVx',
+        'F-Api-Key: JDJ5JDEwJHIxaUJGNGVyQlZsRXFuTFo5NzVjcE9BVFBFR095TFY5MkN1U0R4QmFDMS5qcTZuOGRpakNh',
+        // 'F-Secret-Key: JDJ5JDEwJHRCbVZtRUVHVTlCeC9kbzZzQlNyTE80amRkNC83V0EwM1NnaDNLVjZVTVgzcnVDa0hWUU5D'
+        'F-Secret-Key: JDJ5JDEwJFA2Sm1tR3VTd1RPd3ozZVVVdHAzMi5WZWU2QnVOZmlQSmpmR05ua0xoZzlvNW84Z1FrWUNt'
+      ),
+    ));
+
+    $response = curl_exec($curl);
+    header('Content-type: application/pdf');
+    Header("Content-Disposition: inline; filename=$name_file");
+
+    echo $response;
+
+    curl_close($curl);
+  }
 }
