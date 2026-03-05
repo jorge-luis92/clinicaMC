@@ -1487,7 +1487,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Expediente/ControlPrenatald') }}",
+                    "url": "{{ url('control-prenatal/expediente/') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1583,7 +1583,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         ajax: {
-                            "url": "{{ url('Expediente/CEmver') }}" + "/" + id_control,
+                            "url": "{{ url('Expediente/expediente') }}" + "/" + id_control,
                         },
                         responsive: true,
                         columns: [{
@@ -1768,7 +1768,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Consulta/Embarazadas') }}",
+                "url": "{{ url('control-prenatal/embarazadas') }}",
             },
             responsive: true,
             columns: [

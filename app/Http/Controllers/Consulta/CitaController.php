@@ -8,6 +8,7 @@ use App\Models\Medico\Medico;
 use App\Models\Paciente\Cita;
 use App\Models\Paciente\Paciente;
 use App\Models\Paciente\TipoConsulta;
+use App\Models\Paciente\TipoSangre;
 use App\Models\Persona\Persona;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -52,8 +53,6 @@ class CitaController extends Controller
                 ->join('paciente', 'paciente.id', 'cita.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
                 ->where('cita.id_medico', $medico->id)
-                //->where('cita.fecha_proxima', '>=' , $fecha)
-                //->where('cita.', '>=' , $fecha)
                 ->orderBy('cita.fecha_proxima', 'desc')
                 ->get();
 
@@ -87,8 +86,10 @@ class CitaController extends Controller
                 ->make(true);
         }
         $tipoConsulta = TipoConsulta::all();
+        $tipoSangre = TipoSangre::all();
         return view('Paciente.Citalistado')
-            ->with('tipoC', $tipoConsulta);
+            ->with('tipoC', $tipoConsulta)
+            ->with('tipoSangre', $tipoSangre);
     }
 
     public function reg_Cita(Request $data)

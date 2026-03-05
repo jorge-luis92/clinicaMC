@@ -534,7 +534,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Catalogo/Pacientes') }}",
+                "url": "{{ url('pacientes') }}",
             },
             responsive: true,
             columns: [{
@@ -659,7 +659,7 @@
             $('#detalles_pacienteModal').modal('show');
 
             $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
+                url: "/pacientes/consulta/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     //pac_span.innerHTML = data.nombre_c;
@@ -711,7 +711,7 @@
             let respuesta = confirm("¡Al dar clic en aceptar se actualizarán los datos del paciente!");
             if (respuesta) {
             $.ajax({
-                method: 'POST',
+                method: 'PUT',
                 url: '{{ route("PacienteEditar") }}',
                 data: data
             }).done(function(jqXHR) {

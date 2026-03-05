@@ -1,0 +1,340 @@
+@extends('layouts.menu')
+
+@section('title', 'Inicio')
+
+@section('css')
+<style>
+    /* ==================================================
+       DASHBOARD OPCIÓN 2: CLINICAL MODULAR VIEW
+       ================================================== */
+    .app-main-content {
+        background-color: #f1f5f9;
+        /* Fondo gris azulado muy suave */
+        padding: 2.5rem;
+        min-height: 100vh;
+    }
+
+    /* Cabecera de Página */
+    .page-header {
+        margin-bottom: 2.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .greeting-text h2 {
+        font-weight: 800;
+        color: #0f172a;
+        margin: 0;
+        font-size: 1.8rem;
+        letter-spacing: -0.5px;
+    }
+
+    .greeting-text p {
+        color: #64748b;
+        font-size: 1rem;
+        margin: 0.2rem 0 0;
+    }
+
+    /* Tarjetas de Métricas "Glass" */
+    .metric-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .metric-card {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 1.8rem;
+        border: 1px solid rgba(226, 232, 240, 0.8);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .metric-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+        border-color: #0d9488;
+    }
+
+    .metric-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.2rem;
+        margin-bottom: 1.2rem;
+    }
+
+    .m-value {
+        font-size: 2.2rem;
+        font-weight: 800;
+        color: #1e293b;
+        letter-spacing: -1px;
+    }
+
+    .m-label {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Panel Central de Actividad */
+    .activity-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 2rem;
+    }
+
+    @media (max-width: 992px) {
+        .activity-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .main-panel {
+        background: white;
+        border-radius: 28px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+
+    .panel-title {
+        font-weight: 800;
+        color: #0f172a;
+        font-size: 1.25rem;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Estilo de Botones SaaS */
+    .action-grid {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .action-item {
+        background: #f8fafc;
+        border-radius: 18px;
+        padding: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        text-decoration: none !important;
+        transition: all 0.2s;
+        border: 1px solid transparent;
+    }
+
+    .action-item:hover {
+        background: #fff;
+        border-color: #0d9488;
+        box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.1);
+        transform: scale(1.02);
+    }
+
+    .action-item i {
+        width: 45px;
+        height: 45px;
+        background: white;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #0d9488;
+        font-size: 1.1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .action-text b {
+        display: block;
+        color: #1e293b;
+        font-size: 1rem;
+    }
+
+    .action-text span {
+        color: #64748b;
+        font-size: 0.85rem;
+    }
+
+    /* Empty State / Ilustración sutil */
+    .empty-agenda {
+        text-align: center;
+        padding: 4rem 2rem;
+        color: #94a3b8;
+    }
+
+    .empty-agenda i {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.2;
+        color: #0d9488;
+    }
+
+    /* Botón Especial de Agendar con el "+" resaltado */
+    .btn-agendar {
+        display: inline-flex;
+        align-items: center;
+        background-color: #0f172a;
+        /* Azul oscuro elegante */
+        color: white !important;
+        border-radius: 12px;
+        padding: 6px 18px 6px 6px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.2s;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-agendar:hover {
+        background-color: #1e293b;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 12px -3px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-agendar .icon-plus {
+        background-color: #0d9488;
+        /* El Teal de tu marca */
+        color: white;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 8px;
+        margin-right: 10px;
+        font-size: 1rem;
+    }
+</style>
+@endsection
+
+@section('content')
+<div class="app-content content">
+    <div class="content-wrapper app-main-content">
+
+        <header class="page-header">
+            <div class="greeting-text">
+                <h2>Buenos días, {{ explode(' ', $data->nombre)[0] }}</h2>
+                <p>Este es el resumen de actividad en <b>San Agustín</b> hoy.</p>
+            </div>
+            <div class="d-none d-md-block">
+                <div
+                    style="background: white; padding: 10px 20px; border-radius: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); font-weight: 700; color: #0d9488;">
+                    <i class="far fa-clock mr-2"></i> {{ \Carbon\Carbon::now()->format('h:i A') }}
+                </div>
+            </div>
+        </header>
+
+        <div class="metric-grid">
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #f0fdf4; color: #16a34a;"><i
+                        class="fas fa-calendar-day"></i></div>
+                <div>
+                    <div class="m-value">--</div>
+                    <div class="m-label">Citas Pendientes</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #eff6ff; color: #2563eb;"><i
+                        class="fas fa-user-injured"></i></div>
+                <div>
+                    <div class="m-value">--</div>
+                    <div class="m-label">Pacientes de Hoy</div>
+                </div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-icon" style="background: #fff7ed; color: #ea580c;"><i
+                        class="fas fa-file-invoice-dollar"></i></div>
+                <div>
+                    <div class="m-value">--</div>
+                    <div class="m-label">Consultas Totales</div>
+                </div>
+            </div>
+            <div class="metric-card" style="background: #0d9488;">
+                <div class="metric-icon" style="background: rgba(255,255,255,0.2); color: white;"><i
+                        class="fas fa-shield-alt"></i></div>
+                <div>
+                    <div class="m-value" style="color: white;">Activo</div>
+                    <div class="m-label" style="color: rgba(255,255,255,0.7);">Estado Sistema</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="activity-container">
+            <div class="main-panel">
+                <div class="panel-title">
+                    <i class="fas fa-list-ul text-teal"></i> Agenda del Día
+                </div>
+                <div class="empty-agenda">
+                    <i class="fas fa-notes-medical"></i>
+                    <h4>Tu agenda está limpia</h4>
+                    <p>No hay citas próximas registradas para las siguientes horas.</p>
+                    <a href="{{ route('citas') }}" class="btn btn-teal mt-3"
+                        style="border-radius: 12px; padding: 10px 25px;">
+                        <i class="fas fa-plus mr-1"></i> Agendar Cita Ahora
+                    </a>
+                </div>
+            </div>
+
+            <div>
+                <div class="main-panel">
+                    <div class="panel-title">Acciones Frecuentes</div>
+                    <div class="action-grid">
+                        <a href="{{ route('listadoGeneral') }}" class="action-item">
+                            <i class="fas fa-user-plus"></i>
+                            <div class="action-text">
+                                <b>Nuevo Paciente</b>
+                                <span>Registrar datos y expediente</span>
+                            </div>
+                        </a>
+                        <a href="{{ route('consulta_general') }}" class="action-item">
+                            <i class="fas fa-stethoscope"></i>
+                            <div class="action-text">
+                                <b>Nueva Consulta</b>
+                                <span>Iniciar nota médica</span>
+                            </div>
+                        </a>
+                        <a href="{{ route('medicamento_inventario') }}" class="action-item">
+                            <i class="fas fa-box-open"></i>
+                            <div class="action-text">
+                                <b>Farmacia</b>
+                                <span>Ver stock de medicamentos</span>
+                            </div>
+                        </a>
+                        <a href="#" class="action-item">
+                            <i class="fas fa-cog"></i>
+                            <div class="action-text">
+                                <b>Mi Perfil</b>
+                                <span>Ajustes de cuenta</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="mt-4 p-4"
+                    style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border-radius: 28px; color: white;">
+                    <h5 style="font-weight: 700;">MCSystem v0.1</h5>
+                    <p style="font-size: 0.85rem; opacity: 0.7;">Desarrollado con altos estándares de seguridad para el
+                        manejo de información sensible.</p>
+                    <div class="d-flex align-items-center mt-3" style="gap: 10px;">
+                        <span
+                            style="width: 10px; height: 10px; background: #22c55e; border-radius: 50%; display: inline-block;"></span>
+                        <small style="font-weight: 600;">Servidor Online</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

@@ -13,6 +13,17 @@ class Paciente extends Model
     protected $primarykey = 'id';
     public $incrementing = false;
     public $timestamps = false;
-    protected $fillable = ['id', 'id_persona', 'id_tiposangre', 'talla', 'celular', 'contacto_emergencia', 
-    'correo', 'id_usuario', 'fecha_registro', 'hora_registro'];
+    protected $fillable = [
+        'id',
+        'id_persona',
+        'id_tiposangre',
+        'talla',
+        'celular',
+        'contacto_emergencia',
+        'correo',
+        'id_usuario',
+        'activo',
+        'fecha_registro',
+        'hora_registro'
+    ];
 }

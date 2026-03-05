@@ -19,30 +19,28 @@ class MedicamentoController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            $data = Medicamento::select(
+            // Quitamos ->get() para que DataTables pagine directamente en la BD
+            $query = Medicamento::select(
                 'medicamento.id',
                 'medicamento.activo',
                 'stock_medicamento.cantidad',
                 'medicamento.precio_venta',
                 DB::raw("CONCAT(medicamento.clave,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
                 DB::raw("CONCAT('Lote: ', medicamento.lote,' Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
-                DB::raw('(CASE WHEN medicamento.activo = "1" THEN "Activo"  
-                WHEN medicamento.activo= "0" THEN "Inactivo" END) AS estatus'),
+                DB::raw('(CASE WHEN medicamento.activo = "1" THEN "Activo" WHEN medicamento.activo= "0" THEN "Inactivo" END) AS estatus')
             )
-                ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
-                ->orderBy('medicamento.nombre', 'asc')
-                ->get();
+                ->join('stock_medicamento', 'stock_medicamento.id_medicamento', '=', 'medicamento.id')
+                ->orderBy('medicamento.nombre', 'asc');
 
-            return DataTables::of($data)
+            return DataTables::of($query)
                 ->addColumn('accion', function ($data) {
                     if ($data->activo == 0) {
-                        $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-lock_open"></i> Activar</button>';
-                        return $button;
+                        return '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="editar_consulta btn btn-primary btn-xs btn-glow mr-1 mb-1"><i class="fa fa-lock_open"></i> Activar</button>';
                     }
+
                     if ($data->activo == 1) {
-                        $button = '&nbsp;
-                        <button type="button" class="btn btn-primary btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
-                        data-toggle="dropdown">
+                        return '<div class="btn-group">&nbsp;
+                        <button type="button" class="btn btn-primary btn-xs btn-glow mr-1 mb-1 dropdown-toggle" data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
@@ -50,15 +48,10 @@ class MedicamentoController extends Controller
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="edit_medicamento btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-edit fa-1x"></i> Editar </button></li>
                         <li>&nbsp;&nbsp;<button type="button" name="del" id="' . $data->id . '" class="baja_medicamento btn btn-danger btn-min-width btn-glow mr-1 mb-1"><i class="fas fa-lock fa-1x"></i> Desactivar </button></li>
                         </ul>
-                         </div>';
-
-                        return $button;
+                        </div>';
                     }
                 })
                 ->rawColumns(['accion'])
-                ->editColumn('fecha_cad', function (Medicamento $dat) {
-                    return date('d-m-Y', strtotime($dat->fecha_cad));
-                })
                 ->make(true);
         }
 
@@ -69,14 +62,10 @@ class MedicamentoController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
-    public function registerMedicamento(Request $data)
+    public function registerMedicamento(Request $request)
     {
 
-        $usuario = auth()->user();
-        $id_usuario = $usuario->id;
-
-        //return $data;
-        $data->validate([
+        $request->validate([
             'clave' => ['required', 'string', 'max:255', 'unique:medicamento'],
             'nombre' => ['required', 'string', 'max:255'],
             'fecha_cad' => ['required', 'string', 'max:255'],
@@ -86,45 +75,42 @@ class MedicamentoController extends Controller
             'precio_venta' => 'required|numeric|min:1|not_in:-1',
         ]);
 
-        $clave = $data->clave;
-        $nombre = $data->nombre;
-        $fecha_cad = $data->fecha_cad;
-        $lote = $data->lote;
-        $presentacion = $data->presentacion;
-        $costo_unitario = $data->costo_unitario;
-        $precio_venta = $data->precio_venta;
-        $observaciones = $data->observaciones;
-        $sustancia = $data->sustancia;
 
-        $registrarM = Medicamento::create([
-            'clave' => $clave,
-            'sustancia' => $sustancia,
-            'nombre' => $nombre,
-            'fecha_cad' => $fecha_cad,
-            'lote' => $lote,
-            'presentacion' => $presentacion,
-            'costo_unitario' => $costo_unitario,
-            'precio_venta' => $precio_venta,
-            'observaciones' => $observaciones,
-            'id_usuario' => $id_usuario,
-            'activo' => '1',
-            'fecha' => date('Y-m-d'),
-            'hora' => date('H:i:s'),
-        ]);
+        try {
+            DB::beginTransaction();
 
-        $lm = Medicamento::latest('id')->first();
+            $medicamento = Medicamento::create([
+                'clave'          => $request->clave,
+                'sustancia'      => $request->sustancia,
+                'nombre'         => $request->nombre,
+                'descripcion'    => $request->descripcion,
+                'fecha_cad'      => $request->fecha_cad,
+                'lote'           => $request->lote,
+                'presentacion'   => $request->presentacion,
+                'costo_unitario' => $request->costo,
+                'precio_venta'   => $request->precio_v,
+                'observaciones'  => $request->observaciones,
+                'id_usuario'     => auth()->id(),
+                'activo'         => 1,
+                'fecha'          => date('Y-m-d'),
+                'hora'           => date('H:i:s'),
+            ]);
 
-        $registrarSM = StockMedicamento::create([
-            'id_medicamento' => $lm->id,
-            'clave_med' => $clave,
-            'cantidad' => '0',
-            'activo' => '1',
-            'fecha' => date('Y-m-d'),
-            'hora' => date('H:i:s'),
-        ]);
+            StockMedicamento::create([
+                'id_medicamento' => $medicamento->id,
+                'clave_med'      => $request->clave,
+                'cantidad'       => $request->cantidad,
+                'activo'         => 1,
+                'fecha'          => date('Y-m-d'),
+                'hora'           => date('H:i:s'),
+            ]);
 
-        if ($registrarSM != '') {
-            return response()->json('Medicamento Registrado Correctamente', 200);
+            DB::commit();
+
+            return response()->json('Medicamento registrado correctamente', 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => 'Error al registrar el medicamento: ' . $e->getMessage()], 500);
         }
     }
 

@@ -46,7 +46,7 @@ class RecetaMedica extends Mailable
      */
     public function build()
     {
-        return $this->from('hdzv.jorgeluis@gmail.com', 'no-reply')
+        return $this->from('correo@gmail.com', 'no-reply')
             ->to($this->contact)
             ->view('ConsultaGeneral.Email');
     }

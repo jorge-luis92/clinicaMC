@@ -11,7 +11,6 @@ class ExpedienteCP extends Model
 
     protected  $table = 'expediente_cp';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_paciente', 'id_medico', 'fecha', 'hora'];
 }

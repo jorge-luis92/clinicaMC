@@ -9,9 +9,18 @@ class AntecendenteGO extends Model
 {
     use HasFactory;
 
-    protected  $table = 'antecedentes_go';
-    protected $primarykey = 'id';
-    public $incrementing = false;
+    protected $table = 'antecedentes_go';
     public $timestamps = false;
-    protected $fillable = ['id', 'id_expediente', 'id_paciente', 'id_medico', 'gesta', 'parto', 'cesarea', 'aborto', 'fecha', 'hora'];
+
+    protected $fillable = [
+        'id_expediente',
+        'id_paciente',
+        'id_medico',
+        'gesta',
+        'parto',
+        'cesarea',
+        'aborto',
+        'fecha',
+        'hora'
+    ];
 }

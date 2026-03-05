@@ -11,7 +11,6 @@ class ExpedienteCG extends Model
 
     protected  $table = 'expediente_cg';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_paciente', 'id_medico', 'estatus', 'fecha', 'hora'];
 }

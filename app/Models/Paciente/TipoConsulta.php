@@ -11,7 +11,6 @@ class TipoConsulta extends Model
 
     protected  $table = 'tipo_consulta';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'nombre',];
 }

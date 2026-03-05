@@ -11,7 +11,6 @@ class Medico extends Model
 
     protected  $table = 'medico';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_persona', 'cedula', 'celular', 'tipo_medico', 'especialidad', 
     'institutos', 'id_usuario', 'fecha', 'hora'];

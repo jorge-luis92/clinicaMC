@@ -342,7 +342,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Catalogo/Usuarios') }}",
+                "url": "{{ url('usuarios') }}",
             },
             responsive: true,
             columns: [{

@@ -19,26 +19,23 @@ class PacienteController extends Controller
 {
     public function index(Request $request)
     {
-
         if ($request->ajax()) {
-            $data = Paciente::select(
+            // Nota: Quitamos el ->get() al final para que DataTables haga la paginación en la BD
+            $query = Paciente::select(
                 'paciente.id',
                 'paciente.celular',
                 'tipo_sangre.tipo',
                 'persona.edad',
                 'persona.fecha_nacimiento',
-                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+                DB::raw("CONCAT(persona.nombre, ' ', persona.ap_paterno, ' ', COALESCE(persona.ap_materno, '')) AS nombre_c")
             )
-                ->join('persona', 'persona.id', 'paciente.id_persona')
-                ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
-                ->orderBy('persona.nombre', 'asc')
-                ->get();
+                ->join('persona', 'persona.id', '=', 'paciente.id_persona')
+                ->leftJoin('tipo_sangre', 'tipo_sangre.id', '=', 'paciente.id_tiposangre')
+                ->orderBy('persona.nombre', 'asc');
 
-            return DataTables::of($data)
-                ->addColumn('accion', function ($data) {
-                    $button = '&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="detalles_paciente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-user-edit fa-1x"></i> Detalles</button>';
-
-                    return $button;
+            return DataTables::of($query)
+                ->addColumn('accion', function ($row) {
+                    return '&nbsp;<button type="button" name="' . $row->id . '" id="' . $row->id . '" class="detalles_paciente btn btn-primary btn-sm btn-glow mr-1 mb-1"> Seleccionar</button>';
                 })
                 ->rawColumns(['accion'])
                 ->make(true);
@@ -51,25 +48,11 @@ class PacienteController extends Controller
             ->with('tipoS', $tipoSangre);
     }
 
-    public function regPaciente(Request $v)
+    public function regPaciente(Request $request)
     {
         $usuario = auth()->user();
-        $id_usuario = $usuario->id;
 
-        $nombre = $v->nombre;
-        $ap_pat = $v->ap_pat;
-        $ap_mat = $v->ap_mat;
-        $usuario = $v->usuario;
-        $fecha_nacimiento = $v->fecha_nacimiento;
-        $edad = $v->edad;
-        $tipo_sangre = $v->tipo_sangre;
-        $celular = $v->celular;
-        $email = $v->email;
-        $contacto_emergencia = $v->contacto_emergencia;
-        $genero = $v->genero;
-        $talla = $v->talla;
-
-        $v->validate([
+        $request->validate([
             'nombre' => ['required', 'string', 'max:255'],
             'ap_pat' => ['required', 'string', 'max:255'],
             'fecha_nacimiento' => ['required', 'string', 'max:255'],
@@ -79,39 +62,44 @@ class PacienteController extends Controller
             'talla' => ['required', 'string', 'max:255'],
         ]);
 
-        if ($ap_mat == null) {
-            $ap_mat = " ";
-        }
+        try {
+            DB::beginTransaction();
 
-        Persona::create([
-            'nombre' => $nombre,
-            'ap_paterno' => $ap_pat,
-            'ap_materno' => $ap_mat,
-            'edad' => $edad,
-            'genero' => $genero,
-            'fecha_nacimiento' => $fecha_nacimiento,
-            'id_usuario' => $id_usuario,
-            'fecha_registro' => date('Y-m-d'),
-            'hora_registro' => date('H:i:s'),
+            $ap_mat = $request->ap_mat ?: " ";
+            $tipo_s = ($request->tipo_sangre == 0) ? 7 : $request->tipo_sangre;
 
-        ]);
+            $persona = Persona::create([
+                'nombre'           => $request->nombre,
+                'ap_paterno'       => $request->ap_pat,
+                'ap_materno'       => $ap_mat,
+                'edad'             => $request->edad,
+                'genero'           => $request->genero,
+                'fecha_nacimiento' => $request->fecha_nacimiento,
+                'id_usuario'       => auth()->id(),
+                'fecha_registro'   => date('Y-m-d'),
+                'hora_registro'    => date('H:i:s'),
+            ]);
 
-        $lp = Persona::latest('id')->first();
+            $paciente = Paciente::create([
+                'id_persona'          => $persona->id,
+                'id_tiposangre'       => $tipo_s,
+                'talla'               => $request->talla,
+                'celular'             => $request->celular,
+                'contacto_emergencia' => $request->contacto_emergencia,
+                'correo'              => $request->email,
+                'id_usuario'          => auth()->id(),
+                'fecha_registro'      => date('Y-m-d'),
+                'hora_registro'       => date('H:i:s'),
+                'activo'              => 1
+            ]);
 
-        $registrarP = Paciente::create([
-            'id_persona' => $lp->id,
-            'id_tiposangre' => $tipo_sangre,
-            'talla' => $talla,
-            'celular' => $celular,
-            'contacto_emergencia' => $contacto_emergencia,
-            'correo' => $email,
-            'id_usuario' => $id_usuario,
-            'fecha_registro' => date('Y-m-d'),
-            'hora_registro' => date('H:i:s'),
-        ]);
+            DB::commit();
 
-        if ($registrarP != '') {
             return response()->json('Paciente creado satisfactoriamente', 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            return response()->json(['error' => 'Hubo un problema al registrar el paciente: ' . $e->getMessage()], 500);
         }
     }
 
@@ -177,7 +165,7 @@ class PacienteController extends Controller
             'paciente.contacto_emergencia',
             'paciente.correo',
             'tipo_sangre.id AS tipo_sangre',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),            
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
         )
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->join('tipo_sangre', 'tipo_sangre.id', 'paciente.id_tiposangre')
@@ -233,7 +221,7 @@ class PacienteController extends Controller
             'edad' => $edad,
             'genero' => $genero,
             'fecha_nacimiento' => $fecha_nacimiento,
-        ]);     
+        ]);
 
         $updatePaciente = Paciente::where('id', $id_paciente)->update([
             'id_tiposangre' => $tipo_sangre,
@@ -276,9 +264,9 @@ class PacienteController extends Controller
             $ap_mat = " ";
         }
 
-        if($tipo_sangre == ""){
+        if ($tipo_sangre == "") {
             $tipo_s = 7;
-        }else{
+        } else {
             $tipo_s = $tipo_sangre;
         }
 
@@ -319,7 +307,7 @@ class PacienteController extends Controller
         $data = Paciente::select(
             'paciente.id',
             'persona.fecha_nacimiento',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),            
+            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
         )
             ->join('persona', 'persona.id', 'paciente.id_persona')
             ->where('paciente.id', $id)

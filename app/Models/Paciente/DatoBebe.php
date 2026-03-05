@@ -11,7 +11,6 @@ class DatoBebe extends Model
 
     protected  $table = 'datos_bebe';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_paciente', 'id_expediente' , 'id_control', 'fecha_nacimiento', 'nacio', 'peso',
      'talla', 'fecha', 'hora'];

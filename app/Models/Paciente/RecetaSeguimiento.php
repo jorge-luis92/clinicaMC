@@ -11,7 +11,6 @@ class RecetaSeguimiento extends Model
 
     protected  $table = 'receta_seguimiento';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_control', 'id_seguimiento', 'id_medicamento', 'cantidad', 'tratamiento', 
     'id_usuario', 'fecha', 'hora'];

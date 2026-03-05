@@ -11,7 +11,6 @@ class LogStock extends Model
 
     protected  $table = 'log_stock';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_medicamento', 'id_stock', 'clave_med', 'cantidad', 'id_usuario', 'cantidad_anterior', 'fecha', 'hora'];
 }

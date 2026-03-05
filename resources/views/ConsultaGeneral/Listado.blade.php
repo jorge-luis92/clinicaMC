@@ -1269,7 +1269,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Expediente/ConsultaGeneralSelPaciente') }}",
+                    "url": "{{ url('consulta-general/expediente/seleccion-paciente') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1342,7 +1342,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Consulta/ConsultaGeneral') }}",
+                "url": "{{ url('consulta-general') }}",
             },
             responsive: true,
             columns: [{
@@ -1350,8 +1350,8 @@
                     name: 'id'
                 },
                 {
-                    data: 'nombre_c',
-                    name: 'nombre_c'
+                    data: 'nombre_p',
+                    name: 'nombre_p'
                 },
                 {
                     data: 'diagnostico',
@@ -1456,7 +1456,7 @@
             let id_exp = $(this).attr('id');
             $('#tipo_consulta_c').val("").select2();
             $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
+                url: "/pacientes/consulta/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     $('#consultaModal').appendTo("body")
@@ -1564,14 +1564,14 @@
             let id_consulta = $(this).attr('id');
             //('#tipo_consulta_c').val("").select2();
             $.ajax({
-                url: "/ConsultaGeneralP/" + id_consulta,
+                url: "/consulta-general/paciente-data/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
                     if (data.edad == null) {
                         let respuesta = confirm("¡El paciente no tiene los datos actualizados! De clic en aceptar para acceder al panel de Pacientes y actualizar sus datos");
                         if (respuesta) {
                             returnUrl = window.location.protocol + "//" + window.location.host +
-                                "/Catalogo/Pacientes/";
+                                "/pacientes/";
                             location.href = returnUrl;
                         }
                     } else {
@@ -1600,7 +1600,7 @@
                     let respuesta = confirm("¡El paciente no tiene los datos actualizados! De clic en aceptar para acceder al panel de Pacientes y actualizar sus datos");
                     if (respuesta) {
                         returnUrl = window.location.protocol + "//" + window.location.host +
-                            "/Catalogo/Pacientes/";
+                            "/pacientes/";
                         location.href = returnUrl;
                     }
                 }
@@ -1636,7 +1636,7 @@
             let respuesta = confirm("¿Está seguro de Guardar los datos recopilados?");
             if (respuesta) {
                 $.ajax({
-                    method: 'POST',
+                    method: 'PUT',
                     url: '{{ route("reg_EditConsulta") }}',
                     data: data
                 }).done(function(jqXHR) {
@@ -1741,7 +1741,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Medicamentos/DataMedicamentos') }}",
+                    "url": "{{ url('medicamentos/data') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1787,7 +1787,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('RecetaMedica/Select') }}" + "/" + id_consulta,
+                    "url": "{{ url('/consulta-general/receta-medica/select') }}" + "/" + id_consulta,
                 },
                 responsive: true,
                 columns: [{
@@ -1945,7 +1945,7 @@
             $('#finalizarConsultaModal').modal('show');
 
             $.ajax({
-                url: "/ConsultaGeneral/CGData/" + id_consulta,
+                url: "/consulta-general/data/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
                     $('#nombre_paciente').val(data.nombre_p);
@@ -1980,7 +1980,7 @@
                     let prox = confirm("¿Se agendará próxima cita?");
                     if (prox) {
                         $.ajax({
-                            url: "/ConsultaGeneral/CGData/" + id,
+                            url: "/consulta-general/data/" + id,
                             dataType: "json",
                             success: function(data) {
                                 $('#citaModal').appendTo("body")
@@ -2218,7 +2218,7 @@
             $('#detallesConsultaModal').modal('show');
 
             $.ajax({
-                url: "/ConsultaGeneral/CGData/" + id_consulta,
+                url: "/consulta-general/data/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
                     $('#ver_paciente').val(data.nombre_p);

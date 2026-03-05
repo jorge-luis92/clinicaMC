@@ -11,7 +11,6 @@ class StockMedicamento extends Model
 
     protected  $table = 'stock_medicamento';
     protected $primarykey = 'id';
-    public $incrementing = false;
     public $timestamps = false;
     protected $fillable = ['id', 'id_medicamento', 'clave_med', 'cantidad', 'activo', 'fecha', 'hora'];
 

@@ -32,7 +32,6 @@ class ControlPrenatalController extends Controller
     public function index(Request $request)
     {
         $usuario = auth()->user();
-        $id_usuario = $usuario->id;
         $id_persona = $usuario->id_persona;
 
         $medico = Medico::select('id')
@@ -40,39 +39,26 @@ class ControlPrenatalController extends Controller
             ->first();
 
         if ($request->ajax()) {
-            $data = ControlPrenatal::select(
+            $query = ControlPrenatal::select(
                 'control_prenatal.id',
+                'control_prenatal.id_expediente',
                 'control_prenatal.fecha',
                 'control_prenatal.estatus',
-                'paciente.id AS id_paciente',
-                'expediente_cp.id AS id_expediente',
-                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
-                DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "Gestando"  
-                WHEN control_prenatal.estatus= "2" THEN "Embarazo Finalizado"
-                WHEN control_prenatal.estatus= "0" THEN "NO SE LLEVO ACABO" END) AS estatus_c'),
+                'persona.nombre',
+                'persona.ap_paterno',
+                'persona.ap_materno',
+                DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ', COALESCE(persona.ap_materno, '')) AS nombre_p"),
+                DB::raw('(CASE WHEN control_prenatal.estatus = "1" THEN "En Control" WHEN control_prenatal.estatus= "2" THEN "Finalizado" WHEN control_prenatal.estatus= "0" THEN "Cancelado" END) AS estatus_c')
             )
-                ->join('paciente', 'paciente.id', 'control_prenatal.id_paciente')
-                ->join('persona', 'persona.id', 'paciente.id_persona')
-                ->join('expediente_cp', 'expediente_cp.id', 'control_prenatal.id_expediente')
+                ->join('paciente', 'paciente.id', '=', 'control_prenatal.id_paciente')
+                ->join('persona', 'persona.id', '=', 'paciente.id_persona')
                 ->where('control_prenatal.id_medico', $medico->id)
-                ->where('control_prenatal.estatus', '=', '1')
-                ->orderBy('control_prenatal.fecha', 'desc')
-                ->get();
+                ->orderBy('control_prenatal.id', 'desc');
 
-            return DataTables::of($data)
+            return DataTables::of($query)
                 ->addColumn('accion', function ($data) {
+                    // Tus botones originales intactos
                     if ($data->estatus == 1) {
-                        /*$button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
-                        data-toggle="dropdown">
-                        <i class="fas fa-list"></i> Opciones
-                        </button>
-                        <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button></li>
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button></li>
-                        </ul>
-                         </div>';*/
                         $button = '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emb btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button>';
                         $button .= '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="ver_antecedente btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Datos Inicio</button>';
                         $button .= '<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="finalizar_cp btn btn-danger btn-sm btn-glow mr-1 mb-1"><i class="fas fa-save fa-1x"></i> Finalizar</button>';
@@ -80,12 +66,13 @@ class ControlPrenatalController extends Controller
                     }
                 })
                 ->rawColumns(['accion'])
-                ->editColumn('fecha', function (ControlPrenatal $dat) {
+                ->editColumn('fecha', function ($dat) {
                     return date('d/m/Y', strtotime($dat->fecha));
                 })
                 ->make(true);
         }
 
+        // 2. CARGA INICIAL DE LA VISTA (Catálogos)
         $tipoConsulta = TipoConsulta::all();
         $tipoSangre = TipoSangre::all();
         $medicamentos = Medicamento::select(
@@ -94,13 +81,14 @@ class ControlPrenatalController extends Controller
             'stock_medicamento.cantidad',
             'medicamento.precio_venta',
             'medicamento.fecha_cad',
-            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
-            //DB::raw("CONCAT('Fecha Caducidad: ',medicamento.fecha_cad) AS caducidad"),
+            DB::raw("CONCAT(medicamento.nombre,' ',medicamento.presentacion) AS descripcion")
         )
-            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', 'medicamento.id')
+            ->join('stock_medicamento', 'stock_medicamento.id_medicamento', '=', 'medicamento.id')
             ->where('medicamento.activo', '=', '1')
             ->orderBy('medicamento.nombre', 'asc')
-            ->get();
+            ->get(); // Aquí sí usamos get() para renderizar la vista
+
+        // Retornamos la vista correcta con todas sus variables
         return view('ControlEmbarazadas.Listado')
             ->with('tipoC', $tipoConsulta)
             ->with('tipoS', $tipoSangre)
