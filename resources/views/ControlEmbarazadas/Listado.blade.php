@@ -1,90 +1,367 @@
 @extends('layouts.menu')
-@section('title')
-: Embarazadas
-@endsection
+@section('title', 'Consulta Embarazadas')
+
 @section('content')
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js" defer></script>
-<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js" defer></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" />
+<link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.bootstrap4.min.css" />
 
 <style>
-    .select2-container .select2-selection--single .select2-selection__rendered {
-        padding-left: 29px;
+    /* ==================================================
+       SISTEMA DE DISEÑO PREMIUM - SAAS UI
+       ================================================== */
+
+    /* --- 1. Tarjetas y Botones Principales --- */
+    .card-premium {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        background-color: #ffffff;
     }
 
+    .btn-teal {
+        background-color: #0d9488;
+        color: #ffffff !important;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-teal:hover {
+        background-color: #0f766e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4);
+    }
+
+    /* --- 2. DataTables (Tablas Mágicas) --- */
+    table.dataTable {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+
+    table.dataTable thead th {
+        border-bottom: 2px solid #e2e8f0 !important;
+        border-top: none !important;
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 14px 15px;
+    }
+
+    table.dataTable thead th:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    table.dataTable thead th:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    table.dataTable tbody td {
+        border-bottom: 1px solid #f1f5f9 !important;
+        vertical-align: middle;
+        padding: 16px 15px;
+        color: #1e293b;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    table.dataTable tbody tr:hover td {
+        background-color: #f8fafc !important;
+    }
+
+    .dataTables_wrapper .row {
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: 500;
+        color: #64748b;
+        font-size: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        border-radius: 20px;
+        border: 1px solid #cbd5e1;
+        padding: 0.5rem 1.2rem;
+        width: 250px;
+        background-color: #f8fafc;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input:focus {
+        outline: none;
+        background-color: #ffffff;
+        border-color: #0d9488;
+        box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border-radius: 8px !important;
+        border: none !important;
+        padding: 0.4rem 0.8rem !important;
+        margin: 0 3px !important;
+        font-weight: 600;
+        color: #64748b !important;
+        background: transparent !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #0d9488 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2);
+    }
+
+    /* --- 3. Modales Globales --- */
+    .modal-content {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        background-color: #f8fafc;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .modal-header .modal-title {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 1.25rem;
+    }
+
+    .modal-header .close {
+        margin-top: -1rem;
+        color: #64748b;
+        opacity: 0.7;
+        transition: 0.2s;
+    }
+
+    .modal-header .close:hover {
+        opacity: 1;
+        color: #ef4444;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        background-color: #ffffff;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #f1f5f9;
+        background-color: #f8fafc;
+        padding: 1rem 1.5rem;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+
+    /* --- 4. Inputs, Formularios y Simetría (Grid Fijo) --- */
+    .modal-body .row {
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    .modal-body .col-12,
+    .modal-body .col-6,
+    .modal-body .col-4,
+    .modal-body .col-3,
+    .modal-body .col-8 {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-bottom: 1rem;
+    }
+
+    .form-group {
+        margin-bottom: 0;
+        width: 100%;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1;
+        padding: 0.6rem 1rem;
+        color: #334155;
+        transition: all 0.2s;
+        box-shadow: none;
+        background-color: #f8fafc;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: calc(2.25rem + 10px) !important;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(2.25rem + 10px) !important;
+    }
+
+    .form-control:focus {
+        background-color: #ffffff;
+        border-color: #0d9488;
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+    }
+
+    textarea.form-control {
+        height: auto !important;
+    }
+
+    /* --- 5. Integración Especial para Select2 --- */
+    .select2-container .select2-selection--single {
+        height: calc(2.25rem + 10px) !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        background-color: #f8fafc !important;
+        display: flex;
+        align-items: center;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+    }
+
+    /* --- 6. Iconos Flotantes en Inputs (Bootstrap 4 Fix) --- */
+    .has-icon-left .form-control,
+    .has-icon-left .select2-selection__rendered {
+        padding-left: 2.8rem !important;
+    }
+
+    .has-icon-left .form-control-position {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        width: 2.8rem;
+        text-align: center;
+        margin-top: 13px;
+        z-index: 4;
+    }
+
+    .has-icon-left .form-control-position i {
+        color: #94a3b8;
+        font-size: 1.1rem;
+    }
+
+    /* --- 7. Conversión Mágica de Botones Nativos --- */
+    .modal-footer .btn-info {
+        background-color: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #475569 !important;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: none !important;
+        padding: 0.5rem 1.2rem;
+    }
+
+    .modal-footer .btn-info:hover {
+        background-color: #e2e8f0 !important;
+        color: #1e293b !important;
+    }
+
+    .modal-footer .btn-danger,
+    .modal-body .btn-danger,
+    #ag_medicamentoC {
+        background-color: #0d9488 !important;
+        border: none !important;
+        color: #ffffff !important;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2) !important;
+        padding: 0.5rem 1.2rem;
+        transition: all 0.2s ease;
+    }
+
+    .modal-footer .btn-danger:hover,
+    .modal-body .btn-danger:hover,
+    #ag_medicamentoC:hover {
+        background-color: #0f766e !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 8px -1px rgba(13, 148, 136, 0.3) !important;
+    }
+
+    /* Padding base de tu template */
     html body .content .content-wrapper {
         padding: 0.5rem 2rem 0;
     }
 </style>
-<div class="container-fluid">
+<div class="container-fluid mb-5">
     @if(session('Ok2'))
-    <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+    <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2 text-white" role="alert" style="border-radius: 10px;">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>¡Excelente!</strong> {{session('Ok2')}}
     </div>
     @endif
 
     @if(session('Error2'))
-    <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+    <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2 text-white" role="alert" style="border-radius: 10px;">
         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>¡Error!</strong> {{session('Error2')}}
     </div>
     @endif
 
-    <div id="errorRazon" style="display:none" class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+    <div id="errorRazon" style="display:none" class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-2 text-white" role="alert" style="border-radius: 10px;">
         <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>¡Error!</strong> <span id="error1"></span>
     </div>
 
-    <div id="ok" style="display:none" class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
+    <div id="ok" style="display:none" class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2 text-white" role="alert" style="border-radius: 10px;">
         <span class="alert-icon"><i class="la la-thumbs-o-up"></i></span>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <strong>¡Excelente!</strong> <span id="ok1"></span>
     </div>
-    <br>
-    <div class="row justify-content-center">
-        <div class="col-md-12">
-            <div class="card">
 
-                <div class="card-content collapse show">
-                    <div class="card-body card-dashboard">
-                        <div class="table-responsive">
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th align="left" style="text-align:left; padding: 3px">
-                                            <a href="#" class="btn btn-info btn-min-width btn-glow" id="nueva_consulta" style="color: white" role="button">
-                                                <i class="fas fa-notes-medical"></i> Nuevo Control
-                                            </a>
-                                        </th>
-                                    </tr>
-                                </thead>
-                            </table>
+    <div class="row mb-4 align-items-center mt-3">
+        <div class="col-md-6">
+            <h2 class="mb-0" style="font-weight: 800; color: #0f172a; font-size: 1.8rem; letter-spacing: -0.5px;">Control Prenatal</h2>
+            <p class="mb-0" style="color: #64748b; font-size: 0.95rem;">Registro médico de pacientes embarazadas</p>
+        </div>
+        <div class="col-md-6 text-right">
+            <a href="#" class="btn btn-teal" id="nueva_consulta" role="button">
+                <i class="fas fa-notes-medical mr-1"></i> Nuevo Control
+            </a>
+        </div>
+    </div>
 
-                            <table id="consultaE_tables" class="table table-bordered table-striped" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th>Paciente</th>
-                                        <th>Fecha Registro</th>
-                                        <th>Etapa</th>
-                                        <th width="38%">Acci&oacute;n</th>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+    <div class="card card-premium">
+        <div class="card-body p-4">
+            <div class="table-responsive" style="overflow-x: hidden;">
+                <table id="consultaE_tables" class="table dt-responsive nowrap" style="width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Paciente</th>
+                            <th>Fecha Registro</th>
+                            <th>Etapa</th>
+                            <th width="38%">Acci&oacute;n</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
     </div>
@@ -251,70 +528,6 @@
                     </div>
                 </div>
                 </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="verPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-plus"></i> Seleccionar Paciente
-                    </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="form-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="modal-body">
-                                <div class="row">
-
-                                    <div class="col-12">
-                                        <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response" role="alert" style="display:none">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12">
-                                        <div class="col-md-12 col-sm-12">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <div class="table-responsive-lg">
-                                                        <table id="pacientes_tables2" class="table table-responsive-lg table-bordered table-striped" style="width: 100%;">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>ID</th>
-                                                                    <th style="width: 100%;">Nombre</th>
-                                                                    <th>Fecha Nacimiento</th>
-                                                                    <th width="10%">Acci&oacute;n</th>
-                                                                </tr>
-                                                            </thead>
-                                                        </table>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                        </div>
-
-
-                                        <div class="col-12">
-                                            <div class="modal-footer">
-                                                <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                                                    <i class="fas fa-ban"></i> Cancelar
-                                                </a>-->
-                                                <a href="#" id="cerrar_salir" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
-                                                    <i class="fas fa-ban"></i> Salir
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -668,338 +881,6 @@
         </div>
     </div>
 
-    <div id="altaSegModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-arrow-right"></i> Seguimiento
-                    </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- <form id="altaCompra" class="form">   -->
-                <form id="altaSegForm" class="form" style="font-size: 1.1em;">
-                    <div class="form-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
-                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Semana Gesta </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Semana Gesta" id="sem_ges" name="sem_ges" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-calendar-week'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Peso</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Peso" id="peso_seg" name="peso_seg" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>T/A </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Tensi&oacute;n Arterial" id="tension_seg" name="tension_seg" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-chevron-down'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Frecuencia Card&iacute;aca</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg" name="fc_seg" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-heartbeat'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" name="presentacion_s" id="presentacion_s" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label>Fondo Uterino</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Fondo Uterino" id="fu_seg" name="fu_seg" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-align-right'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label>Movimiento Fetal</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <select class="select2 form-control" id="otro" name="otro" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
-                                                    <option value="Si">Si</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="expl_fisi" id="expl_fisi" cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-check'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Padecimiento</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <select class="select2 form-control" id="padecimiento_ac" name="padecimiento_ac" style="width: 100%;">
-                                                    <option value="">Seleccione</option>
-                                                    <option value="Si">Si</option>
-                                                    <option value="No">No</option>
-                                                </select>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-diagnoses'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" id="show_pad" style="display:none">
-                                            <label>Padecimiento actual</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="padecimiento_actual" id="padecimiento_actual" cols="150" rows="2" class="form-control" placeholder="Procedimiento actual" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-edit'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" id="show_pro" style="display:none">
-                                            <label>Procedimiento</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="procedimiento_realizado" id="procedimiento_realizado" cols="150" rows="2" class="form-control" placeholder="Procedimiento realizado" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-list"></i> Extras</h4>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label>Recomendaciones</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="observaciones_seg" id="observaciones_seg" cols="150" rows="2" class="form-control" placeholder="Recomendaciones" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-eye'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </form>
-
-                <div class="col-12">
-                    <div class="modal-footer">
-                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Salir
-                        </a>
-                        <!-- <input type="reset" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" value="No">                         -->
-                        <input type="hidden" id="hidden_id_seg" name="hidden_id_seg">
-                        <a class="btn btn-danger btn-min-width btn-glow"" style=" color: white" name="reg_conEm" id="reg_conEm" role="button">
-                            <i class="fas fa-share"></i> Registrar
-                        </a>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <div id="detallesSegModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-        <div class="modal-lg modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title" id="myModalLabel34">
-                        <i class="fas fa-arrow-right"></i> Detalles Consulta: <span id="det_nombrepaciente" style="color: black;"></span>
-                    </h3>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <!-- <form id="altaCompra" class="form">   -->
-                <form id="altaSegForm" class="form" style="font-size: 1.1em;">
-                    <div class="form-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="modal-body">
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
-                                            <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Semana Gesta </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Semana Gesta" id="sem_ges_det" readonly name="sem_ges_det" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-calendar-week'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Peso</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="number" placeholder="Peso" id="peso_seg_det" readonly name="peso_seg_det" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-weight'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>T/A </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Tensi&oacute;n Arterial" readonly id="tension_seg_det" name="tension_seg_det" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-chevron-down'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-3">
-                                            <label>Frecuencia Card&iacute;aca</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg_det" readonly name="fc_seg_det" class="form-control">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-heartbeat'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="presentacion_s_det" id="presentacion_s_det" readonly cols="150" rows="2" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-4">
-                                            <label>Fondo Uterino</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Fondo Uterino" id="fu_seg_det" name="fu_seg_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-align-right'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-4">
-                                            <label>Movimiento Fetal</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <input type="text" placeholder="Fondo Uterino" id="mov_fetal_det" name="mov_fetal_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6">
-                                            <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="expl_fisi_det" id="expl_fisi_det" readonly cols="150" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fas fa-check'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-6" id="show_pad2" style="display:none">
-                                            <label>Padecimiento indicado</label><span style="color:red"> *</span>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="padecimiento_actual_det" id="padecimiento_actual_det" readonly cols="150" rows="2" class="form-control" placeholder="Procedimiento actual" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-edit'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12" id="show_pro2" style="display:none">
-                                            <label>Procedimiento</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="procedimiento_realizado_det" id="procedimiento_realizado_det" readonly cols="150" rows="2" class="form-control" placeholder="Procedimiento realizado" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-list'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <h4 class="form-section"><i class="fas fa-list"></i> Extras</h4>
-                                        </div>
-
-                                        <div class="col-12">
-                                            <label>Recomendaciones</label>
-                                            <div class="form-group position-relative has-icon-left">
-                                                <textarea name="observaciones_seg_det" id="observaciones_seg_det" cols="150" readonly rows="2" class="form-control" placeholder="Recomendaciones" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
-                                                <div class="form-control-position">
-                                                    <i class='fa fa-eye'></i>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </form>
-
-                <div class="col-12">
-                    <div class="modal-footer">
-                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
-                            <i class="fas fa-ban"></i> Salir
-                        </a>
-                    </div>
-                </div>
-                </form>
-            </div>
-        </div>
-    </div>
-
     <div id="finalizar_CPModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-sm modal-dialog" role="document">
             <div class="modal-content">
@@ -1318,20 +1199,350 @@
         </div>
     </div>
 
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
+    <div id="detallesSegModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="myModalLabel34">
+                        <i class="fas fa-arrow-right"></i> Detalles Consulta: <span id="det_nombrepaciente" style="color: black;"></span>
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="altaSegFormDetalle" class="form" style="font-size: 1.1em;">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
+                                <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>Semana Gesta </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" placeholder="Semana Gesta" id="sem_ges_det" readonly name="sem_ges_det" class="form-control">
+                                    <div class="form-control-position"><i class='fas fa-calendar-week'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>Peso</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" placeholder="Peso" id="peso_seg_det" readonly name="peso_seg_det" class="form-control">
+                                    <div class="form-control-position"><i class='fas fa-weight'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>T/A </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Tensi&oacute;n Arterial" readonly id="tension_seg_det" name="tension_seg_det" class="form-control">
+                                    <div class="form-control-position"><i class='fa fa-chevron-down'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>FC</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg_det" readonly name="fc_seg_det" class="form-control">
+                                    <div class="form-control-position"><i class='fa fa-heartbeat'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="presentacion_s_det" id="presentacion_s_det" readonly rows="2" placeholder="Presentaci&oacute;n" class="form-control" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Fondo Uterino</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Fondo Uterino" id="fu_seg_det" name="fu_seg_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                    <div class="form-control-position"><i class='fa fa-align-right'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Movimiento Fetal</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Movimiento Fetal" id="mov_fetal_det" name="mov_fetal_det" readonly class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="expl_fisi_det" id="expl_fisi_det" readonly rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fas fa-check'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3" id="show_pad2" style="display:none">
+                                <label>Padecimiento indicado</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="padecimiento_actual_det" id="padecimiento_actual_det" readonly rows="2" class="form-control" placeholder="Procedimiento actual" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-edit'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3" id="show_pro2" style="display:none">
+                                <label>Procedimiento</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="procedimiento_realizado_det" id="procedimiento_realizado_det" readonly rows="2" class="form-control" placeholder="Procedimiento realizado" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 mb-2">
+                                <h4 class="form-section border-bottom pb-2"><i class="fas fa-list text-primary"></i> Extras</h4>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Recomendaciones</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="observaciones_seg_det" id="observaciones_seg_det" readonly rows="2" class="form-control" placeholder="Recomendaciones" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-eye'></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="altaSegModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fas fa-arrow-right"></i> Seguimiento
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <form id="altaSegForm" class="form" style="font-size: 1.1em;">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmb" role="alert" style="display:none"></div>
+                                <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response_agEmbOK" role="alert" style="display:none"></div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>Semana Gesta </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" placeholder="Semana Gesta" id="sem_ges" name="sem_ges" class="form-control">
+                                    <div class="form-control-position"><i class='fas fa-calendar-week'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>Peso</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="number" placeholder="Peso" id="peso_seg" name="peso_seg" class="form-control">
+                                    <div class="form-control-position"><i class='fas fa-weight'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>T/A </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Tensi&oacute;n Arterial" id="tension_seg" name="tension_seg" class="form-control">
+                                    <div class="form-control-position"><i class='fa fa-chevron-down'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-3 mb-3">
+                                <label>FC</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Frecuencia Card&iacute;aca" id="fc_seg" name="fc_seg" class="form-control">
+                                    <div class="form-control-position"><i class='fa fa-heartbeat'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Presentaci&oacute;n </label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" name="presentacion_s" id="presentacion_s" placeholder="Presentaci&oacute;n" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Fondo Uterino</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <input type="text" placeholder="Fondo Uterino" id="fu_seg" name="fu_seg" class="form-control" onKeyUp="this.value = this.value.toUpperCase();">
+                                    <div class="form-control-position"><i class='fa fa-align-right'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-4 mb-3">
+                                <label>Movimiento Fetal</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <select class="select2 form-control" id="otro" name="otro" style="width: 100%;">
+                                        <option value="">Seleccione</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <label>Exploraci&oacute;n F&iacute;sica</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="expl_fisi" id="expl_fisi" rows="2" placeholder="Exploraci&oacute;n F&iacute;sica" class="form-control" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fas fa-check'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3">
+                                <label>Padecimiento</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <select class="select2 form-control" id="padecimiento_ac" name="padecimiento_ac" style="width: 100%;">
+                                        <option value="">Seleccione</option>
+                                        <option value="Si">Si</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                    <div class="form-control-position"><i class='fa fa-diagnoses'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3" id="show_pad" style="display:none">
+                                <label>Padecimiento actual</label><span style="color:red"> *</span>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="padecimiento_actual" id="padecimiento_actual" rows="2" class="form-control" placeholder="Procedimiento actual" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-edit'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-6 mb-3" id="show_pro" style="display:none">
+                                <label>Procedimiento</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="procedimiento_realizado" id="procedimiento_realizado" rows="2" class="form-control" placeholder="Procedimiento realizado" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-list'></i></div>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mt-3 mb-2">
+                                <h4 class="form-section border-bottom pb-2"><i class="fas fa-list text-primary"></i> Extras</h4>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label>Recomendaciones</label>
+                                <div class="form-group position-relative has-icon-left">
+                                    <textarea name="observaciones_seg" id="observaciones_seg" rows="2" class="form-control" placeholder="Recomendaciones" style="resize:none;" onKeyUp="this.value = this.value.toUpperCase();"></textarea>
+                                    <div class="form-control-position"><i class='fa fa-eye'></i></div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
+                            <i class="fas fa-ban"></i> Salir
+                        </a>
+                        <input type="hidden" id="hidden_id_seg" name="hidden_id_seg">
+                        <a class="btn btn-danger btn-min-width btn-glow" style="color: white" name="reg_conEm" id="reg_conEm" role="button">
+                            <i class="fas fa-share"></i> Registrar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="verPacienteModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-lg modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">
+                        <i class="fas fa-plus"></i> Seleccionar Paciente
+                    </h3>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="alert bg-danger alert-icon-left alert-arrow-left alert-dismissible mb-1" id="response" role="alert" style="display:none"></div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="table-responsive" style="width: 100%;">
+                                <table id="pacientes_tables2" class="table table-bordered table-striped dt-responsive nowrap" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Nombre</th>
+                                            <th>Fecha Nacimiento</th>
+                                            <th>Acci&oacute;n</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" id="cerrar_salir" class="btn btn-info btn-min-width btn-glow" style="color: white" role="button">
+                        <i class="fas fa-ban"></i> Salir
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('scripts')
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.23/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.9/js/responsive.bootstrap4.min.js"></script>
+
 <script>
     jQuery(document).ready(function($) {
+        $('.modal').on('shown.bs.modal', function() {
+            var $tablas = $(this).find('table.dataTable');
+
+            if ($tablas.length > 0) {
+                $tablas.DataTable().columns.adjust().responsive.recalc();
+            }
+        });
+        
+        $.extend(true, $.fn.dataTable.defaults, {
+            language: {
+                search: "",
+                searchPlaceholder: "Buscar registro...",
+                lengthMenu: "Mostrar _MENU_ registros",
+                info: "Mostrando _START_ al _END_ de _TOTAL_",
+                paginate: {
+                    first: "Primero",
+                    last: "Último",
+                    next: "<i class='fas fa-chevron-right'></i>",
+                    previous: "<i class='fas fa-chevron-left'></i>"
+                }
+            }
+        });
+
+
 
         function errorRazon(valor) {
             $('#error1').html('<span>' + valor + '</span>');
@@ -1440,7 +1651,7 @@
         $(document).on('change', '#medSelect', function() {
             let id_med = $('#medSelect').val();
             $.ajax({
-                url: "/MedicamentoSeleccionado/" + id_med,
+                url: "/medicamentos/seleccion/" + id_med,
                 dataType: "json",
                 success: function(data) {
                     let ex = 0;
@@ -1487,7 +1698,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('control-prenatal/expediente/') }}",
+                    "url": "{{ url('control-prenatal/expediente-d/') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1495,16 +1706,8 @@
                         name: 'id'
                     },
                     {
-                        data: 'nombre_c',
-                        data: 'nombre_c',
-                        /*render: function(data, type, row) {
-                            if (row.ap_materno == null) {
-                                return `${row.nombre} ${row.ap_paterno}`;
-                            } else {
-                                return `${row.nombre} ${row.ap_paterno} ${row.ap_materno}`;
-                            }
-
-                        }*/
+                        data: 'nombre_c', // Corregido: solo una vez
+                        name: 'nombre_c'
                     },
                     {
                         data: 'fecha_nacimiento',
@@ -1513,6 +1716,8 @@
                     {
                         data: 'accion',
                         name: 'accion',
+                        orderable: false, // Recomendado para columnas de botones
+                        searchable: false
                     }
                 ]
             });
@@ -1521,17 +1726,11 @@
         $(document).on('click', '.ver_antecedente', function() {
             let id_exp = $(this).attr('name');
             $.ajax({
-                url: "/ControlP/DataAnt/" + id_exp,
+                url: "/control-prenatal/data-ant/" + id_exp,
                 dataType: "json",
                 success: function(data) {
                     $('#antecedentesModal').appendTo("body")
                     $('#antecedentesModal').modal('show');
-                    //$('#antecedentesModal').css('overflow-y', 'auto');
-                    /*$('#antecedentesModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });*/
                     $('#nombre_ant').val(data.nombre_c);
                     $('#fecha_nacimiento_ant').val(data.fecha_nacimiento);
                     $('#c_expant').val(data.fecha);
@@ -1556,14 +1755,8 @@
             $('#verExpEmbModal').appendTo("body")
             $('#verExpEmbModal').modal('show');
             $('#ag_segnone').show();
-            //$('#antecedentesModal').css('overflow-y', 'auto');
-            /*$('#antecedentesModal > .modal-body').css({
-                        width: 'auto',
-                        height: 'auto',
-                        'max-height': '100%'
-                    });*/
             $.ajax({
-                url: "/ControlP/DataAnt/" + id_exp,
+                url: "/control-prenatal/data-ant/" + id_exp,
                 dataType: "json",
                 success: function(data) {
                     pac_span.innerHTML = data.nombre_c;
@@ -1583,7 +1776,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         ajax: {
-                            "url": "{{ url('Expediente/expediente') }}" + "/" + id_control,
+                            "url": "{{ url('control-prenatal/expediente/ver/') }}" + "/" + id_control,
                         },
                         responsive: true,
                         columns: [{
@@ -1771,14 +1964,9 @@
                 "url": "{{ url('control-prenatal/embarazadas') }}",
             },
             responsive: true,
-            columns: [
-                /*{
-                                    data: 'id',
-                                    name: 'id'
-                                },*/
-                {
-                    data: 'nombre_c',
-                    name: 'nombre_c'
+            columns: [{
+                    data: 'nombre_p',
+                    name: 'nombre_p'
                 },
                 {
                     data: 'fecha',
@@ -1879,14 +2067,14 @@
             let id_expediente = $(this).attr('id');
 
             $.ajax({
-                url: "/ControlP/DataExiste/" + id_paciente,
+                url: "/control-prenatal/data-existe/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     alert('Error: Existe un expediente abierto con la paciente que seleccionó, ¡Favor de Verificar!')
                 },
                 error: function(XMLHttpRequest, textStatus, errorThrown) {
                     $.ajax({
-                        url: "/Consulta/Paciente/" + id_paciente,
+                        url: "/pacientes/consulta/" + id_paciente,
                         dataType: "json",
                         success: function(data) {
                             $('#expedienteInicioModal').appendTo("body")
@@ -1999,7 +2187,7 @@
             let id_consulta = $(this).attr('id');
             //('#tipo_consulta_c').val("").select2();
             $.ajax({
-                url: "/ConsultaGeneralP/" + id_consulta,
+                url: "/consulta-general/paciente-data/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
                     $('#editarConsultaModal').appendTo("body")
@@ -2191,7 +2379,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('RecetaMedica/SelectSeg') }}" + "/" + id_control + "/" + id_seguimiento,
+                    "url": "{{ url('control-prenatal/receta/select-seg') }}" + "/" + id_control + "/" + id_seguimiento,
                 },
                 responsive: true,
                 columns: [{
@@ -2227,7 +2415,7 @@
             $('#modalMedicamentoSel').modal('show');
 
             $.ajax({
-                url: "/MedicamentoSeleccionado/" + id_medicamento,
+                url: "/medicamentos/seleccion/" + id_medicamento,
                 dataType: "json",
                 success: function(data) {
                     $('#hidden_id_med').val(id_medicamento);
@@ -2349,7 +2537,7 @@
 
             if (confirmacion) {
                 $.ajax({
-                    url: "/ConsultaPrenatal/Finalizar/" + id_consulta,
+                    url: "/control-prenatal/finalizar/" + id_consulta,
                     dataType: "json",
                     success: function(data) {
                         if (!$('#response_fin').empty()) {
@@ -2492,7 +2680,7 @@
             let id_expediente = $(this).attr('name');
 
             $.ajax({
-                url: "/ControlP/CalculoNacido/" + id_expediente,
+                url: "/control-prenatal/calculo-nacido/" + id_expediente,
                 // dataType: "json",
                 success: function(data) {
                     if (data == "ready") {
@@ -2642,7 +2830,7 @@
         $(document).on('change', '#fur', function() {
             let fum = $('#fur').val();
             $.ajax({
-                url: "/ControlP/Calculofpp/" + fum,
+                url: "/control-prenatal/calculo-fpp/" + fum,
                 // dataType: "json",
                 success: function(data) {
                     $('#fpp').val(data);
@@ -2689,7 +2877,7 @@
             $('#detallesSegModal').appendTo("body")
             $('#detallesSegModal').modal('show');
             $.ajax({
-                url: "/Seguimiento/Detalles/" + id_seguimiento,
+                url: "/control-prenatal/seguimiento/detalles/" + id_seguimiento,
                 dataType: "json",
                 success: function(data) {
                     det_nombrepaciente.innerHTML = " " + data.nombre_c + " ";
@@ -2723,7 +2911,7 @@
             let respuesta = confirm("Una vez que de clic en aceptar, ¡Se eliminará el registro en la receta médica!");
             if (respuesta) {
                 $.ajax({
-                    url: "/ConsultaP/DeleteMedicamento/" + id_medicamento,
+                    url: "/control-prenatal/borrar-medicamento/" + id_medicamento,
                     dataType: "json",
                     success: function(data) {
                         $('#medicamentos_paciente_table').DataTable().ajax.reload();
@@ -2957,11 +3145,11 @@
 
                     }
                     if (jqXHR.status == 404) {
-                                if (!$('#response_cita').empty()) {
-                                    $('#response_cita').empty();
-                                }
-                                let responseText = jQuery.parseJSON(jqXHR.responseText);
-                                $('#response_cita').show().append(`
+                        if (!$('#response_cita').empty()) {
+                            $('#response_cita').empty();
+                        }
+                        let responseText = jQuery.parseJSON(jqXHR.responseText);
+                        $('#response_cita').show().append(`
                                     <span class="alert-icon"><i class="la la-thumbs-o-down"></i></span>
                                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                             <span aria-hidden="true">&times;</span>
@@ -2973,11 +3161,11 @@
                                                     </span>
                                                 </li>
                                         </ul>`);
-                                setTimeout(function() {
-                                    $('#response_cita').hide();
-                                }, 4000);
+                        setTimeout(function() {
+                            $('#response_cita').hide();
+                        }, 4000);
 
-                            }
+                    }
                     if (jqXHR.status == 500) {
                         let responseText = jQuery.parseJSON(jqXHR.responseText);
                         $('#citaModal').modal('hide');

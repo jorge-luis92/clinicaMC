@@ -244,6 +244,8 @@ class ControlPrenatalController extends Controller
             ->orderBy('expediente_inicio.id', 'desc')
             ->first();
 
+        \Log::info($data);
+
         return $data;
     }
 
@@ -307,7 +309,7 @@ class ControlPrenatalController extends Controller
                     if ($data->estatus == 2) {
                         $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="ver_detalles btn btn-success btn-sm btn-glow mr-1 mb-1"><i class="fa fa-list"></i> Detalles</button>';
                         //$button .= '&nbsp;<button type="button" name="del" id="' . $data->id . '" class="imprimir_seguimiento btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</button>';
-                        $button .= '&nbsp;<a type="button" href="/ControlPrenatal/SeguimientoPDF/' . $data->id . '" target="_blank" class="btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</a>';
+                        $button .= '&nbsp;<a type="button" href="/control-prenatal/seguimiento-pdf/' . $data->id . '" target="_blank" class="btn btn-secondary btn-sm btn-glow mr-1 mb-1"><i class="fas fa-print fa-1x"></i> Imprimir</a>';
                     }
                     return $button;
                 })
@@ -437,37 +439,33 @@ class ControlPrenatalController extends Controller
             $data = ExpedienteCP::select(
                 'expediente_cp.id',
                 'expediente_cp.fecha',
-                //'control_prenatal.id AS id_control',
+                'persona.fecha_nacimiento', // <-- AGREGAR ESTA LÍNEA
                 DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
             )
                 ->join('paciente', 'paciente.id', 'expediente_cp.id_paciente')
                 ->join('persona', 'persona.id', 'paciente.id_persona')
-                //->join('control_prenatal', 'control_prenatal.id_expediente', 'expediente_cp.id')
                 ->where('expediente_cp.id_medico', $medico->id)
                 ->orderBy('expediente_cp.fecha', 'desc')
                 ->get();
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    /*$button = '&nbsp;
-                        <button type="button" class="btn btn-warning btn-sm btn-glow mr-1 mb-1 dropdown-toggle"
+                    $button = '&nbsp;
+                        <button type="button" class="btn btn-warning btn-xs btn-glow mr-1 mb-1 dropdown-toggle"
                         data-toggle="dropdown">
                         <i class="fas fa-list"></i> Opciones
                         </button>
                         <ul class="dropdown-menu">
-                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
-                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
+                        <li>&nbsp;&nbsp;<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button></li>     
+                        <li>&nbsp;&nbsp;<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-min-width btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button></li>
                         </ul>
-                         </div>';*/
-                    $button = '<button type="button" name="' . $data->id . '" id="' . $data->id . '" class="exp_emb btn btn-primary btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Historial</button>';
-                    $button .= '<button type="button" name="name" id="' . $data->id . '" class="ver_antecedente btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-envelope-open"></i> Antecedentes GO</button>';
-
+                         </div>';
                     return $button;
                 })
-                ->rawColumns(['accion'])
-                ->editColumn('fecha', function (ExpedienteCP $dat) {
-                    return date('d/m/Y', strtotime($dat->fecha));
+                ->editColumn('fecha_nacimiento', function ($data) {
+                    return $data->fecha_nacimiento ? date('d/m/Y', strtotime($data->fecha_nacimiento)) : 'N/A';
                 })
+                ->rawColumns(['accion'])
                 ->make(true);
         }
 
@@ -815,14 +813,17 @@ class ControlPrenatalController extends Controller
                 ->join('persona', 'persona.id', 'paciente.id_persona')
                 ->join('expediente_cp', 'expediente_cp.id', 'control_prenatal.id_expediente')
                 ->where('control_prenatal.id_expediente', $id_expediente)
-                ->where('control_prenatal.estatus', '=', '2')
+                ->where('control_prenatal.estatus', '=', '1')
                 ->orderBy('control_prenatal.fecha', 'desc')
                 ->get();
 
             return DataTables::of($data)
                 ->addColumn('accion', function ($data) {
-                    if ($data->estatus == 2) {
+                    if ($data->estatus != 0) {
                         $button = '&nbsp;<button type="button" name="' . $data->id_expediente . '" id="' . $data->id . '" class="exp_emba btn btn-warning btn-sm btn-glow mr-1 mb-1"><i class="fa fa-history fa-1x"></i> Seguimiento</button>';
+                        return $button;
+                    } else {
+                        $button = '&nbsp;<label><i class="fa fa-check fa-1x"></i> Interrumpción</label>';
                         return $button;
                     }
                 })
@@ -969,30 +970,33 @@ class ControlPrenatalController extends Controller
 
     public function pdf_cp($id)
     {
-
         $usuario = auth()->user();
-        $id_usuario = $usuario->id;
-        $id_persona = $usuario->id_persona;
-        $id_consulta = $id;
-        $id_seg = $id;
 
-        $datos_medico = Medico::select(
+        // 1. Rutas de las imágenes institucionales (Eliminado footer1, agregado fondo)
+        $header1 = public_path() . '/image/logopdf1.png';
+        $header2 = public_path() . '/image/logopdf2.png';
+        $header3 = public_path() . '/image/wa.png';
+        $fondo   = public_path() . '/image/emb2.png';
+
+        // 2. Datos del Médico
+        $medico = Medico::select(
             'medico.cedula',
             'medico.celular',
-            'persona.genero',
             'medico.especialidad',
             'medico.institutos',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_p"),
-            DB::raw('(CASE WHEN persona.genero = "H" THEN "Dr."  
-            WHEN persona.genero= "M" THEN "Dra." END) AS doc')
+            'persona.genero',
+            DB::raw("CONCAT(persona.nombre, ' ', persona.ap_paterno, ' ', persona.ap_materno) AS nombre_p")
         )
-            ->join('persona', 'persona.id', 'medico.id_persona')
-            ->where('medico.id_persona', $id_persona)
+            ->join('persona', 'persona.id', '=', 'medico.id_persona')
+            ->where('medico.id_persona', $usuario->id_persona)
             ->first();
 
+        $prefijoDoc = (isset($medico->genero) && ($medico->genero == 'M' || $medico->genero == 'F')) ? 'Dra.' : 'Dr.';
+
+        // 3. Datos del Seguimiento
         $data = Seguimiento::select(
             'seguimiento.id',
-            'seguimiento.exploracion_fisica',
+            'seguimiento.fecha',
             'seguimiento.semana_gesta',
             'seguimiento.peso',
             'seguimiento.ta',
@@ -1000,40 +1004,47 @@ class ControlPrenatalController extends Controller
             'seguimiento.presentacion',
             'seguimiento.frecuencia_cardiaca',
             'seguimiento.otro AS movimiento_fetal',
+            'seguimiento.exploracion_fisica',
             'seguimiento.padecimiento',
             'seguimiento.procedimiento',
             'seguimiento.observaciones AS recomendaciones',
-            'seguimiento.fecha',
             'persona.edad',
             'paciente.talla',
-            DB::raw("CONCAT(persona.nombre,' ',persona.ap_paterno,' ',persona.ap_materno) AS nombre_c"),
+            DB::raw("CONCAT(persona.nombre, ' ', persona.ap_paterno, ' ', persona.ap_materno) AS nombre_c")
         )
-            ->join('paciente', 'paciente.id', 'seguimiento.id_paciente')
-            ->join('persona', 'persona.id', 'paciente.id_persona')
-            ->where('seguimiento.id', $id_seg)
-            ->first();
-        $n_pdf = "control_prenatal_" . $data->nombre_c . ".pdf";
+            ->join('paciente', 'paciente.id', '=', 'seguimiento.id_paciente')
+            ->join('persona', 'persona.id', '=', 'paciente.id_persona')
+            ->where('seguimiento.id', $id)
+            ->firstOrFail();
 
-        $data_medicamentos = RecetaSeguimiento::select(
-            'receta_seguimiento.id',
+        // 4. Medicamentos
+        $medicamentos = RecetaSeguimiento::select(
             'receta_seguimiento.cantidad',
             'receta_seguimiento.tratamiento',
-            DB::raw("CONCAT(medicamento.sustancia,' ',medicamento.nombre,' ',medicamento.presentacion) AS descripcion"),
+            DB::raw("CONCAT(medicamento.sustancia, ' - ', medicamento.nombre, ' ', medicamento.presentacion) AS descripcion")
         )
-            ->join('medicamento', 'medicamento.id', 'receta_seguimiento.id_medicamento')
-            ->where('receta_seguimiento.id_seguimiento', $id_seg)
+            ->join('medicamento', 'medicamento.id', '=', 'receta_seguimiento.id_medicamento')
+            ->where('receta_seguimiento.id_seguimiento', $id)
             ->orderBy('receta_seguimiento.id', 'desc')
             ->get();
 
+        $nombrePdf = "Expediente_Prenatal_" . str_replace(' ', '_', $data->nombre_c) . ".pdf";
 
-        view()->share('data', $data);
-        view()->share('medico', $datos_medico);
-        view()->share('medicamentos', $data_medicamentos);
-        $pdf = PDF::loadView('ControlEmbarazadas.Detalles', array('medicamentos' => $data_medicamentos));
-        //$pdf = PDF::loadView('ConsultaGeneral.vista2', array('medicamentos' => $data_medicamentos));
+        // 5. Generar PDF (Pasando la variable $fondo)
+        $pdf = PDF::loadView('ControlEmbarazadas.Detalles', compact(
+            'data',
+            'medico',
+            'medicamentos',
+            'prefijoDoc',
+            'header1',
+            'header2',
+            'header3',
+            'fondo'
+        ));
+
         $pdf->setPaper('letter', 'portrait');
 
-        return $pdf->stream($n_pdf);
+        return $pdf->stream($nombrePdf);
     }
 
     public function consulta_fechapp($id)

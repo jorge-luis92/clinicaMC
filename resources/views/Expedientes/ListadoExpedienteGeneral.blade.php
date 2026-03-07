@@ -8,14 +8,303 @@
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.23/css/dataTables.bootstrap4.min.css" />
 
 <style>
-    .select2-container .select2-selection--single .select2-selection__rendered {
+    /* ==================================================
+       SISTEMA DE DISEÑO PREMIUM - SAAS UI (EXPEDIENTES)
+       ================================================== */
+
+    /* --- Tarjetas y Botones Principales --- */
+    .card-premium {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.025);
+        background-color: #ffffff;
+    }
+
+    .btn-teal {
+        background-color: #0d9488;
+        color: #ffffff !important;
+        border: none;
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+
+    .btn-teal:hover {
+        background-color: #0f766e;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.4);
+    }
+
+    /* --- DataTables Premium --- */
+    table.dataTable {
+        border-collapse: collapse !important;
+        width: 100% !important;
+        margin-top: 1rem !important;
+    }
+
+    table.dataTable thead th {
+        border-bottom: 2px solid #e2e8f0 !important;
+        border-top: none !important;
+        background-color: #f8fafc;
+        color: #64748b;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        padding: 14px 15px;
+    }
+
+    table.dataTable thead th:first-child {
+        border-top-left-radius: 12px;
+        border-bottom-left-radius: 12px;
+    }
+
+    table.dataTable thead th:last-child {
+        border-top-right-radius: 12px;
+        border-bottom-right-radius: 12px;
+    }
+
+    table.dataTable tbody td {
+        border-bottom: 1px solid #f1f5f9 !important;
+        vertical-align: middle;
+        padding: 16px 15px;
+        color: #1e293b;
+        font-weight: 500;
+        font-size: 0.9rem;
+    }
+
+    table.dataTable tbody tr:hover td {
+        background-color: #f8fafc !important;
+    }
+
+    .dataTables_wrapper .row {
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter label {
+        font-weight: 500;
+        color: #64748b;
+        font-size: 0;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 0.5rem;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input {
+        border-radius: 20px;
+        border: 1px solid #cbd5e1;
+        padding: 0.5rem 1.2rem;
+        width: 250px;
+        background-color: #f8fafc;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+    }
+
+    div.dataTables_wrapper div.dataTables_filter input:focus {
+        outline: none;
+        background-color: #ffffff;
+        border-color: #0d9488;
+        box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.1);
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        border-radius: 8px !important;
+        border: none !important;
+        padding: 0.4rem 0.8rem !important;
+        margin: 0 3px !important;
+        font-weight: 600;
+        color: #64748b !important;
+        background: transparent !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: #f1f5f9 !important;
+        color: #1e293b !important;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+        background: #0d9488 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2);
+    }
+
+    /* --- Modales Globales --- */
+    .modal-content {
+        border: none !important;
+        border-radius: 16px !important;
+        box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04) !important;
+        overflow: hidden;
+    }
+
+    .modal-header {
+        background-color: #f8fafc;
+        border-bottom: 1px solid #f1f5f9;
+        padding: 1.5rem 1.5rem 1rem;
+    }
+
+    .modal-header .modal-title {
+        font-weight: 700;
+        color: #1e293b;
+        font-size: 1.25rem;
+    }
+
+    .modal-header .close {
+        margin-top: -1rem;
+        color: #64748b;
+        opacity: 0.7;
+        transition: 0.2s;
+    }
+
+    .modal-header .close:hover {
+        opacity: 1;
+        color: #ef4444;
+    }
+
+    .modal-body {
+        padding: 1.5rem;
+        background-color: #ffffff;
+        overflow-x: hidden;
+    }
+
+    .modal-footer {
+        border-top: 1px solid #f1f5f9;
+        background-color: #f8fafc;
+        padding: 1rem 1.5rem;
+        border-bottom-left-radius: 16px;
+        border-bottom-right-radius: 16px;
+    }
+
+    /* --- Formularios (Responsivos) --- */
+    .form-group {
+        margin-bottom: 1.2rem;
+        width: 100%;
+    }
+
+    .form-group label {
+        font-weight: 600;
+        color: #475569;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .form-control {
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1;
+        padding: 0.6rem 1rem;
+        color: #334155;
+        transition: all 0.2s;
+        box-shadow: none;
+        background-color: #f8fafc;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: calc(2.25rem + 10px) !important;
+    }
+
+    select.form-control:not([size]):not([multiple]) {
+        height: calc(2.25rem + 10px) !important;
+    }
+
+    .form-control:focus {
+        background-color: #ffffff;
+        border-color: #0d9488;
+        box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.15) !important;
+    }
+
+    textarea.form-control {
+        height: auto !important;
+        resize: none;
+    }
+
+    /* --- Bugs de Librerías (Select2 y Tablas) --- */
+    .select2-container {
+        width: 100% !important;
+        max-width: 100%;
+    }
+
+    .select2-container .select2-selection--single {
+        height: calc(2.25rem + 10px) !important;
+        border-radius: 8px !important;
+        border: 1px solid #cbd5e1 !important;
+        background-color: #f8fafc !important;
+        display: flex;
+        align-items: center;
         padding-left: 29px;
+    }
+
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+    }
+
+    .has-icon-left .form-control,
+    .has-icon-left .select2-selection__rendered {
+        padding-left: 2.8rem !important;
+    }
+
+    .has-icon-left .form-control-position {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        width: 2.8rem;
+        text-align: center;
+        margin-top: 13px;
+        z-index: 4;
+    }
+
+    .has-icon-left .form-control-position i {
+        color: #94a3b8;
+        font-size: 1.1rem;
+    }
+
+    .modal-body .table-responsive {
+        width: 100%;
+        overflow-x: auto;
+        display: block;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* --- Botones Modales --- */
+    .modal-footer .btn-info {
+        background-color: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #475569 !important;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: none !important;
+        padding: 0.5rem 1.2rem;
+    }
+
+    .modal-footer .btn-info:hover {
+        background-color: #e2e8f0 !important;
+        color: #1e293b !important;
+    }
+
+    .modal-footer .btn-danger {
+        background-color: #0d9488 !important;
+        border: none !important;
+        color: #ffffff !important;
+        font-weight: 600;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px -1px rgba(13, 148, 136, 0.2) !important;
+        padding: 0.5rem 1.2rem;
+        transition: all 0.2s ease;
+    }
+
+    .modal-footer .btn-danger:hover {
+        background-color: #0f766e !important;
+        transform: translateY(-1px);
+        box-shadow: 0 6px 8px -1px rgba(13, 148, 136, 0.3) !important;
     }
 
     html body .content .content-wrapper {
         padding: 0.5rem 2rem 0;
     }
 </style>
+
 <div class="container-fluid">
     @if(session('Ok2'))
     <div class="alert bg-success alert-icon-left alert-arrow-left alert-dismissible mb-2" role="alert">
@@ -216,7 +505,7 @@
                                                 <!--<a class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                                     <i class="fas fa-ban"></i> Cancelar
                                                 </a>-->
-                                                <a href="#"  class="btn btn-info btn-min-width btn-glow"  data-dismiss="modal" style="color: white" role="button">
+                                                <a href="#" class="btn btn-info btn-min-width btn-glow" data-dismiss="modal" style="color: white" role="button">
                                                     <i class="fas fa-ban"></i> Salir
                                                 </a>
                                             </div>
@@ -657,6 +946,22 @@
 <script>
     jQuery(document).ready(function($) {
 
+        $('.select2').each(function() {
+            var modalPadre = $(this).closest('.modal');
+            $(this).select2({
+                dropdownParent: modalPadre.length ? modalPadre : $(document.body),
+                width: '100%'
+            });
+        });
+
+        $.fn.modal.Constructor.prototype._enforceFocus = function() {};
+
+        $('.modal').on('shown.bs.modal', function() {
+            var $tablas = $(this).find('table.dataTable');
+            if ($tablas.length > 0) {
+                $tablas.DataTable().columns.adjust().responsive.recalc();
+            }
+        });
         $('#alertaAlta').hide();
         $('#alertaEli').hide();
         $('#alertaMod').hide();
@@ -700,7 +1005,7 @@
                 "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
             },
             ajax: {
-                "url": "{{ url('Expediente/ConsultaGeneral') }}",
+                "url": "{{ url('consulta-general/expediente') }}",
             },
             responsive: true,
             columns: [{
@@ -736,7 +1041,7 @@
             let id_expediente = $(this).attr('id');
 
             $.ajax({
-                url: "/ConsultaGeneral/CGPaciente/" + id_paciente,
+                url: "/consulta-general/paciente/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     $('#verExpPacienteModal').appendTo("body")
@@ -765,7 +1070,7 @@
                             "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                         },
                         ajax: {
-                            "url": "{{ url('Expediente/CGver') }}" + "/" + id_paciente + "/" + id_expediente,
+                            "url": "{{ url('consulta-general/expediente/ver') }}" + "/" + id_paciente + "/" + id_expediente,
                         },
                         responsive: true,
                         columns: [{
@@ -988,7 +1293,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
                 },
                 ajax: {
-                    "url": "{{ url('Catalogo/PacienteSel') }}",
+                    "url": "{{ url('pacientes/seleccion') }}",
                 },
                 responsive: true,
                 columns: [{
@@ -1015,7 +1320,7 @@
             let id_paciente = $(this).attr('id');
             $('#tipo_consulta_c').val("").select2();
             $.ajax({
-                url: "/Consulta/Paciente/" + id_paciente,
+                url: "/pacientes/consulta/" + id_paciente,
                 dataType: "json",
                 success: function(data) {
                     $('#expedienteModal').appendTo("body")
@@ -1055,10 +1360,10 @@
                     setTimeout(function() {
                         $('#ok').hide();
                         returnUrl = window.location.protocol + "//" + window.location.host +
-                            "/Consulta/ConsultaGeneral/";
+                            "/consulta-general";
                         location.href = returnUrl;
                     }, 3000);
-                       
+
                 }).fail(function(jqXHR, textStatus, errorThrown) {
                     if (jqXHR.status == 422) {
                         if (!$('#response_paciente').empty()) {
@@ -1108,7 +1413,7 @@
                             $('#response_consulta_crear').hide();
                             $('#expedienteModal').modal('hide');
                         }, 3000);
-                        
+
 
                     }
                     if (jqXHR.status == 500) {
@@ -1129,7 +1434,7 @@
             $('#detallesConsultaModal').modal('show');
 
             $.ajax({
-                url: "/ConsultaGeneral/CGData/" + id_consulta,
+                url: "/consulta-general/data/" + id_consulta,
                 dataType: "json",
                 success: function(data) {
                     $('#ver_paciente').val(data.nombre_p);
@@ -1142,20 +1447,20 @@
                     $('#ver_glucosa').val(data.glucosa);
                     $('#ver_motivo_consulta').val(data.motivo_consulta);
                     $('#ver_exploracion').val(data.examen_fisico);
-                    $('#ver_diagnostico').val(data.diagnostico);                    
+                    $('#ver_diagnostico').val(data.diagnostico);
                     let pro = data.procedimiento;
 
-                    if(pro == null){
+                    if (pro == null) {
                         $('#recomedaciones2').hide();
                         $('#recomedaciones1').show();
                         $('#ver_recomendaciones').val(data.observaciones);
-                        
-                    }else{
+
+                    } else {
                         $('#recomedaciones1').hide();
                         $('#recomedaciones2').show();
                         $('#ver_recomendacion').val(data.observaciones);
                         $('#ver_procedimiento').val(data.procedimiento);
-                        
+
                     }
                 }
             });

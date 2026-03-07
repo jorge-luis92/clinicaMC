@@ -30,7 +30,7 @@ Route::post('/logueo', [LoginController::class, 'authenticate'])->name('logueo')
 
 Auth::routes([
     "login" => false,
-    "register" => true
+    "register" => false
 ]);
 
 // ==========================================

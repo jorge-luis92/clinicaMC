@@ -44,7 +44,7 @@ class HomeController extends Controller
     public function login()
     {
         if (auth()->check()) {
-            return redirect()->intended('/home');
+            return redirect()->intended('/dashboard');
         } else {
             return view('auth.login');
         }

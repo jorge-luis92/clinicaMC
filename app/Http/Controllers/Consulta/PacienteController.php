@@ -20,12 +20,12 @@ class PacienteController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            // Nota: Quitamos el ->get() al final para que DataTables haga la paginación en la BD
             $query = Paciente::select(
                 'paciente.id',
                 'paciente.celular',
                 'tipo_sangre.tipo',
                 'persona.edad',
+                'paciente.fecha_registro',
                 'persona.fecha_nacimiento',
                 DB::raw("CONCAT(persona.nombre, ' ', persona.ap_paterno, ' ', COALESCE(persona.ap_materno, '')) AS nombre_c")
             )
@@ -34,6 +34,30 @@ class PacienteController extends Controller
                 ->orderBy('persona.nombre', 'asc');
 
             return DataTables::of($query)
+                ->filterColumn('nombre_c', function ($query, $keyword) {
+                    $query->whereRaw("CONCAT(persona.nombre, ' ', persona.ap_paterno, ' ', COALESCE(persona.ap_materno, '')) LIKE ?", ["%{$keyword}%"]);
+                })
+                ->orderColumn('nombre_c', function ($query, $order) {
+                    $query->orderBy('persona.nombre', $order);
+                })
+                ->filterColumn('edad', function ($query, $keyword) {
+                    $query->where('persona.edad', 'LIKE', "%{$keyword}%");
+                })
+                ->orderColumn('edad', function ($query, $order) {
+                    $query->orderBy('persona.edad', $order);
+                })
+                ->filterColumn('fecha_nacimiento', function ($query, $keyword) {
+                    $query->where('persona.fecha_nacimiento', 'LIKE', "%{$keyword}%");
+                })
+                ->orderColumn('fecha_nacimiento', function ($query, $order) {
+                    $query->orderBy('persona.fecha_nacimiento', $order);
+                })
+                ->filterColumn('tipo', function ($query, $keyword) {
+                    $query->where('tipo_sangre.tipo', 'LIKE', "%{$keyword}%");
+                })
+                ->orderColumn('tipo', function ($query, $order) {
+                    $query->orderBy('tipo_sangre.tipo', $order);
+                })
                 ->addColumn('accion', function ($row) {
                     return '&nbsp;<button type="button" name="' . $row->id . '" id="' . $row->id . '" class="detalles_paciente btn btn-primary btn-sm btn-glow mr-1 mb-1"> Seleccionar</button>';
                 })

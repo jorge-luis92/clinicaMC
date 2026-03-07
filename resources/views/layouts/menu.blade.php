@@ -10,7 +10,7 @@
     <meta name="author" content="Clínica San Agustín">
 
     <link rel="shortcut icon" href="{{ asset('iconos/med.ico') }}">
-    <title>Clinica MC - @yield('title', 'Inicio')</title>
+    <title>Clínica MC - @yield('title', 'Inicio')</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -108,7 +108,7 @@
 
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('principal') }}">
                 <div class="sidebar-brand-icon"><i class="fas fa-heartbeat"></i></div>
-                <div class="sidebar-brand-text mx-3">San Agustín</div>
+                <div class="sidebar-brand-text mx-3">Clínica MC</div>
             </a>
 
             <div class="sidebar-heading mt-2">Principal</div>
@@ -121,6 +121,7 @@
             </li>
 
             @if(auth()->check() && auth()->user()->tipo_usuario == 2)
+                
                 <li class="nav-item {{ request()->routeIs('citas') ? 'active' : '' }}">
                     <a class="nav-link" href="{{ route('citas') }}">
                         <i class="far fa-fw fa-calendar-alt"></i>
@@ -140,27 +141,68 @@
                 <li class="nav-item {{ request()->routeIs('consulta_general') || request()->routeIs('consulta_embarazadas') ? 'active' : '' }}">
                     <a class="nav-link {{ request()->routeIs('consulta_general') || request()->routeIs('consulta_embarazadas') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseConsultas">
                         <i class="fas fa-fw fa-stethoscope"></i>
-                        <span>Consultas</span>
+                        <span>Consulta</span>
                     </a>
                     <div id="collapseConsultas" class="collapse {{ request()->routeIs('consulta_general') || request()->routeIs('consulta_embarazadas') ? 'show' : '' }}" data-parent="#accordionSidebar">
                         <div class="collapse-inner py-2">
-                            <a class="collapse-item {{ request()->routeIs('consulta_general') ? 'active' : '' }}" href="{{ route('consulta_general') }}">Consulta General</a>
-                            <a class="collapse-item {{ request()->routeIs('consulta_embarazadas') ? 'active' : '' }}" href="{{ route('consulta_embarazadas') }}">Control Prenatal</a>
+                            <a class="collapse-item {{ request()->routeIs('consulta_general') ? 'active' : '' }}" href="{{ route('consulta_general') }}">General</a>
+                            <a class="collapse-item {{ request()->routeIs('consulta_embarazadas') ? 'active' : '' }}" href="{{ route('consulta_embarazadas') }}">Embarazadas</a>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="nav-item {{ request()->routeIs('CGexpediente') || request()->is('control-prenatal/expediente*') ? 'active' : '' }}">
+                    <a class="nav-link {{ request()->routeIs('CGexpediente') || request()->is('control-prenatal/expediente*') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseExpedientes">
+                        <i class="fas fa-fw fa-folder-open"></i>
+                        <span>Expedientes</span>
+                    </a>
+                    <div id="collapseExpedientes" class="collapse {{ request()->routeIs('CGexpediente') || request()->is('control-prenatal/expediente*') ? 'show' : '' }}" data-parent="#accordionSidebar">
+                        <div class="collapse-inner py-2">
+                            <a class="collapse-item {{ request()->routeIs('CGexpediente') ? 'active' : '' }}" href="{{ route('CGexpediente') }}">Consulta General</a>
+                            <a class="collapse-item {{ request()->is('control-prenatal/expediente*') ? 'active' : '' }}" href="{{ url('control-prenatal/expediente') }}">Control Prenatal</a>
                         </div>
                     </div>
                 </li>
             @endif
 
-            <div class="sidebar-heading">Gestión</div>
+
+            @if(auth()->check() && auth()->user()->tipo_usuario == 1)
+                
+                <div class="sidebar-heading">Catálogos</div>
+
+                <li class="nav-item {{ request()->routeIs('listadoUsuario') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('listadoUsuario') }}">
+                        <i class="fas fa-fw fa-user-shield"></i>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+
+                <div class="sidebar-heading">Utilidades</div>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes">
+                        <i class="fas fa-fw fa-book"></i>
+                        <span>Reportes</span>
+                    </a>
+                    <div id="collapseReportes" class="collapse" data-parent="#accordionSidebar">
+                        <div class="collapse-inner py-2">
+                            <a class="collapse-item" href="#">Consulta General</a>
+                            <a class="collapse-item" href="#">Embarazadas</a>
+                        </div>
+                    </div>
+                </li>
+            @endif
+
+            <div class="sidebar-heading">Farmacia</div>
 
             <li class="nav-item {{ request()->routeIs('medicamento_inventario') ? 'active' : '' }}">
                 <a class="nav-link {{ request()->routeIs('medicamento_inventario') ? '' : 'collapsed' }}" href="#" data-toggle="collapse" data-target="#collapseFarmacia">
-                    <i class="fas fa-fw fa-box-open"></i>
-                    <span>Farmacia</span>
+                    <i class="fas fa-fw fa-capsules"></i>
+                    <span>Medicamentos</span>
                 </a>
                 <div id="collapseFarmacia" class="collapse {{ request()->routeIs('medicamento_inventario') ? 'show' : '' }}" data-parent="#accordionSidebar">
                     <div class="collapse-inner py-2">
-                        <a class="collapse-item {{ request()->routeIs('medicamento_inventario') ? 'active' : '' }}" href="{{ route('medicamento_inventario') }}">Stock Actual</a>
+                        <a class="collapse-item {{ request()->routeIs('medicamento_inventario') ? 'active' : '' }}" href="{{ route('medicamento_inventario') }}">Inventario</a>
                         
                         @if(auth()->check() && auth()->user()->tipo_usuario == 1)
                             <a class="collapse-item" href="#">Registrar Entrada</a>
@@ -169,16 +211,6 @@
                     </div>
                 </div>
             </li>
-
-            @if(auth()->check() && auth()->user()->tipo_usuario == 1)
-                <div class="sidebar-heading">Sistema</div>
-                <li class="nav-item {{ request()->routeIs('listadoUsuario') ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('listadoUsuario') }}">
-                        <i class="fas fa-fw fa-shield-alt"></i>
-                        <span>Cuentas y Accesos</span>
-                    </a>
-                </li>
-            @endif
 
         </ul>
 
@@ -205,19 +237,19 @@
                                         {{ isset($data) ? $data->nombre : (auth()->check() ? auth()->user()->name : 'Usuario') }}
                                     </span>
                                     <span style="font-size: 0.75rem; color: #94a3b8; font-weight: 500;">
-                                        {{ isset($data) ? $data->tipo_usuario : (auth()->user()->tipo_usuario == 1 ? 'Administrador' : 'Médico') }}
+                                        {{ isset($data) ? $data->tipo_usuario : (auth()->check() && auth()->user()->tipo_usuario == 1 ? 'Administrador' : 'Médico') }}
                                     </span>
                                 </div>
                                 <div class="img-profile d-flex align-items-center justify-content-center"
                                     style="width: 38px; height: 38px; background-color: var(--primary-teal-light); color: var(--primary-teal); font-weight: 800; border-radius: 10px; font-size: 0.9rem; border: 2px solid #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,0.05);">
-                                    {{ substr(isset($data) ? $data->nombre : auth()->user()->name, 0, 1) }}
+                                    {{ substr(isset($data) ? $data->nombre : (auth()->check() ? auth()->user()->name : 'U'), 0, 1) }}
                                 </div>
                             </a>
 
                             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in border-0 mt-2" style="border-radius: 16px; border: 1px solid #e2e8f0 !important; min-width: 200px;">
-                                <a class="dropdown-item py-2" href="#" style="font-weight: 500; font-size: 0.9rem; color: #334155;">
-                                    <i class="fas fa-cog fa-sm fa-fw mr-2" style="color: #94a3b8;"></i> Configuración
-                                </a>
+                                <button class="dropdown-item py-2" id="configuracion" style="font-weight: 500; font-size: 0.9rem; color: #334155;">
+                                    <i class="fas fa-user-cog fa-sm fa-fw mr-2" style="color: #94a3b8;"></i> Configuración Contraseña
+                                </button>
                                 <div class="dropdown-divider" style="border-top: 1px solid #f1f5f9;"></div>
                                 <a class="dropdown-item py-2 text-danger" href="#" data-toggle="modal" data-target="#logoutModal" style="font-weight: 600; font-size: 0.9rem;">
                                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2"></i> Cerrar Sesión
@@ -236,7 +268,7 @@
             <footer class="sticky-footer" style="background-color: transparent !important; padding: 1.5rem 0;">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto" style="font-size: 0.8rem; color: #94a3b8; font-weight: 500;">
-                        <span>&copy; {{ date('Y') }} San Agustín - MCSystem v2.0</span>
+                        <span>&copy; {{ date('Y') }} Clínica MC - MCSystem v2.0. Todos los derechos reservados.</span>
                     </div>
                 </div>
             </footer>

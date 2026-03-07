@@ -57,7 +57,7 @@ public function authenticate(Request $request)
     {
         $request->session()->regenerate();
 
-        return redirect()->intended('/home');
+        return redirect()->intended('dashboard');
     }
     else
     {
